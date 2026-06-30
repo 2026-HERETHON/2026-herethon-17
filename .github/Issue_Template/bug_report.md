@@ -2,7 +2,7 @@
 name: 🐛 버그 리포트
 about: 프로젝트 진행 중 발생한 에러를 보고합니다.
 title: ""
-labels: "🐛bug"
+labels: "bug 🐛"
 assignees: ""
 ---
 

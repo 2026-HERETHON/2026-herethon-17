@@ -41,7 +41,8 @@ class User(AbstractUser):
     )
 
     birth_date = models.DateField(
-        # 선택이면 null, blank 작성 필요
+        null=True,
+        blank=True,
         verbose_name="생년월일")
 
     profile_image = models.ImageField(
@@ -59,6 +60,7 @@ class User(AbstractUser):
     class Meta:
         db_table = "accounts_user"
         verbose_name = "사용자"
+        verbose_name_plural = "사용자"
 
     def __str__(self):
         return self.email

@@ -7,6 +7,7 @@ from .models import User
 class CustomUserAdmin(UserAdmin):
     model = User
     list_display = ("email", "birth_date", "is_staff")
+    ordering = ("email",)
 
     # 기존 사용자 조회 및 수정
     fieldsets = (

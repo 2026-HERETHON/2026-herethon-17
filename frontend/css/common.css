@@ -31,6 +31,8 @@
    전역 초기화 및 기본 태그
 ===================================== */
 
+/* 초기화할 스타일이 있다면 여기 적어주세요. */
+
 /* 기본 스타일 초기화 */
 * {
   margin: 0;
@@ -99,7 +101,70 @@ body {
   scrollbar-width: none;
 }
 
+/* 하단 GNB바 */
+/* 하단 탭바 전체 통 */
+.app-bottom-tab {
+  height: 76px;
+  background: #FFF;
+  padding: 8px 0 28px 0;
+  border-top: 1px solid var(--border-ivory);
+  
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+/* 개별 탭 버튼 */
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 3px; /* 아이콘과 글씨 사이 3px */
+  width: 60px;
+}
+
+/* 탭 아이콘 이미지 */
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* 탭 글씨 (Inactive 상태) */
+.tab-text {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-light-gray);
+}
+
+/* 현재 화면 (Active 상태)일 때의 스타일 변화 */
+.tab-item.active .tab-text {
+  color: var(--main-green); /* 글씨 초록색으로 */
+  font-weight: 700; /* 글씨 두껍게 */
+}
+
 
 /* =====================================
    공통 컴포넌트 (반복되는 UI 요소)
 ===================================== */
+
+/* 모달창이나 토스트 메시지, 작은 태그나 뱃지 등 반복되는 UI 요소가 있으면 여기 적어주세요. */
+
+/* 헤더 안에 들어가는 페이지 타이틀 (글씨체, 크기, 왼쪽 정렬) */
+.header-title {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-style: normal;
+  color: black;
+
+  margin: 0;
+  margin-top: -6px;
+  text-align: left;
+}

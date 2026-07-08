@@ -1,0 +1,170 @@
+/* =====================================
+   디자인 시스템 (변수, 폰트)
+===================================== */
+
+/* 웹 폰트 불러오기 (Noto Sans KR, Noto Serif KR) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+/* 공통 색상 변수 선언 (피그마 참고) */
+/* 주요 색상만 추가했습니다! 다른 색상 자유롭게 추가해주세요 */
+:root {
+  /* 배경 & 테두리 색상 */
+  --bg-ivory: #FAF7F4;
+  --border-ivory: #E8E0D8;
+  --box-light-green: #EDF5EF;
+
+  /* 메인 포인트 색상 */
+  --main-green: #6B9E7A;
+
+  /* 텍스트 색상 */
+  --text-light-gray: #9A9A9A;
+  --text-dark-gray: #6B6B6B;
+  --text-dark-green: #4A7A58;
+
+  /* 폰트 종류 변수 */
+  /* sans는 본문용, serif는 스플래시용입니다! */
+  --font-sans: 'Noto Sans KR', sans-serif;
+  --font-splash: 'Georgia', 'Noto Serif KR', serif;
+}
+
+/* =====================================
+   전역 초기화 및 기본 태그
+===================================== */
+
+/* 초기화할 스타일이 있다면 여기 적어주세요. */
+
+/* 기본 스타일 초기화 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 프로젝트 내 모든 버튼 스타일 초기화 */
+button {
+  background: transparent;
+  border: none; 
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* PC에서 봤을 때 배경색 지정 & 가운데 정렬 */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #F2EDE8;
+}
+
+/* =====================================
+   공통 레이아웃 (뼈대)
+===================================== */
+
+/* 모바일 화면 틀 */
+.app-container {
+  width: 100%;
+  max-width: 430px; /* 아이폰 14/15 Pro Max 너비 기준 */
+  height: 100vh;    /* 화면 높이에 꽉 차게 */
+  max-height: 100dvh; /* 모바일 브라우저 주소창 고려한 최신 속성 */
+  background-color: var(--bg-ivory);
+  position: relative;
+  
+  /* Flexbox로 상단헤더-본문-하단탭바 세로 배치 */
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* 상단 헤더 */
+.app-header {
+  margin-top: 24px;
+  padding: 8px 22px 12px 22px;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 뒤로가기 버튼과 '마이페이지' 글씨 사이의 간격 */
+  
+  background-color: transparent;
+  flex-shrink: 0;
+}
+
+
+/* 메인 스크롤 영역 */
+.app-content {
+  flex: 1; /* 남은 공간을 모두 차지함 */
+  overflow-y: auto; /* 내용이 길어지면 안에서만 스크롤 됨 */
+  padding: 20px;
+  /* 스크롤바 숨기기 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 하단 GNB바 */
+/* 하단 탭바 전체 통 */
+.app-bottom-tab {
+  height: 76px;
+  background: #FFF;
+  padding: 8px 0 28px 0;
+  border-top: 1px solid var(--border-ivory);
+  
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+/* 개별 탭 버튼 */
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  gap: 3px; /* 아이콘과 글씨 사이 3px */
+  width: 60px;
+}
+
+/* 탭 아이콘 이미지 */
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* 탭 글씨 (Inactive 상태) */
+.tab-text {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-light-gray);
+}
+
+/* 현재 화면 (Active 상태)일 때의 스타일 변화 */
+.tab-item.active .tab-text {
+  color: var(--main-green); /* 글씨 초록색으로 */
+  font-weight: 700; /* 글씨 두껍게 */
+}
+
+
+/* =====================================
+   공통 컴포넌트 (반복되는 UI 요소)
+===================================== */
+
+/* 모달창이나 토스트 메시지, 작은 태그나 뱃지 등 반복되는 UI 요소가 있으면 여기 적어주세요. */
+
+/* 헤더 안에 들어가는 페이지 타이틀 (글씨체, 크기, 왼쪽 정렬) */
+.header-title {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-style: normal;
+  color: black;
+
+  margin: 0;
+  margin-top: -6px;
+  text-align: left;
+}

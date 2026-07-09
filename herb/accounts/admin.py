@@ -12,13 +12,13 @@ class CustomUserAdmin(UserAdmin):
     # 기존 사용자 조회 및 수정
     fieldsets = (
         ("계정 정보", {
-            "fields": ("email", "password", "birth_date", "profile_image")
+            "fields": ("name", "email", "password", "birth_date", "profile_image")
         }),
     )
 
     # admin 페이지에서 새 사용자 생성
     add_fieldsets = (
         ("계정 정보", {
-            "fields": ("email", "password1", "password2", "birth_date", "profile_image")
+            "fields": ("name", "email", "password1", "password2", "birth_date", "profile_image")
         }),
     )

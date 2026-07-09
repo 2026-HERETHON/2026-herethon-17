@@ -34,10 +34,15 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
 
     username = None
+
     email = models.EmailField(
         unique=True,
         error_messages={"unique": "이미 가입된 이메일입니다. 다른 이메일을 입력해 주세요."},
         verbose_name="이메일",
+    )
+
+    name = models.CharField(
+        max_length=10, verbose_name="이름"
     )
 
     birth_date = models.DateField(

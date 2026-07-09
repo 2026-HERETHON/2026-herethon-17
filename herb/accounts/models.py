@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from datetime import time
 
 
 # username 대신 email을 기준으로 User를 생성하는 매니저
@@ -55,6 +56,26 @@ class User(AbstractUser):
         null=True,
         blank=True,
         verbose_name="프로필 이미지"
+    )
+
+    daily_notification = models.BooleanField(
+        default=True,
+        verbose_name="오늘 기록 알림"
+    )
+
+    comment_notification = models.BooleanField(
+        default=True,
+        verbose_name="커뮤니티 댓글 알림"
+    )
+
+    like_notification = models.BooleanField(
+        default=False,
+        verbose_name="커뮤니티 좋아요 알림"
+    )
+
+    reminder_time = models.TimeField(
+        default=time(20, 0),
+        verbose_name="기록 리마인더 시간"
     )
 
     objects = CustomUserManager()

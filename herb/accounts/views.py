@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from accounts.models import User
 # from diagnosis.models import DiagnosisResponse
+from django.contrib.auth.decorators import login_required
 
 
 # 로그인
@@ -37,6 +38,7 @@ def login_view(request):
     return render(request, "accounts/login.html")
 
 
+# 회원가입
 def signup_view(request):
     if request.method == "POST":
 
@@ -83,3 +85,47 @@ def signup_view(request):
         return redirect("accounts:login")
 
     return render(request, "accounts/signup.html")
+
+
+# 마이페이지
+@login_required
+def mypage_view(request):
+
+    return render(request, "accounts/mypage.html", {
+        "user": request.user,
+    })
+
+
+# 프로필/계정 설정
+@login_required
+def profile_view(request):
+
+    user = request.user
+
+    if request.method == "POST":
+
+        action = request.POST.get("action")
+
+        if action == "update_name":
+            name = request.POST.get("name")
+            if name:
+                user.name = name
+                user.save()
+
+        elif action == "update_password":
+            new_password = request.POST.get("new_password")
+            if new_password:
+                if len(new_password) < 8:
+                    return render(request, "accounts/profile.html", {
+                        "user": user,
+                        "error": "비밀번호가 너무 짧습니다. 비밀번호를 8자 이상 입력해 주세요.",
+                    })
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)
+
+        return redirect("accounts:profile")
+
+    return render(request, "accounts/profile.html", {
+        "user": user
+    })

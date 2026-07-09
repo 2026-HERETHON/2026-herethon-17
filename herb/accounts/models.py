@@ -51,13 +51,6 @@ class User(AbstractUser):
         blank=True,
         verbose_name="생년월일")
 
-    profile_image = models.ImageField(
-        upload_to="profile/",
-        null=True,
-        blank=True,
-        verbose_name="프로필 이미지"
-    )
-
     daily_notification = models.BooleanField(
         default=True,
         verbose_name="오늘 기록 알림"

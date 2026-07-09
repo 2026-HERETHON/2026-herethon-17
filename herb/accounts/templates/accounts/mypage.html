@@ -11,11 +11,16 @@
     <p>이메일: {{ user.email }}</p>
 
     <ul>
-        <li>프로필/계정 설정 (준비 중)</li>
-        <li>알림 설정 (준비 중)</li>
+        <li>프로필/계정 설정</li>
+        <li>알림 설정</li>
         <li>자가진단 다시하기 (diagnosis 연동 예정)</li>
         <li>내가 쓴 글 (community 연동 예정)</li>
-        <li>로그아웃 (준비 중)</li>
+        <li>
+            <form method="post" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit">로그아웃</button>
+            </form>
+        </li>
     </ul>
 </body>
 </html>

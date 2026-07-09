@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from accounts.models import User
 # from diagnosis.models import DiagnosisResponse
 from django.contrib.auth.decorators import login_required
@@ -149,3 +149,11 @@ def notifications_view(request):
         return redirect("accounts:notifications")
 
     return render(request, "accounts/notifications.html", {"user": user})
+
+
+# 로그아웃
+@login_required
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+    return redirect("accounts:login")

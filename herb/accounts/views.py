@@ -129,3 +129,23 @@ def profile_view(request):
     return render(request, "accounts/profile.html", {
         "user": user
     })
+
+
+# 알림 설정
+@login_required
+def notifications_view(request):
+    user = request.user
+
+    if request.method == "POST":
+        user.daily_notification = request.POST.get("daily_notification") == "on"
+        user.comment_notification = request.POST.get("comment_notification") == "on"
+        user.like_notification = request.POST.get("like_notification") == "on"
+
+        reminder_time = request.POST.get("reminder_time")
+        if reminder_time:
+            user.reminder_time = reminder_time
+
+        user.save()
+        return redirect("accounts:notifications")
+
+    return render(request, "accounts/notifications.html", {"user": user})

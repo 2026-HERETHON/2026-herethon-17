@@ -14,11 +14,17 @@ class CustomUserAdmin(UserAdmin):
         ("계정 정보", {
             "fields": ("name", "email", "password", "birth_date")
         }),
+        ("알림 설정", {
+            "fields": ("daily_notification", "comment_notification", "like_notification", "reminder_time")
+        }),
     )
 
     # admin 페이지에서 새 사용자 생성
     add_fieldsets = (
         ("계정 정보", {
             "fields": ("name", "email", "password1", "password2", "birth_date")
+        }),
+        ("알림 설정", {
+            "fields": ("daily_notification", "comment_notification", "like_notification", "reminder_time")
         }),
     )

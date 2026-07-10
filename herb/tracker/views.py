@@ -43,7 +43,7 @@ def select_view(request):
 
             return redirect("tracker:complete")
 
-        # 증상 선택 시, 세션에 임시 저장 (아직 강도 선택 전이라서)
+        # 증상 선택 시, db가 아닌 세션에 임시 저장 (아직 강도 선택 전이라서)
         request.session["selected_symptom_ids"] = symptom_ids
         return redirect("tracker:intensity")
 
@@ -64,17 +64,18 @@ def intensity_view(request):
     # POST: 강도 선택 후 "기록 완료" 버튼 눌렀을 때
     if request.method == "POST":
 
-        # 하루 증상 기록 생성
-        daily_record = DailyRecord.objects.create(
+        # 새로 만든 기록: 하루 증상 기록 생성
+        new_daily_record = DailyRecord.objects.create(
             user=request.user,
             date=date.today(),
         )
 
-        # 선택된 증상마다 강도와 함께 저장
+        # 선택된 증상마다 강도와 함께 db에 저장 (세션 아님)
         for symptom_id in symptom_ids:
             intensity = request.POST.get(f"intensity_{symptom_id}")
+
             SymptomEntry.objects.create(
-                record=daily_record,
+                record=new_daily_record,
                 symptom_id=symptom_id,
                 intensity=intensity
             )
@@ -83,9 +84,20 @@ def intensity_view(request):
 
 
 
+# 저장 완료
 @login_required
 def complete_view(request):
-    return HttpResponse("3.3 저장 완료")
+
+    # 찾아낸 기록: 강도 선택에서 저장한 하루 증상 기록 조회
+    found_daily_record = DailyRecord.objects.filter(
+        user=request.user,
+        date=date.today()
+    ).first()
+
+    return render(request, "tracker/complete.html", {
+        "daily_record": found_daily_record,
+        "date": date.today(),
+    })
 
 
 @login_required

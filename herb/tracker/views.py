@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from .models import Symptom, DailyRecord
+from .models import Symptom, DailyRecord, SymptomEntry
 from datetime import date
 
 
@@ -12,8 +12,10 @@ def select_view(request):
     # GET: 사용자가 처음 이 화면 들어왔을 때
     if request.method == "GET":
         symptoms = Symptom.objects.all()
+        selected_symptom_ids = request.session.get("selected_symptom_ids", [])
         return render(request, "tracker/select.html", {
-            "symptoms": symptoms
+            "symptoms": symptoms,
+            "selected_symptom_ids": selected_symptom_ids
         })
 
     # POST: 사용자가 증상 선택 후, "다음" 버튼 눌러서 제출할 때
@@ -46,10 +48,39 @@ def select_view(request):
         return redirect("tracker:intensity")
 
 
-
+# 강도 선택
 @login_required
 def intensity_view(request):
-    return HttpResponse("3.2 강도 선택")
+
+    symptom_ids = request.session.get("selected_symptom_ids")
+
+    # GET: 세션에서 선택된 증상 id들 가져와서 화면에 표시
+    if request.method == "GET":
+        symptoms = Symptom.objects.filter(id__in=symptom_ids)
+        return render(request, "tracker/intensity.html", {
+            "symptoms": symptoms
+        })
+
+    # POST: 강도 선택 후 "기록 완료" 버튼 눌렀을 때
+    if request.method == "POST":
+
+        # 하루 증상 기록 생성
+        daily_record = DailyRecord.objects.create(
+            user=request.user,
+            date=date.today(),
+        )
+
+        # 선택된 증상마다 강도와 함께 저장
+        for symptom_id in symptom_ids:
+            intensity = request.POST.get(f"intensity_{symptom_id}")
+            SymptomEntry.objects.create(
+                record=daily_record,
+                symptom_id=symptom_id,
+                intensity=intensity
+            )
+
+        return redirect("tracker:complete")
+
 
 
 @login_required

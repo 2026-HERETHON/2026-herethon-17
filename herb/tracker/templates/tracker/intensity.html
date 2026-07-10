@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>강도 선택</title>
 </head>
 <body>
+    <h1>선택한 증상의 강도 선택</h1>
 
+    <form method="post">
+        {% csrf_token %}
+
+        {% for symptom in symptoms %}
+            <p>{{ symptom.name }}</p>
+            <label><input type="radio" name="intensity_{{ symptom.id }}" value="약"> 약</label>
+            <label><input type="radio" name="intensity_{{ symptom.id }}" value="중"> 중</label>
+            <label><input type="radio" name="intensity_{{ symptom.id }}" value="강"> 강</label>
+            <br><br>
+        {% endfor %}
+
+        <a href="{% url 'tracker:select' %}">이전</a>
+        <button type="submit">기록 완료</button>
+    </form>
 </body>
 </html>

@@ -12,7 +12,9 @@
 
         {% for symptom in symptoms %}
             <label>
-                <input type="checkbox" name="symptom_ids" value="{{ symptom.id }}">
+                <input type="checkbox" name="symptom_ids" value="{{ symptom.id }}"
+                   {% if symptom.id|stringformat:"s" in selected_symptom_ids %}
+                    checked{% endif %}>
                 {{ symptom.name }}
             </label><br>
         {% endfor %}

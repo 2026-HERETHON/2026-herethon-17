@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+.app-container{
+    max-width: 430px;
+    background: linear-gradient(to bottom right, #4A7A58, #6B9E7A, #8BBDA3);
+    min-height: 100vh;
+
+}
+.splash-container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+
+}
+.splash-logowrap{
+    width: 88px;
+    height: 88px;
+    background-color: #ffffff33;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+
+}
+.splash-title{
+    font-weight: 700;
+    font-size: 46px;
+    color: #ffffff;
+    font-family: 'Georgia', 'Noto Serif KR', serif;
+    letter-spacing: 3px;
+    margin: 0;
+
+}
+.splash-subtitle{
+    font-size: 15px;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    font-family: 'Noto Serif KR', serif;
+}

@@ -9,6 +9,13 @@ from datetime import date
 @login_required
 def select_view(request):
 
+    # GET: 사용자가 처음 이 화면 들어왔을 때
+    if request.method == "GET":
+        symptoms = Symptom.objects.all()
+        return render(request, "tracker/select.html", {
+            "symptoms": symptoms
+        })
+
     # POST: 사용자가 증상 선택 후, "다음" 버튼 눌러서 제출할 때
     if request.method == "POST":
 
@@ -38,11 +45,6 @@ def select_view(request):
         request.session["selected_symptom_ids"] = symptom_ids
         return redirect("tracker:intensity")
 
-    # GET: 사용자가 처음 이 화면 들어왔을 때
-    symptoms = Symptom.objects.all()
-    return render(request, "tracker/select.html", {
-        "symptoms": symptoms
-    })
 
 
 @login_required

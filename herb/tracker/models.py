@@ -22,7 +22,7 @@ class Symptom(models.Model):
 
 
 
-# 하루 단위 증상
+# 하루 단위 증상: 누가, 언제, 오늘 증상 여부
 class DailyRecord(models.Model):
 
     user = models.ForeignKey(
@@ -48,13 +48,13 @@ class DailyRecord(models.Model):
         verbose_name_plural = "일일 기록"
 
 
-# 개별 증상 + 강도
+# 증상 기록: 개별 증상 + 강도
 class SymptomEntry(models.Model):
 
     symptom = models.ForeignKey(
         Symptom,
         on_delete=models.CASCADE,
-        related_name="entries",
+        related_name="symptom_entries",
         verbose_name="연결 증상"
     )
 

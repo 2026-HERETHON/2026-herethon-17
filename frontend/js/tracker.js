@@ -64,3 +64,29 @@ checkBoxes.forEach((box) => {
     }
   });
 });
+
+/* ==========================================
+   증상 강도 카드 동작 로직
+========================================== */
+const strengthButtons = document.querySelectorAll(".btn-strength");
+
+strengthButtons.forEach((button) => {
+  button.addEventListener("click", function () {
+    // 방금 클릭한 버튼이 active 상태인지 확인
+    const isAlreadyActive = this.classList.contains("active");
+
+    // 부모 컨테이너 찾기
+    const buttonGroup = this.closest(".strength-buttons");
+
+    // 클릭한 버튼을 제외하고 모두 비활성화
+    const siblings = buttonGroup.querySelectorAll(".btn-strength");
+    siblings.forEach((sibling) => {
+      sibling.classList.remove("active");
+    });
+
+    // 방금 클릭한 버튼만 활성화 (원래 켜져 있었다면 끄기)
+    if (!isAlreadyActive) {
+      this.classList.add("active");
+    }
+  });
+});

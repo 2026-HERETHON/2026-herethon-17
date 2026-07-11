@@ -211,3 +211,108 @@ body {
 .symptom-card.active .check-icon {
   display: block;
 }
+
+/* =====================================
+   증상 강도 컴포넌트 리스트
+===================================== */
+.strength-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; 
+  width: 100%;
+}
+
+/* 증상 강도 카드 전체 레이아웃 */
+.strength-card {
+  display: flex;
+  padding: 22px 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 22px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  box-sizing: border-box;
+
+  margin: 0 auto;
+}
+
+/* 상단 헤더 (아이콘 + 증상 글씨) */
+.strength-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+/* 증상 글씨 스타일 */
+.strength-header .symptom-name {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 25.5px;
+}
+
+/* 하단 강도 버튼 묶음 */
+.strength-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* 개별 강도 버튼 (기본 상태) */
+.btn-strength {
+  display: flex;
+  width: 94.328px;
+  padding: 14px 8px;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 14px;
+  border: 2px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  cursor: pointer;
+  
+  /* 글씨 기본 세팅 */
+  color: #6B6B6B;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  
+  transition: all 0.2s ease; /* 부드러운 색상 전환 */
+  box-sizing: border-box;
+}
+
+/* =====================================
+   강도 버튼 Active 상태
+===================================== */
+
+/* 선택된 버튼의 공통 글씨 레이아웃 */
+.btn-strength.active {
+  color: #FFF;
+  font-weight: 700;
+}
+
+/* [약] 버튼 선택 시 색상 */
+.btn-strength.low.active {
+  border-color: #57A35A;
+  background: #7CB87E;
+}
+
+/* [중] 버튼 선택 시 색상 */
+.btn-strength.mid.active {
+  border-color: #D1932B;
+  background: #E8A940;
+}
+
+/* [강] 버튼 선택 시 색상 */
+.btn-strength.high.active {
+  border-color: #C34A4A;
+  background: #E05C5C;
+}

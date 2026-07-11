@@ -31,6 +31,13 @@ def select_view(request):
                 "symptoms": symptoms
             })
 
+        # 최소 1개 이상 선택 검증
+        if not no_symptom and not symptom_ids:
+            symptoms = Symptom.objects.all()
+            return render(request, "tracker/select.html", {
+                "symptoms": symptoms
+            })
+
         # 증상 없음 선택: db에 바로 저장 후, 저장 완료 화면(3.3)으로 이동
         if no_symptom:
 

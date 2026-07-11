@@ -105,3 +105,109 @@ body {
   margin-top: -6px;
   text-align: left;
 }
+
+/* =====================================
+   증상 선택 카드 컴포넌트
+===================================== */
+
+/* 증상 선택 카드 리스트 컨테이너 */
+.symptom-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  width: 100%; 
+}
+
+/* 카드 전체 레이아웃 및 스타일링 */
+.symptom-card {
+  display: flex;
+  width: 349px;
+  margin: 0 auto;
+  height: 70px;
+  padding: 17px 20px;
+  align-items: center;
+  gap: 16px; /* 아이콘, 텍스트박스, 체크박스 사이의 16px 간격 */
+  
+  border-radius: 16px;
+  border: 2px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  
+  /* 모바일 화면 */
+  max-width: 100%; 
+  box-sizing: border-box;
+
+  /* 색상 변화 애니메이션 */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* 글씨를 이루는 박스 레이아웃 */
+.symptom-text-box {
+  display: flex;
+  width: 215px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+/* 글씨 스타일링 */
+.symptom-name {
+  color: #2F2F2F;-
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+
+  transition: color 0.2s ease;
+}
+
+/* 체크박스 레이아웃 및 스타일링 */
+.check-box {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+  border-radius: 6px;
+  border: 2px solid var(--border-ivory, #E8E0D8);
+  background-color: #FFF;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* 평소에는 체크 아이콘 숨김 */
+.check-icon {
+  display: none;
+  width: 14px; 
+}
+
+/* =====================================
+   증상 선택 카드: Active 상태
+===================================== */
+
+/* 카드 배경과 테두리가 초록색으로 변경 */
+.symptom-card.active {
+  background-color: var(--box-light-green, #F3F7F4);
+  border-color: var(--main-green, #7DA381);
+}
+
+/* 글씨가 굵어지고 진해짐 */
+.symptom-card.active .symptom-name {
+  color: var(--main-green, #4B6B50); 
+  font-weight: 700;
+}
+
+/* 체크박스 배경이 초록색으로 채워짐 */
+.symptom-card.active .check-box {
+  background-color: var(--main-green, #7DA381);
+  border-color: var(--main-green, #7DA381);
+}
+
+/* 체크 아이콘 표시 */
+.symptom-card.active .check-icon {
+  display: block;
+}

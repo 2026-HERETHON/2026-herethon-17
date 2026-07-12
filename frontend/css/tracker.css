@@ -402,3 +402,66 @@ body {
   border: 2px solid #57A35A;
   background: #7CB87E;
 }
+
+/* 버튼들을 나란히 배치하기 위한 묶음 */
+.button-group {
+  display: flex;
+  gap: 12px; 
+  align-items: center;
+
+  margin: 0 auto;
+}
+
+/* =====================================
+   공통 버튼 뼈대 (.btn)
+===================================== */
+.btn {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  
+  font-family: var(--font-sans, "Noto Sans KR");
+  text-decoration: none; 
+  cursor: pointer;
+  box-sizing: border-box;
+
+  /* 마우스를 올렸을 때 크기 변화가 부드럽게 전환 */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* 마우스를 올렸을 때 3% 정도 살짝 커지는 효과 */
+.btn:hover {
+  transform: scale(1.03); 
+}
+
+/* =====================================
+   하얀 버튼 (.btn-secondary)
+===================================== */
+.btn-secondary {
+  width: 125.15px;
+  border: 1.5px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+
+  color: #6B6B6B;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 22.5px;
+}
+
+/* =====================================
+   초록 버튼 (.btn-primary)
+===================================== */
+.btn-primary {
+  width: 211.85px;
+  height: 57.5px;
+  border: none; 
+  background: #6B9E7A;
+
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}

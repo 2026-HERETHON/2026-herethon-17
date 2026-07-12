@@ -186,13 +186,29 @@
 
       <!-- 버튼 묶음 -->
       <div class="button-group">
-  
         <!-- 홈으로 (하얀 버튼) -->
         <a href="index.html" class="btn btn-secondary">홈으로</a>
   
         <!-- 수정 완료 (초록 버튼) -->
-        <button type="button" class="btn btn-primary">수정 완료</button>
+        <button type="button" id="btn-edit-complete" class="btn btn-primary">수정 완료</button>
+      </div>
 
+      <!-- ========================================== -->
+
+      <!-- 토스트 메시지 컨테이너 -->
+      <div id="toast-container" class="toast-container">
+  
+        <!-- 성공 토스트 메시지 (초록색) -->
+        <div id="toast-success" class="toast-message toast-success">
+          <img src="assets/icons/check_circle.svg" alt="성공" class="toast-icon">
+          <span class="toast-text">수정이 정상적으로 완료되었어요.</span>
+        </div>
+
+        <!-- 실패/에러 토스트 메시지 (빨간색) -->
+        <div id="toast-error" class="toast-message toast-error">
+          <img src="assets/icons/check_circle_error.svg" alt="실패" class="toast-icon">
+          <span class="toast-text">기록을 수정하지 못했습니다.<br>다시 한번 시도해 주세요.</span>
+        </div>
       </div>
 
     </main>
@@ -200,5 +216,6 @@
   </div>
 
   <script src="js/tracker.js"></script>
+  <script src="js/toast.js"></script>
 </body>
 </html>

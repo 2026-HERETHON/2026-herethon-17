@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>패턴 리포트 - 주간</title>
 </head>
 <body>
+    <h1>패턴 리포트</h1>
 
+    <a href="{% url 'reports:weekly' %}">주간</a>
+    <a href="{% url 'reports:monthly' %}">월간</a>
+
+    <p>
+        <a href="{% url 'reports:weekly' %}?date={{ prev_week|date:'Y-m-d' }}">← 이전 주</a>
+        {{ monday|date:'n월 j일' }} - {{ sunday|date:'n월 j일' }}
+        <a href="{% url 'reports:weekly' %}?date={{ next_week|date:'Y-m-d' }}">다음 주 →</a>
+    </p>
+
+    {% if has_record %}
+        <h2>이번 주 증상 강도 추이</h2>
+        <ul>
+            {% for score in weekly_scores %}
+                <li>{{ score }}점</li>
+            {% endfor %}
+        </ul>
+
+        <h2>증상별 현황</h2>
+        <ul>
+            {% for symptom_name, count in symptom_counts.items %}
+                <li>{{ symptom_name }}: {{ count }}회</li>
+            {% endfor %}
+        </ul>
+
+        <p>
+            <a href="#">가까운 산부인과 찾기</a>
+        </p>
+
+    {% else %}
+        <h2>아직 기록이 없어요</h2>
+        <p>증상을 기록하면<br> 이곳에서 나의 증상 패턴을 볼 수 있어요</p>
+        <a href="{% url 'tracker:select' %}">증상 기록하러 가기</a>
+        <br>
+        <a href="#">홈으로</a>
+
+    {% endif %}
 </body>
 </html>

@@ -151,7 +151,7 @@ body {
 
 /* 글씨 스타일링 */
 .symptom-name {
-  color: #2F2F2F;-
+  color: #2F2F2F;
   font-family: var(--font-sans);
   font-size: 16px;
   font-style: normal;
@@ -332,8 +332,7 @@ body {
 /* 카드 전체 레이아웃 */
 .record-card {
   display: flex;
-  width: 345px;
-  margin: 0 auto;
+  width: 100%;
   padding: 22px 20px;
   /* 양끝으로 배치 */
   justify-content: space-between; 

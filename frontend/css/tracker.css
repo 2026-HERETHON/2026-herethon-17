@@ -57,6 +57,14 @@ body {
   background-color: #F2EDE8;
 }
 
+/* 화면 숨김 및 표시 제어 */
+.step-section {
+  display: none;
+}
+.step-section.active {
+  display: block;
+}
+
 /* =====================================
    공통 레이아웃 (뼈대)
 ===================================== */
@@ -87,24 +95,125 @@ body {
   scrollbar-width: none;
 }
 
+/* 상단 헤더 */
+.app-header {
+  margin-top: 24px;
+  padding: 8px 22px 12px 22px;
+  
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 뒤로가기 버튼과 '마이페이지' 글씨 사이의 간격 */
+  
+  background-color: transparent;
+  flex-shrink: 0;
+}
 
 /* =====================================
    공통 컴포넌트 (반복되는 UI 요소)
 ===================================== */
 
-/* 모달창이나 토스트 메시지, 작은 태그나 뱃지 등 반복되는 UI 요소가 있으면 여기 적어주세요. */
-
 /* 헤더 안에 들어가는 페이지 타이틀 (글씨체, 크기, 왼쪽 정렬) */
+
+.header-text-group {
+  display: flex;
+  flex-direction: column; 
+}
+
 .header-title {
   font-family: var(--font-sans);
   font-size: 18px;
   font-style: normal;
-  color: black;
+  color: #2D2D2D;
+  font-weight: 700;
+  line-height: 27px;
 
   margin: 0;
   margin-top: -6px;
   text-align: left;
 }
+
+.header-date {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-style: normal;
+  color: var(--text-light-gray);
+  font-weight: 400;
+  line-height: 19.5px;
+  margin: 0;
+}
+
+/* 진행바 (Progress Bar) */
+/* 진행바를 감싸는 전체 박스 */
+.progress-wrapper {
+  display: flex;
+  width: 393px;
+  padding: 16px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  box-sizing: border-box; 
+  margin: 0 auto;
+}
+
+/* 회색 바 (전체 배경) */
+.progress-gray {
+  display: flex;
+  height: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch; 
+  
+  border-radius: 99px;
+  background: #E8E0D8;
+  
+  overflow: hidden; 
+}
+
+/* 초록색 바 (현재 진행률) */
+.progress-green {
+  width: 50%;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 99px;
+  background: #6B9E7A;
+  
+  /* 부드럽게 게이지가 차오르는 효과 */
+  transition: width 0.3s ease; 
+}
+
+/* =====================================
+   스텝 제목 영역
+===================================== */
+.step-title-area {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 24px; 
+  margin-bottom: 18px;
+  margin-left: 16px;
+}
+
+.step-title-area h2 {
+  color: #6B6B6B;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22.5px; 
+  margin: 0; 
+}
+
+.step-title-area p {
+  color: #9A9A9A;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19.5px;
+  margin: 0; 
+}
+
+
 
 /* =====================================
    증상 선택 카드 컴포넌트
@@ -128,6 +237,7 @@ body {
   align-items: center;
   gap: 16px; /* 아이콘, 텍스트박스, 체크박스 사이의 16px 간격 */
   
+  cursor: pointer;
   border-radius: 16px;
   border: 2px solid var(--border-ivory, #E8E0D8);
   background: #FFF;
@@ -138,6 +248,10 @@ body {
 
   /* 색상 변화 애니메이션 */
   transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.symptom-card * {
+  pointer-events: none; /* 이벤트 버블링 방지 */
 }
 
 /* 글씨를 이루는 박스 레이아웃 */
@@ -463,6 +577,33 @@ body {
   font-size: 16px;
   font-weight: 700;
   line-height: 24px;
+}
+
+/* =====================================
+   다음 버튼 (.btn-next)
+===================================== */
+.btn-next {
+  width: 349px; 
+  height: 56px;
+  border: none;
+  background: #6B9E7A; 
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px; 
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+/* =====================================
+   다음 버튼 - 비활성화 상태 (0개 선택됨)
+===================================== */
+.btn-next:disabled {
+  background: #9A9A9A;
+  color: #FFF;
+  cursor: default; 
+
+  pointer-events: none; 
 }
 
 /* =====================================

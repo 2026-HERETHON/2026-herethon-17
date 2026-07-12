@@ -9,6 +9,75 @@
     });
   }
 
+    /* ==========================================
+    버튼 상태 업데이트 (증상 선택 시 다음 버튼 활성화)
+  ========================================== */
+  document.addEventListener("DOMContentLoaded", function () {
+  
+  // 1. 제어할 요소들 찾아오기
+  const symptomCards = document.querySelectorAll(".symptom-card");
+  const btnNextStep1 = document.getElementById("btn-next-step1");
+
+  // 버튼이 없으면 에러가 나지 않도록 중단
+  if (!btnNextStep1) return; 
+
+  // 2. 하단 버튼 상태를 업데이트하는 함수
+  function updateNextButton() {
+    const activeCards = document.querySelectorAll(".symptom-card.active");
+    const selectedCount = activeCards.length;
+
+    btnNextStep1.innerText = `다음 (${selectedCount}개 선택됨)`;
+    btnNextStep1.disabled = selectedCount === 0;
+  }
+
+  // 3. 증상 카드 클릭 이벤트 연결
+  symptomCards.forEach((card) => {
+    card.addEventListener("click", function (e) {
+      
+      // 🌟 핵심: 카드 안의 <button> 태그 등을 눌렀을 때 폼이 제출되거나 튀는 현상 방지
+      e.preventDefault();
+
+      const hiddenInput = this.querySelector("input[type='checkbox']");
+      const isNoSymptom = this.getAttribute("data-id") === "0" || this.querySelector("input[name='no_symptom']");
+      const isAlreadyActive = this.classList.contains("active");
+
+      if (!isAlreadyActive) {
+        // [선택하는 경우]
+        
+        if (isNoSymptom) {
+          // '증상 없음'을 누르면 -> 다른 모든 증상의 선택을 끕니다.
+          symptomCards.forEach(c => {
+            c.classList.remove("active");
+            const input = c.querySelector("input[type='checkbox']");
+            if (input) input.checked = false;
+          });
+        } else {
+          // 일반 증상을 누르면 -> '증상 없음' 카드가 켜져 있다면 끕니다.
+          const noSymptomCard = Array.from(symptomCards).find(c => c.getAttribute("data-id") === "0" || c.querySelector("input[name='no_symptom']"));
+          if (noSymptomCard && noSymptomCard.classList.contains("active")) {
+            noSymptomCard.classList.remove("active");
+            const input = noSymptomCard.querySelector("input[type='checkbox']");
+            if (input) input.checked = false;
+          }
+        }
+
+        // 현재 클릭한 카드 켜기
+        this.classList.add("active");
+        if (hiddenInput) hiddenInput.checked = true;
+
+      } else {
+        // [선택을 해제하는 경우]
+        this.classList.remove("active");
+        if (hiddenInput) hiddenInput.checked = false;
+      }
+
+      // 상태를 바꿨으니 버튼 텍스트를 다시 계산합니다.
+      updateNextButton();
+    });
+  });
+
+});
+
   /* ==========================================
    증상 선택 카드 동작 로직
 ========================================== */

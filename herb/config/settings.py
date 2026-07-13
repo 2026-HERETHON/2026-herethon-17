@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'tracker',
     'reports',
     'accounts',
+
+
+
+
+    'garden',
 ]
 
 MIDDLEWARE = [

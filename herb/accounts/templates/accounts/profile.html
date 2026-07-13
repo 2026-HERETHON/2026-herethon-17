@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필/계정 설정</title>
+</head>
+<body>
+    <h1>프로필/계정 설정</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <p>이메일: {{ user.email }} (수정 불가)</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>이름: <input type="text" name="name" value="{{ user.name }}"></label>
+        <button type="submit" name="action" value="update_name">수정하기</button>
+    </form>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>새 비밀번호: <input type="password" name="new_password" placeholder="새 비밀번호 입력"></label>
+        <button type="submit" name="action" value="update_password">변경하기</button>
+    </form>
+
+    <br>
+    <a href="{% url 'accounts:mypage' %}">마이페이지로 돌아가기</a>
+</body>
+</html>

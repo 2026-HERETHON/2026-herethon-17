@@ -2,12 +2,7 @@
 
 /* splash page */
 
-.app-container{
-    max-width: 430px;
-    background: linear-gradient(to bottom right, #4A7A58, #6B9E7A, #8BBDA3);
-    min-height: 100vh;
 
-}
 .splash-container{
     width: 100%;
     height: 100vh;
@@ -16,6 +11,8 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
+    background: linear-gradient(to bottom right, #4A7A58, #6B9E7A, #8BBDA3);
+
 
 }
 .splash-logowrap{
@@ -51,7 +48,6 @@
 .login-container {
     background-color: #FAF7F4;
     padding: 60px 32px 40px;   /* 위 60px, 좌우 32px, 아래 40px */
-    min-height: 100vh;
 }
 
 .login-logogroup{

@@ -692,6 +692,40 @@ body {
 }
 
 /* =====================================
+   3.4 수정 모드 전용 레이아웃
+===================================== */
+#step-4 {
+  display: flex;
+  flex-direction: column;
+  
+  min-height: calc(100vh - 80px); 
+
+  padding-bottom: 24px; 
+}
+
+/* =====================================
+   수정 모드 뱃지
+===================================== */
+.mode-badge {
+  display: flex;
+  padding: 8px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 20px;
+  background: #C8E0CE;
+
+  color: #4A7A58;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19.5px; 
+  
+  position: absolute;
+  right: 30px;
+}
+
+/* =====================================
    토스트 메시지 컴포넌트
 ===================================== */
 

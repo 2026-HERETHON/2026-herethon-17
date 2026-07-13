@@ -176,6 +176,45 @@
 
     </section>
 
+    <!-- (이 위에는 기존 step-3 코드가 끝남) -->
+    </section>
+
+    <!-- ==========================================
+         3.4 기록 수정 모드 (초기에는 숨김 처리)
+    ========================================== -->
+    <section id="step-4" class="step-section" style="display: none;">
+      
+      <div class="step-title-area">
+        <!-- 제목은 JS에서 변경 -->
+      </div>
+
+      <!-- 5개의 증상 카드가 모두 렌더링 될 영역 -->
+      <div class="strength-list" id="edit-strength-list">
+        <!-- JS 동적 렌더링 영역 -->
+      </div>
+
+      <!-- 하단 버튼 영역 -->
+      <div class="button-group">
+        <a href="index.html" class="btn btn-secondary">홈으로</a>
+        <button type="button" id="btn-edit-complete" class="btn btn-primary">수정 완료</button>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         토스트 메시지 컨테이너
+    ========================================== -->
+    <div id="toast-container" class="toast-container">
+      <div id="toast-success" class="toast-message toast-success">
+        <img src="assets/icons/check_circle.svg" alt="성공" class="toast-icon">
+        <span class="toast-text">수정이 정상적으로 완료되었어요.</span>
+      </div>
+      <div id="toast-error" class="toast-message toast-error">
+        <img src="assets/icons/check_circle_error.svg" alt="실패" class="toast-icon">
+        <span class="toast-text">기록을 수정하지 못했습니다.<br>다시 한번 시도해 주세요.</span>
+      </div>
+    </div>
+
     </main>
 
 

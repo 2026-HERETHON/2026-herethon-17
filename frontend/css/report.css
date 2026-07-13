@@ -1,0 +1,402 @@
+/* =====================================
+   메인 콘텐츠 영역 (스크롤 활성화)
+===================================== */
+.app-content {
+  flex: 1;
+  overflow-y: auto; 
+  overflow-x: hidden; 
+
+  padding-bottom: 100px; 
+}
+
+/* 스크롤바 숨기기 */
+.app-content::-webkit-scrollbar {
+  display: none; 
+}
+
+/* 우측 상단 다운로드 버튼 */
+.download-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+/* =====================================
+   주간/월간 토글 컨테이너
+===================================== */
+.toggle-container {
+  display: flex;
+
+  margin: 0 22px 24px 22px; 
+  width: calc(100% - 44px);
+
+  padding: 4px;
+  align-items: flex-start;
+  border-radius: 14px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  box-sizing: border-box;
+  
+  /* 화면 가운데 정렬 및 하단 여백 */
+  margin: 0 auto 24px auto; 
+}
+
+/* =====================================
+   토글 버튼 공통 및 비활성(월간) 상태
+===================================== */
+.toggle-btn {
+  display: flex;
+
+  flex: 1; 
+  width: auto;
+
+  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  
+  /* 기본은 투명 배경에 회색 글씨 */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  
+  color: #9A9A9A;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px; /* 150% */
+  
+  /* 색이 채워지는 애니메이션 효과 */
+  transition: background-color 0.3s ease, color 0.3s ease, font-weight 0.3s ease;
+}
+
+/* =====================================
+   토글 버튼 활성(주간) 상태 
+===================================== */
+.toggle-btn.active {
+  background: #6B9E7A;
+  color: #FFF;
+  font-weight: 700;
+}
+
+/* =====================================
+   날짜 네비게이터
+===================================== */
+.date-navigator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  margin-top: 24px;
+  margin-bottom: 16px;
+  padding: 0 20px;
+}
+
+.date-btn {
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.date-text {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+}
+
+/* =====================================
+   증상 강도 추이 차트 카드
+===================================== */
+.chart-card {
+  display: flex;
+  padding: 20px 20px;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  margin: 0 20px 16px 20px;
+  box-sizing: border-box;
+}
+
+.chart-title {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.5px; 
+  margin: 0 0 14px 0; 
+}
+
+/* =====================================
+   동적 차트 영역 내부
+===================================== */
+.chart-area {
+  position: relative;
+  width: 100%;
+  height: 130px; /* Y축 숫자와 막대가 들어갈 높이 */
+  box-sizing: border-box;
+}
+
+/* 숫자, 점선, 막대기가 그려지는 높이 고정 */
+.y-axis-labels, 
+.chart-bg-lines, 
+.bar-container {
+  position: absolute;
+  top: 10px;    
+  bottom: 24px;
+}
+
+/* -------------------------------------
+   Y축 숫자
+------------------------------------- */
+.y-axis-labels {
+  left: 0; 
+  width: 20px;
+}
+
+.y-axis-labels span {
+  position: absolute;
+  width: 100%;
+  text-align: right;
+  color: #9A9A9A;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1; /* 기본 줄간격 여백 제거 */
+  
+  transform: translateY(-50%); 
+}
+
+.y-axis-labels span:nth-child(1) { top: 0%; }
+.y-axis-labels span:nth-child(2) { top: 50%; }
+.y-axis-labels span:nth-child(3) { top: 100%; }
+
+/* -------------------------------------
+   배경 점선
+------------------------------------- */
+.chart-bg-lines {
+  left: 28px; 
+  right: 12px; 
+  z-index: 0;
+}
+
+.chart-bg-lines img {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  left: 0;
+  display: block;
+}
+
+.chart-bg-lines img:nth-child(1) { top: 0; }
+.chart-bg-lines img:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.chart-bg-lines img:nth-child(3) { bottom: 0; }
+
+/* -------------------------------------
+   막대 차트 그룹 컨테이너
+------------------------------------- */
+.bar-container {
+  left: 28px; 
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; 
+  z-index: 1;
+  padding: 0 4px;
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%; 
+  position: relative;
+}
+
+/* 초록색 막대기 */
+.bar {
+  width: 30px; 
+  background-color: #6B9E7A;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.4s ease-out; /* 차트가 렌더링될 때 부드럽게 올라감 */
+}
+
+/* 하단 요일 글씨 */
+.x-axis-label {
+  position: absolute;
+  bottom: -24px;
+  color: #9A9A9A;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  width: 30px; /* 요일 텍스트가 중앙에 잘 오도록 너비 확보 */
+}
+
+
+/* =====================================
+   증상별 현황 카드
+===================================== */
+.status-card {
+  display: flex;
+  padding: 20px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 20px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  
+  margin: 0 20px 16px 20px; 
+  box-sizing: border-box;
+}
+
+/* 제목 글씨 */
+.status-title {
+  width: 100%;
+  color: #2D2D2D;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.5px; 
+  margin: 0 0 14px 0; 
+}
+
+/* 동적 리스트 컨테이너 */
+.status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  width: 100%;
+}
+
+/* 개별 증상 묶음 (글씨 + 바) */
+.status-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; 
+  width: 100%;
+}
+
+/* 글씨 영역 (이름 + 횟수) */
+.status-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-name {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19.5px; 
+}
+
+.status-count {
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.5px; 
+  /* 색상은 JS에서 인라인 스타일로 동적 부여 */
+}
+
+/* 진행바 배경 */
+.status-bar-bg {
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: #E8E0D8; /* 트래커와 동일한 회색 배경 */
+}
+
+/* 진행바 색상 채워짐 */
+.status-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease-out; /* 부드럽게 채워지는 애니메이션 */
+}
+
+/* =====================================
+   가까운 산부인과 찾기 링크 카드
+===================================== */
+.map-link-card {
+  display: flex;
+  padding: 18px 20px;
+  align-items: center;
+  gap: 14px; 
+  
+  margin: 0 20px 40px 20px; 
+  
+  border-radius: 18px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  
+  /* a 태그 기본 스타일 초기화 */
+  text-decoration: none; 
+  box-sizing: border-box;
+
+  /* 마우스를 올렸을 때 크기 변화가 부드럽게 전환 */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* 마우스를 올렸을 때 */
+.map-link-card:hover {
+  transform: scale(1.02); 
+  background-color: #FCFCFC; 
+}
+
+/* 마우스로 클릭하는 순간 */
+.map-link-card:active {
+  transform: scale(0.98); 
+}
+
+.map-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.map-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-title {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px; 
+}
+
+.map-subtitle {
+  color: #9A9A9A;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; 
+}

@@ -6,17 +6,125 @@
   <title>HERb</title>
 
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/report.css">
   </head>
 <body>
   
   <div class="app-container">
-    
+    <!-- ==========================================
+         상단 헤더
+    ========================================== -->
+    <header class="app-header">
+      <!-- 뒤로 가기 -->
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+
+      <!-- 페이지 타이틀 -->
+      <h1 class="header-title">패턴 리포트</h1>
+      
+      
+      <!-- 다운로드 버튼을 우측으로 보내기 위한 여백 -->
+      <div style="flex: 1;"></div>
+      
+      <!-- 다운로드 버튼 -->
+      <button type="button" class="download-btn">
+        <img src="assets/icons/download.svg" alt="다운로드">
+      </button>
+    </header>
+
+    <!-- ==========================================
+         메인 스크롤 영역
+    ========================================== -->
     <main class="app-content">
-      </main>
+      
+      <!-- 주간/월간 토글 -->
+      <div class="toggle-container">
+        <!-- 초기 상태는 '주간'이 선택되어 있도록 설정 -->
+        <button type="button" class="toggle-btn active" id="btn-weekly">주간</button>
+        <button type="button" class="toggle-btn" id="btn-monthly">월간</button>
+      </div>
+
+      <!-- 4.1 주간 리포트 -->
+
+      <div class="report-content" id="report-content-area">
+        <!-- 날짜 네비게이터 -->
+        <div class="date-navigator">
+          <button type="button" class="date-btn" id="btn-prev-week">
+            <img src="assets/icons/arrow_left.svg" alt="이전 주">
+          </button>
+          <span class="date-text" id="week-date-text">7월 13일 - 7월 19일</span>
+          <button type="button" class="date-btn" id="btn-next-week">
+            <img src="assets/icons/arrow_right.svg" alt="다음 주">
+          </button>
+        </div>
+
+        <!-- 이번 주 증상 강도 추이 차트 -->
+        <div class="chart-card">
+          <h3 class="chart-title">이번 주 증상 강도 추이</h3>
+          
+          <div class="chart-area" id="weekly-chart-area">
+            <!-- JS를 통해 Y축, 점선, 막대그래프가 동적으로 생성 -->
+          </div>
+        </div>
+
+      <!-- 증상별 현황 카드 -->
+        <div class="status-card">
+          <h3 class="status-title">증상별 현황</h3>
+          
+          <!-- JS를 통해 막대그래프 리스트가 동적으로 생성 -->
+          <div class="status-list" id="symptom-status-list">
+          </div>
+        </div>
+
+      <!-- 가까운 산부인과 찾기 링크 버튼 -->
+        <a href="https://map.naver.com/p/search/%EC%82%B0%EB%B6%80%EC%9D%B8%EA%B3%BC?c=15.00,0,0,0,dh" target="_blank" class="map-link-card">
+          <img src="assets/icons/map.svg" alt="지도 아이콘" class="map-icon">
+          <div class="map-text-group">
+            <span class="map-title">가까운 산부인과 찾기</span>
+            <span class="map-subtitle">네이버 지도에서 확인하기 →</span>
+          </div>
+        </a>
+      
+      
+      </div>
+      
+    </main>
+
+    <!-- ==========================================
+         하단 GNB 
+    ========================================== -->
+    <nav class="app-bottom-tab">
+  
+        <!-- 홈 (Inactive 아이콘) -->
+        <a href="index.html" class="tab-item">
+        <img src="assets/icons/tab_home_inactive.svg" alt="홈" class="tab-icon">
+        <span class="tab-text">홈</span>
+        </a>
+
+        <!-- 패턴 리포트 (Inactive 아이콘) -->
+        <a href="report.html" class="tab-item active">
+        <img src="assets/icons/tab_report_active.svg" alt="리포트" class="tab-icon">
+        <span class="tab-text">리포트</span>
+        </a>
+
+        <!-- 나의 정원 (Inactive 아이콘) -->
+        <a href="garden_list.html" class="tab-item">
+        <img src="assets/icons/tab_garden_inactive.svg" alt="나의 정원" class="tab-icon">
+        <span class="tab-text">나의 정원</span>
+        </a>
+
+        <!-- 허브 커뮤니티 (Inactive 아이콘) -->
+        <a href="community.html" class="tab-item">
+        <img src="assets/icons/tab_community_inactive.svg" alt="커뮤니티" class="tab-icon">
+        <span class="tab-text">커뮤니티</span>
+        </a>
+    </nav>
 
   </div>
 
   <script src="js/common.js"></script>
+  <script src="js/report.js"></script>
 </body>
 </html>

@@ -152,6 +152,30 @@
 
     </section>
 
+    <!-- ==========================================
+         3.3 저장 완료 화면 (초기에는 숨김 처리)
+    ========================================== -->
+    <section id="step-3" class="step-section" style="display: none;">
+      
+      <!-- 상단: 화분 아이콘과 완료 메시지 -->
+      <div class="save-complete-header">
+        <img src="assets/icons/report_save.svg" alt="저장 완료 화분 아이콘" class="save-icon">
+        <h2 class="save-title">오늘의 기록을 저장했어요</h2>
+      </div>
+
+      <!-- 기록된 증상 카드들이 들어갈 자리 -->
+      <div class="record-list" id="record-list-step3">
+        <!-- JS 동적 렌더링 영역 -->
+      </div>
+
+      <!-- 하단 버튼 영역 -->
+      <div class="button-group col">
+        <button type="button" id="btn-view-report" class="btn btn-primary" style="width: 100%;">패턴 리포트 보기</button>
+        <a href="index.html" class="btn-home">홈으로</a>
+      </div>
+
+    </section>
+
     </main>
 
 

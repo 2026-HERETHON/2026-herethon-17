@@ -208,8 +208,76 @@ document.addEventListener("DOMContentLoaded", function () {
   // 기록 완료 및 3.3 페이지로 이동
   // ==========================================
   function saveRecordAndGoToStep3() {
-    // 백엔드로 데이터를 전송하는 로직 추후수정
+    const recordContainer = document.getElementById("record-list-step3");
+    if (!recordContainer) return;
+    recordContainer.innerHTML = ""; // 기존 내용 초기화
+
+    // Step 1에서 '증상 없음'이 선택되었는지 확인
+    const activeCards = document.querySelectorAll("#step-1 .symptom-card.active");
+    const isNoSymptomSelected = Array.from(activeCards).some(card => card.getAttribute("data-id") === "0");
+
+    if (isNoSymptomSelected) {
+      // 🌟 [케이스 A] 증상 없음을 선택한 경우 -> 뱃지 없이 카드 1개만 생성
+      const cardHTML = `
+        <div class="record-card">
+          <div class="record-info">
+            <img src="assets/icons/symptom_none_inactive.svg" alt="증상 없음" class="symptom-icon" style="width: 24px; height: 24px;">
+            <span class="symptom-name">증상 없음</span>
+          </div>
+        </div>
+      `;
+      recordContainer.insertAdjacentHTML('beforeend', cardHTML);
+
+    } else {
+      // 🌟 [케이스 B] 일반 증상을 선택한 경우 -> Step 2에서 고른 강도를 가져와서 렌더링
+      const strengthCards = document.querySelectorAll("#strength-list-step2 .strength-card");
+      
+      const strengthLabelMap = {
+        "low": "약",
+        "mid": "중",
+        "high": "강"
+      };
+
+      strengthCards.forEach(card => {
+        const name = card.querySelector(".symptom-name").innerText;
+        const iconSrc = card.querySelector(".symptom-icon").src;
+        
+        const hiddenInput = card.querySelector("input[type='hidden']");
+        const strengthValue = hiddenInput ? hiddenInput.value : "";
+        const strengthText = strengthLabelMap[strengthValue] || "";
+
+        const cardHTML = `
+          <div class="record-card">
+            <div class="record-info">
+              <img src="${iconSrc}" alt="${name}" class="symptom-icon" style="width: 24px; height: 24px;">
+              <span class="symptom-name">${name}</span>
+            </div>
+            <div class="record-badge ${strengthValue}">${strengthText}</div>
+          </div>
+        `;
+        recordContainer.insertAdjacentHTML('beforeend', cardHTML);
+      });
+    }
+
     showSection("step-3");
   }
 
+  // ==========================================
+  // 9. 완료 버튼 및 리포트 이동 버튼 이벤트
+  // ==========================================
+  
+  // Step 2에서 '기록 완료' 버튼을 눌렀을 때 실행
+  if (btnSubmitRecord) {
+    btnSubmitRecord.addEventListener("click", function () {
+      saveRecordAndGoToStep3();
+    });
+  }
+
+  // Step 3에서 '패턴 리포트 보기' 버튼 눌렀을 때 페이지 이동
+  const btnViewReport = document.getElementById("btn-view-report");
+  if (btnViewReport) {
+    btnViewReport.addEventListener("click", function () {
+      window.location.href = "report.html"; // 실제 이동할 경로
+    });
+  }
 }); 

@@ -433,6 +433,69 @@ body {
 }
 
 /* =====================================
+   3.3 저장 완료 화면 전용 스타일
+===================================== */
+.save-complete-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  margin-top: 80px;
+  margin-bottom: 24px;
+  gap: 12px;
+  width: 100%;
+}
+
+.save-icon {
+  width: 120px;  
+  height: 120px;
+  object-fit: contain;
+}
+
+.save-title {
+  color: #2D2D2D;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px; 
+  margin: 0;
+}
+
+/* =====================================
+   3.3 하단 세로 버튼 그룹
+===================================== */
+/* 기존 .button-group 속성을 상속받고, 세로 배치로만 덮어씌움 */
+.button-group.col {
+  flex-direction: column;
+  gap: 16px; 
+}
+
+/* '홈으로' 버튼 글씨 스타일 */
+.btn-home {
+  color: #6B9E7A;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px;
+  
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+  
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+}
+
+/* =====================================
    저장 기록 카드 컴포넌트
 ===================================== */
 

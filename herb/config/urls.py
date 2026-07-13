@@ -22,4 +22,7 @@ urlpatterns = [
     path('tracker/', include('tracker.urls')),
     path('reports/', include('reports.urls')),
     path('accounts/', include('accounts.urls')),
+
+
+    path("home/", include("home.urls")),
 ]

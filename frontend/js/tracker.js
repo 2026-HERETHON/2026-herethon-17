@@ -1,40 +1,75 @@
-  /* ==========================================
-    뒤로가기 버튼 공통 동작
-  ========================================== */
-  // 헤더에 있는 뒤로가기 버튼(.back-btn)을 찾아서, 클릭하면 이전 페이지로 이동하게 합니다.
+document.addEventListener("DOMContentLoaded", function () {
+
+  // ==========================================
+  // 공통 요소
+  // ==========================================
+  const symptomCards = document.querySelectorAll(".symptom-card");
+  const btnNextStep1 = document.getElementById("btn-next-step1");
+  const btnSubmitRecord = document.getElementById("btn-submit-record");
+  const btnPrevStep2 = document.getElementById("btn-prev-step2");
   const backBtn = document.querySelector(".back-btn");
+
+  // ==========================================
+  // 공통 함수: 화면 전환 및 아이콘 업데이트
+  // ==========================================
+  function showSection(sectionId) {
+    const sections = document.querySelectorAll(".step-section");
+    sections.forEach(sec => {
+      sec.classList.remove("active");
+      sec.style.display = "none";
+    });
+
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.classList.add("active");
+      targetSection.style.display = "flex";
+      window.scrollTo(0, 0); // 화면 최상단으로 올리기
+    }
+  }
+
+  function updateIcon(card) {
+    const iconImg = card.querySelector(".symptom-icon");
+    if (iconImg) {
+      if (card.classList.contains("active")) {
+        iconImg.src = iconImg.src.replace("_inactive.svg", "_active.svg");
+      } else {
+        iconImg.src = iconImg.src.replace("_active.svg", "_inactive.svg");
+      }
+    }
+  }
+
+  // ==========================================
+  // 헤더 및 이전 페이지 버튼 로직
+  // ==========================================
   if (backBtn) {
     backBtn.addEventListener("click", () => {
       window.history.back();
     });
   }
 
-    /* ==========================================
-    버튼 상태 업데이트 (증상 선택 시 다음 버튼 활성화)
-  ========================================== */
-  document.addEventListener("DOMContentLoaded", function () {
-  
-  // 1. 제어할 요소들 찾아오기
-  const symptomCards = document.querySelectorAll(".symptom-card");
-  const btnNextStep1 = document.getElementById("btn-next-step1");
+  if (btnPrevStep2) {
+    btnPrevStep2.addEventListener("click", function () {
+      const step2Progress = document.querySelector("#step-2 .progress-green");
+      if (step2Progress) step2Progress.style.width = "50%";
+      showSection("step-1");
+    });
+  }
 
-  // 버튼이 없으면 에러가 나지 않도록 중단
-  if (!btnNextStep1) return; 
-
-  // 2. 하단 버튼 상태를 업데이트하는 함수
+  // ==========================================
+  // 3.1 증상 선택 카드 클릭 로직
+  // ==========================================
   function updateNextButton() {
     const activeCards = document.querySelectorAll(".symptom-card.active");
     const selectedCount = activeCards.length;
 
-    btnNextStep1.innerText = `다음 (${selectedCount}개 선택됨)`;
-    btnNextStep1.disabled = selectedCount === 0;
+    if (btnNextStep1) {
+      btnNextStep1.innerText = `다음 (${selectedCount}개 선택됨)`;
+      btnNextStep1.disabled = selectedCount === 0;
+    }
   }
 
-  // 3. 증상 카드 클릭 이벤트 연결
   symptomCards.forEach((card) => {
     card.addEventListener("click", function (e) {
-      
-      // 🌟 핵심: 카드 안의 <button> 태그 등을 눌렀을 때 폼이 제출되거나 튀는 현상 방지
       e.preventDefault();
 
       const hiddenInput = this.querySelector("input[type='checkbox']");
@@ -42,120 +77,139 @@
       const isAlreadyActive = this.classList.contains("active");
 
       if (!isAlreadyActive) {
-        // [선택하는 경우]
-        
         if (isNoSymptom) {
-          // '증상 없음'을 누르면 -> 다른 모든 증상의 선택을 끕니다.
+          // '증상 없음' 선택 시 -> 다른 모든 증상 해제
           symptomCards.forEach(c => {
             c.classList.remove("active");
             const input = c.querySelector("input[type='checkbox']");
             if (input) input.checked = false;
+            updateIcon(c);
           });
         } else {
-          // 일반 증상을 누르면 -> '증상 없음' 카드가 켜져 있다면 끕니다.
+          // 일반 증상 선택 시 -> '증상 없음' 해제
           const noSymptomCard = Array.from(symptomCards).find(c => c.getAttribute("data-id") === "0" || c.querySelector("input[name='no_symptom']"));
           if (noSymptomCard && noSymptomCard.classList.contains("active")) {
             noSymptomCard.classList.remove("active");
             const input = noSymptomCard.querySelector("input[type='checkbox']");
             if (input) input.checked = false;
+            updateIcon(noSymptomCard);
           }
         }
 
-        // 현재 클릭한 카드 켜기
         this.classList.add("active");
         if (hiddenInput) hiddenInput.checked = true;
-
       } else {
-        // [선택을 해제하는 경우]
         this.classList.remove("active");
         if (hiddenInput) hiddenInput.checked = false;
       }
 
-      // 상태를 바꿨으니 버튼 텍스트를 다시 계산합니다.
+      updateIcon(this);
       updateNextButton();
     });
   });
 
-});
+  // ==========================================
+  // 3.1 -> 3.2 화면 전환 및 동적 카드 렌더링
+  // ==========================================
+  if (btnNextStep1) {
+    btnNextStep1.addEventListener("click", function () {
+      const activeCards = document.querySelectorAll("#step-1 .symptom-card.active");
+      const isNoSymptomSelected = Array.from(activeCards).some(card => card.getAttribute("data-id") === "0");
 
-  /* ==========================================
-   증상 선택 카드 동작 로직
-========================================== */
-const checkBoxes = document.querySelectorAll(".check-box");
-
-// 아이콘 상태를 업데이트하는 공통 함수
-function updateIcon(card) {
-  const iconImg = card.querySelector(".symptom-icon");
-  if (card.classList.contains("active")) {
-    iconImg.src = iconImg.src.replace("_inactive.svg", "_active.svg");
-  } else {
-    iconImg.src = iconImg.src.replace("_active.svg", "_inactive.svg");
-  }
-}
-
-checkBoxes.forEach((box) => {
-  box.addEventListener("click", function () {
-    // 부모 카드 찾기
-    const card = this.closest(".symptom-card");
-    const symptomName = card.querySelector(".symptom-name").innerText.trim();
-    
-    // 클릭한 카드의 상태를 토글하고 아이콘 업데이트
-    card.classList.toggle("active");
-    updateIcon(card);
-
-    // 카드를 클릭 후 active 상태가 되었다면 로직 실행
-    if (card.classList.contains("active")) {
-      
-      if (symptomName === "증상 없음") {
-        // '증상 없음'을 켰을 때 -> 다른 일반 증상들은 모두 끄기
-        checkBoxes.forEach((otherBox) => {
-          const otherCard = otherBox.closest(".symptom-card");
-          
-          if (otherCard !== card && otherCard.classList.contains("active")) {
-            otherCard.classList.remove("active"); 
-            updateIcon(otherCard); 
-          }
-        });
-        
+      if (isNoSymptomSelected) {
+        saveRecordAndGoToStep3();
       } else {
-        // '일반 증상'을 켰을 때 -> '증상 없음' 카드 끄기
-        checkBoxes.forEach((otherBox) => {
-          const otherCard = otherBox.closest(".symptom-card");
-          const otherName = otherCard.querySelector(".symptom-name").innerText.trim();
-          
-          if (otherName === "증상 없음" && otherCard.classList.contains("active")) {
-            otherCard.classList.remove("active"); 
-            updateIcon(otherCard); 
-          }
-        });
+        renderStrengthCards(activeCards);
+        if (btnSubmitRecord) btnSubmitRecord.disabled = true;
+
+        showSection("step-2");
+
+        // 진행바 애니메이션
+        setTimeout(() => {
+          const step2Progress = document.querySelector("#step-2 .progress-green");
+          if (step2Progress) step2Progress.style.width = "100%";
+        }, 50);
       }
-      
-    }
-  });
-});
+    });
+  }
 
-/* ==========================================
-   증상 강도 카드 동작 로직
-========================================== */
-const strengthButtons = document.querySelectorAll(".btn-strength");
+  // ==========================================
+  // 3.2 강도 카드 렌더링 로직
+  // ==========================================
+  function renderStrengthCards(activeCards) {
+    const container = document.getElementById("strength-list-step2");
+    if (!container) return;
+    container.innerHTML = "";
 
-strengthButtons.forEach((button) => {
-  button.addEventListener("click", function () {
-    // 방금 클릭한 버튼이 active 상태인지 확인
-    const isAlreadyActive = this.classList.contains("active");
+    activeCards.forEach(card => {
+      const id = card.getAttribute("data-id");
+      const name = card.querySelector(".symptom-name").innerText;
 
-    // 부모 컨테이너 찾기
-    const buttonGroup = this.closest(".strength-buttons");
+      const activeIconSrc = card.querySelector(".symptom-icon").src;
+      const inactiveIconSrc = activeIconSrc.replace("_active.svg", "_inactive.svg");
 
-    // 클릭한 버튼을 제외하고 모두 비활성화
-    const siblings = buttonGroup.querySelectorAll(".btn-strength");
-    siblings.forEach((sibling) => {
-      sibling.classList.remove("active");
+      const cardHTML = `
+        <div class="strength-card" data-id="${id}">
+          <input type="hidden" name="intensity_${id}" value="">
+          <div class="strength-header">
+            <img src="${inactiveIconSrc}" alt="${name} 아이콘" class="symptom-icon" style="width: 28px; height: 28px;">
+            <span class="symptom-name">${name}</span>
+          </div>
+          <div class="strength-buttons">
+            <button type="button" class="btn-strength low" data-value="low">약</button>
+            <button type="button" class="btn-strength mid" data-value="mid">중</button>
+            <button type="button" class="btn-strength high" data-value="high">강</button>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', cardHTML);
     });
 
-    // 방금 클릭한 버튼만 활성화 (원래 켜져 있었다면 끄기)
-    if (!isAlreadyActive) {
-      this.classList.add("active");
-    }
-  });
-});
+    bindStrengthButtonEvents();
+  }
+
+  // ==========================================
+  // 3.2 강도 버튼 클릭 및 완료 활성화 로직
+  // ==========================================
+  function bindStrengthButtonEvents() {
+    const strengthCards = document.querySelectorAll("#strength-list-step2 .strength-card");
+
+    strengthCards.forEach(card => {
+      const buttons = card.querySelectorAll(".btn-strength");
+      const hiddenInput = card.querySelector("input[type='hidden']");
+
+      buttons.forEach(btn => {
+        btn.addEventListener("click", function () {
+          buttons.forEach(b => b.classList.remove("active"));
+          this.classList.add("active");
+          if (hiddenInput) hiddenInput.value = this.getAttribute("data-value");
+          
+          checkAllStrengthsSelected();
+        });
+      });
+    });
+  }
+
+  function checkAllStrengthsSelected() {
+    const cards = document.querySelectorAll("#strength-list-step2 .strength-card");
+    let allSelected = true;
+
+    cards.forEach(card => {
+      const hiddenInput = card.querySelector("input[type='hidden']");
+      if (!hiddenInput || !hiddenInput.value) {
+        allSelected = false;
+      }
+    });
+
+    if (btnSubmitRecord) btnSubmitRecord.disabled = !allSelected;
+  }
+
+  // ==========================================
+  // 기록 완료 및 3.3 페이지로 이동
+  // ==========================================
+  function saveRecordAndGoToStep3() {
+    // 백엔드로 데이터를 전송하는 로직 추후수정
+    showSection("step-3");
+  }
+
+}); 

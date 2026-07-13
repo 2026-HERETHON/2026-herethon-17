@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 테스트</title>
+</head>
+<body>
+    <h1>회원가입 테스트</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label>이름: <input type="text" name="name"></label><br>
+        <label>이메일: <input type="email" name="email"></label><br>
+        <label>비밀번호: <input type="password" name="password"></label><br>
+        <label>비밀번호 확인: <input type="password" name="password_confirm"></label><br>
+        <label>생년월일 (선택): <input type="date" name="birth_date"></label><br>
+        <label><input type="checkbox" name="terms_agreed"> 서비스 이용약관 동의 (필수)</label><br>
+        <label><input type="checkbox" name="privacy_agreed"> 개인정보 수집 및 이용 동의 (선택)</label><br>
+        <button type="submit">회원가입</button>
+    </form>
+</body>
+</html>

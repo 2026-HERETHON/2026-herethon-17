@@ -24,6 +24,11 @@ urlpatterns = [
     path('tracker/', include('tracker.urls')),
     path('reports/', include('reports.urls')),
     path('accounts/', include('accounts.urls')),
+
+
+
+
+    path("garden/", include("garden.urls")),
 ]
 
 if settings.DEBUG:

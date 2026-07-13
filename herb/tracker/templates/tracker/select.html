@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>증상 선택</title>
+</head>
+<body>
+    <h1>증상 선택</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for symptom in symptoms %}
+            <label>
+                <input type="checkbox" name="symptom_ids" value="{{ symptom.id }}"
+                   {% if symptom.id|stringformat:"s" in selected_symptom_ids %}
+                    checked{% endif %}>
+                {{ symptom.name }}
+            </label><br>
+        {% endfor %}
+
+        <label>
+            <input type="checkbox" name="no_symptom">
+            증상 없음
+        </label><br>
+
+        <button type="submit">다음</button>
+    </form>
+</body>
+</html>

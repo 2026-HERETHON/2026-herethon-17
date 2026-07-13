@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>기록 수정</title>
+</head>
+<body>
+    <h1>오늘 기록 수정</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for symptom in symptoms %}
+            <p>
+                <label>
+                    <input type="checkbox" name="symptom_ids" value="{{ symptom.id }}"
+                        {% if symptom.saved_intensity %}checked{% endif %}>
+                    {{ symptom.name }}
+                </label>
+            </p>
+
+            <label>
+                <input type="radio" name="intensity_{{ symptom.id }}" value="약"
+                    {% if symptom.saved_intensity == "약" %}checked{% endif %}> 약
+            </label>
+
+            <label>
+                <input type="radio" name="intensity_{{ symptom.id }}" value="중"
+                    {% if symptom.saved_intensity == "중" %}checked{% endif %}> 중
+            </label>
+
+            <label>
+                <input type="radio" name="intensity_{{ symptom.id }}" value="강"
+                    {% if symptom.saved_intensity == "강" %}checked{% endif %}> 강
+            </label>
+
+            <br><br>
+        {% endfor %}
+
+        <label>
+            <input type="checkbox" name="no_symptom" value="on"
+                   {% if no_symptom %}checked{% endif %}>
+            증상 없음
+        </label>
+        <br><br>
+
+        <button type="submit">수정 완료</button>
+    </form>
+
+    {% if just_saved %}
+        <p class="save-message">수정 완료되었습니다.</p>
+    {% endif %}
+
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% endif %}
+</body>
+</html>

@@ -35,7 +35,7 @@ def home_view(request):
 
     # 4. 오늘 기록 여부에 따라 증상 트래커 이동 URL 분기
     if has_today_record:
-        tracker_url = f"/tracker/edit/{today}/"
+        tracker_url = "/tracker/edit/"
     else:
         tracker_url = "/tracker/select/"
 

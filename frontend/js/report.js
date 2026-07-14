@@ -323,3 +323,43 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
+
+  // ==========================================
+  // 데이터 유무에 따른 화면 전환 및 다운로드 버튼 숨김 처리
+  // ==========================================
+  const hasData = false; // 백엔드 연동 전 테스트용 (true면 리포트, false면 빈 화면)
+
+  const weeklyArea = document.getElementById("weekly-report-area");
+  const monthlyArea = document.getElementById("monthly-report-area");
+  const emptyArea = document.getElementById("empty-report-area");
+  
+  const toggleContainer = document.querySelector(".toggle-container");
+  const downloadBtn = document.getElementById("btn-download");
+
+  const btnWeeklyToggle = document.getElementById("btn-weekly");
+  const btnMonthlyToggle = document.getElementById("btn-monthly");
+
+  function checkAndRenderView() {
+    if (hasData) {
+      // 데이터가 있을 때: 빈 화면을 끄고 주간 리포트로 전환
+      emptyArea.style.display = "none";
+      weeklyArea.style.display = "block"; 
+      
+      if (toggleContainer) toggleContainer.style.pointerEvents = "auto";
+      if (downloadBtn) downloadBtn.style.display = "block";
+    } else {
+      // 데이터가 없을 때: 주간/월간을 끄고 빈 화면으로 전환
+      weeklyArea.style.display = "none";
+      monthlyArea.style.display = "none";
+      emptyArea.style.display = "flex";
+
+      if (btnWeeklyToggle) btnWeeklyToggle.classList.remove("active");
+      if (btnMonthlyToggle) btnMonthlyToggle.classList.remove("active");
+      
+      if (toggleContainer) toggleContainer.style.pointerEvents = "none";
+      if (downloadBtn) downloadBtn.style.display = "none";
+    }
+  }
+
+  // 페이지 로딩 시 화면 체크 실행
+  checkAndRenderView();

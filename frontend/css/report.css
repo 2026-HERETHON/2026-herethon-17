@@ -614,3 +614,135 @@
   font-weight: 400;
   line-height: 16.5px;
 }
+
+/* =====================================
+   4.3 데이터 빈 화면
+===================================== */
+.empty-state-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  padding-top: 80px; 
+  padding-bottom: 40px;
+}
+
+/* 중앙 아이콘 */
+.empty-icon {
+  width: 120px; 
+  margin-bottom: 16px;
+}
+
+/* 타이틀: 아직 기록이 없어요 */
+.empty-title {
+  color: #2D2D2D;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  
+  margin: 0 0 16px 0; 
+}
+
+/* 서브타이틀: 증상을 기록하면... */
+.empty-subtitle {
+  color: #6B6B6B;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  
+  margin: 0 0 32px 0; 
+}
+
+/* =====================================
+   하단 버튼 그룹 
+===================================== */
+
+/* =====================================
+   공통 버튼 뼈대 (.btn)
+===================================== */
+.btn {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  
+  font-family: var(--font-sans, "Noto Sans KR");
+  text-decoration: none; 
+  cursor: pointer;
+  box-sizing: border-box;
+
+  /* 마우스를 올렸을 때 크기 변화가 부드럽게 전환 */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* 마우스를 올렸을 때 3% 정도 살짝 커지는 효과 */
+.btn:hover {
+  transform: scale(1.03); 
+}
+
+
+/* =====================================
+   초록 버튼 (.btn-primary)
+===================================== */
+.btn-primary {
+  width: 211.85px;
+  height: 57.5px;
+  border: none; 
+  background: #6B9E7A;
+
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+/* 버튼들을 나란히 배치하기 위한 묶음 */
+.button-group {
+  display: flex;
+  gap: 12px; 
+  align-items: center;
+
+  margin: 0 auto;
+}
+
+
+/* 기존 .button-group 속성을 상속받고, 세로 배치로만 덮어씌움 */
+.button-group.col {
+  flex-direction: column;
+  gap: 12px; 
+  width: 100%; 
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* '홈으로' 버튼 글씨 스타일 */
+.btn-home {
+  color: #6B9E7A;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px;
+  
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+  
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+}

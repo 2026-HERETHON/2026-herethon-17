@@ -3,6 +3,13 @@
     display: flex;
     flex-direction: column;
     flex: 1; 
+
+    /* 세로 스크롤 허용 */
+    overflow-y: auto;
+    padding-bottom: 40px;
+}
+.app-content::-webkit-scrollbar {
+    display: none;
 }
 
 .survey-header{
@@ -193,9 +200,15 @@
 
 
 /* survey result page */
+.result-bg {
+    /* 그래디언트 배경 */
+    background: linear-gradient( #F6E7D9 0%, #FFFFFF 100%);
+}
+
 .result-header{
     display: flex;
     flex-direction: column;
+    margin-top: 40px;
 }
 .result-title{
     color: #9A9A9A;
@@ -220,16 +233,19 @@
 
 }
 .result-card{
-    width: 337px;
-    height: 382px;
+    width: calc(100% - 48px);
+    max-width: 337px;
+    height: auto;
     background-color: #FFFFFF;
     border-radius: 26px;
-    padding: auto 28px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 18px;
+    box-shadow: 0 8px 36px 0 rgba(0, 0, 0, 0.07);
 }
+
 .result-icon{
     background-color: #EDF5EF;
     width: 76px;
@@ -258,16 +274,16 @@
     margin-bottom: 20px;
     text-align: center;
 }
-.result-info{
-    width: 289px;
-    height: 130px;
+.result-info {
+    width: 100%; 
+    height: auto;
     border-radius: 16px;
     background-color: #EDF5EF;
-    color: #6B6B6B;
-    font-weight: 400;
-    font-size: 12px;
-    font-family: 'Noto Sans KR', serif;
-    list-style: none;
+    padding: 20px; 
+    box-sizing: border-box;
+    margin: 0;
+
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
 }
 .result-infogroup{
     width: 255px;
@@ -282,8 +298,13 @@
     line-height: 24.5px;
     color: #6B6B6B;
     text-align: left;
-    position: relative;
+    margin-bottom: 8px; /* 각 줄 사이 여백 */
 
+    padding-left: 0;
+
+}
+.result-info li:last-child {
+    margin-bottom: 0;
 }
 
 .result-types{
@@ -325,13 +346,16 @@
 
 .result-types > div.active h3 {
     color: #6B9E7A;
-    font-weight: normal;
+    font-weight: 700;
 }
 
 .result-nav{
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 24px;
+    width: 100%;
+    box-sizing: border-box;
 }
 .start-btn{
     width: 337px;
@@ -344,19 +368,27 @@
     font-family: 'Noto Sans KR', serif;
     text-align: center;
     margin-bottom: 14px;
+
+        transition: background-color 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.3s ease;
 }
+
+.start-btn:hover {
+    transform: scale(1.03);
+}
+
 .retry-btn{
-    border: 1px #D8CFC6;
-    width: 92px;
-    height: 21px;
+    background: none;
+    border: none;
+    width: auto; 
     color: #9A9A9A;
     font-weight: 400;
-    font-size: 16px;
-    font-family: 'Noto Sans KR', serif;
+    font-size: 14px;
     text-align: center;
     text-decoration: underline;
     cursor: pointer;
     margin-bottom: 40px;
+    white-space: nowrap;
 }
 
 

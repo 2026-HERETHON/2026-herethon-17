@@ -254,6 +254,8 @@
     height: 54px;
     border-radius: 12px;
     border: 1.5px solid #E8E0D8;
+
+    padding-left: 16px;
     
 }
 .signup-inputgroup input::placeholder{
@@ -261,10 +263,9 @@
     font-family: 'Noto Sans KR',serif;
     font-weight: 400;
     font-size: 15px;
-    padding-left: 16px;
     
 }
-.signup-iputgroup input:focus{
+.signup-inputgroup input:focus{
     border-color: #6B9E7A;
     outline: none;
 

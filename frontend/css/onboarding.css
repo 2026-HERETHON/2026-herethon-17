@@ -1,0 +1,343 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+/* splash page */
+
+.splash-container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, #4A7A58, #6B9E7A, #8BBDA3);
+
+
+}
+.splash-logowrap{
+    width: 88px;
+    height: 88px;
+    background-color: #ffffff33;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+
+}
+.splash-title{
+    font-weight: 700;
+    font-size: 46px;
+    color: #ffffff;
+    font-family: 'Georgia', 'Noto Serif KR', serif;
+    letter-spacing: 3px;
+    margin: 0;
+
+}
+.splash-subtitle{
+    font-size: 15px;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    font-family: 'Noto Serif KR', serif;
+}
+
+/* login page */
+
+.login-container {
+    background-color: #FAF7F4;
+    padding: 60px 32px 40px;   /* 위 60px, 좌우 32px, 아래 40px */
+}
+
+.login-logogroup{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 44.5px;
+
+
+}
+
+.login-logo {
+    width: 38px;
+    height: 38px;
+    background-color: #6B9E7A;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-logo img {
+    width: 20px;
+    height: 20px;
+}
+.login-logotext{
+    font-size: 26px;
+    font-weight: 700;
+    font-family: 'Georgia', 'Noto Serif KR', serif;
+    color: #6B9E7A;
+    letter-spacing: 2px;
+
+}
+.login-title {
+    font-weight: 800;
+    font-size: 28px;
+    font-family: 'Noto Sans KR', serif;
+    margin-bottom: 8px;
+}
+
+.login-subtitle {
+    font-weight: 400;
+    font-size: 14px;
+    color: #9A9A9A;
+    font-family: 'Noto Sans KR', serif;
+    margin-bottom: 32px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-inputgroup {
+    margin-bottom: 12px;
+}
+
+.login-inputgroup label {
+    display: block;
+    font-family: 'Noto Sans KR', serif;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #6B6B6B;
+}
+
+.login-inputgroup input {
+    width: 100%;
+    border: 1px solid #E8E0D8;
+    font-size: 15px;
+    background-color: #FFFFFF;
+    height: 54px;
+    border-radius: 12px;
+    font-weight: 400;
+    padding-left: 16px;
+    box-sizing: border-box;
+}
+
+.login-inputgroup input::placeholder {
+    color: #9A9A9A;
+}
+
+.login-inputgroup input:focus {
+    border-color: #6B9E7A;
+}
+
+.login-inputgroup.valid input {
+    border-color: #6B9E7A;
+}
+
+.login-inputgroup.error input {
+    border-color: #E05C5C;
+}
+
+.error-message {
+    display: none;
+    color: #E05C5C;
+    font-size: 12px;
+    font-family: 'Noto Sans KR', serif;
+    font-weight: 400;
+}
+
+.login-inputgroup.error .error-message.show {
+    display: block;
+}
+
+.login-forgotpw {
+    text-align: right;
+    margin-bottom: 22px;
+}
+
+.login-forgotpw a {
+    color: #6B9E7A;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', serif;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.btn-login {
+    display: block;
+    width: 100%;
+    height: 56px;
+    padding: 16px;
+    background: #C5D6CA;
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', serif;
+    cursor: pointer;
+}
+
+.btn-login.active {
+    background: #6B9E7A;
+    color: #fff;
+}
+
+.login-noaccount {
+    font-family: 'Noto Sans KR', serif;
+    text-align: center;
+    font-size: 14px;
+    color:#6B6B6B;
+    margin-top: 24px;
+}
+
+.login-noaccount a {
+  color: #6B9E7A;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+
+}
+
+/* signup page */
+
+.signup-container{
+    background-color: #FAF7F4;
+}
+
+.signup-header{
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px; 
+    gap: 8px;
+}
+
+.back-btn img{
+    width: 22px;
+    height: 22px;
+
+}
+
+.signup-title{
+    color: #2D2D2D;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: 'Noto Sans KR',serif;
+    margin-top: -7px;
+}
+
+.signup-inputgroup{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+    margin-left: 28px;
+}
+.signup-inputgroup label{
+    font-family: 'Noto Sans KR',serif;
+    color: #6B6B6B;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+.signup-inputgroup input{
+    width: 329px;
+    height: 54px;
+    border-radius: 12px;
+    border: 1.5px solid #E8E0D8;
+    
+}
+.signup-inputgroup input::placeholder{
+    color :#9A9A9A;
+    font-family: 'Noto Sans KR',serif;
+    font-weight: 400;
+    font-size: 15px;
+    padding-left: 16px;
+    
+}
+.signup-iputgroup input:focus{
+    border-color: #6B9E7A;
+    outline: none;
+
+    
+}
+.signup-policycontainer{
+    width: 337px;
+    height: 91px;
+    border: 1.5px solid #E8E0D8;
+    border-radius: 14px;
+    background-color: #FFFFFF;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 8px;
+    margin-left: 28px;
+
+}
+.signup-policy{
+    cursor: pointer;
+}
+.signup-policyitem{
+    display: flex;
+    align-items: center;
+    
+}
+.signup-policyitem input[type="checkbox"]{
+    display: none;
+}
+.signup-checkbox{
+    border: 2px solid #E8E0D8;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background-size: 11px 11px ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-policyitem input[type="checkbox"]:checked + .signup-checkbox{
+    background-color: #6B9E7A;
+    border-color: #6B9E7A;
+}
+.signup-checkedicon{
+    width: 11px;
+    height: 11px;
+}
+
+.signup-policytext{
+    font-family: 'Noto Sans KR',serif;
+    color: #6B6B6B;
+    padding-left: 16px;
+}
+.signup-policyerror{
+    display: none;
+    color: #E05C5C;
+    font-size: 11px;
+    font-weight: 400;
+    font-family:'Noto Sans KR', serif;
+}
+
+.signup-btn{
+    display: block;
+    font-size: 16px;
+    background-color: #C5D6CA;
+    width: 337px;
+    height: 56px;
+    border-radius: 14px;
+    color : #FFFFFF;
+    font-weight: 700;
+    font-family: 'Noto Sans KR',serif;
+    margin-left: 28px;
+
+}
+.signup-btn.active{
+    background-color: #6B9E7A;
+    cursor: pointer;
+}
+

@@ -1,8 +1,15 @@
+/* app-content가 화면 전체의 남은 높이를 꽉 채우도록 설정 */
+.app-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+}
+
 .survey-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 24px;
+    padding: 32px 24px;
 }
 .survey-title{
     color: #9A9A9A;
@@ -18,10 +25,10 @@
 }
 .survey-progress{
     background-color: #E8E0D8;
-    width: 345px;
+    width: calc(100% - 48px);
     height: 6px;
     border-radius: 99px;
-    margin : 0 auto 32px auto;
+    margin : -16px auto 32px auto;
 
 }
 .survey-progressbar{
@@ -29,11 +36,18 @@
     height: 100%;
     width: 20%;
     border-radius: 99px;
+
+    /* 바가 차오를 때 부드럽게 움직이는 효과 */
+    transition: width 0.3s ease;
 }
 .survey-container{
     display: flex;
     flex-direction: column;
-    padding-left: 28px;
+
+    padding: 0 24px; /* 양옆 24px 동일한 여백 적용 */
+    box-sizing: border-box;
+
+    flex: 1;
 }
 
 .survey-questionnum{
@@ -44,22 +58,26 @@
     margin-bottom: 8px;
 }
 .survey-questitle{
-    width: 333px;
-    height: 66px;
+    width: 100%;
+    height: auto; 
     font-weight: 800;
     font-size: 20px;
     font-family: 'Noto Sans KR',serif;
     color: #2D2D2D;
     margin-bottom: 30px;
+    word-break: keep-all; /* 단어 단위로 줄바꿈 되게 설정 */
 }
 .survey-options{
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 282px;
+    
+    
+    
+
 }
 .survey-optionitem{
-    width: 337px;
+    width: 100%; /* 고정 크기 337px 삭제 */
     height: 81px;
     display: flex;
     align-items: center;
@@ -68,6 +86,8 @@
     background-color: #fff;
     cursor: pointer;
     
+    /* 버튼을 눌렀을 때 배경/테두리 색이 부드럽게 채워짐 */
+    transition: all 0.3s ease;
 }
 .survey-optionitem input[type="radio"]{
     display: none;
@@ -83,6 +103,8 @@
     justify-content: center;
     margin-left: 18px;
     margin-right: 12px;
+
+    transition: all 0.3s ease;
 
 }
 .survey-newradio .survey-checked{
@@ -112,14 +134,22 @@
     font-weight: 400;
     font-size: 15px;
     font-family: 'Noto Sans KR',serif;
+
+    padding-right: 20px;
+
 }
 
 .survey-nav{
     display: flex;
     flex-direction: row;
     gap: 12px;
+    width: 100%;
+
+    margin-top: auto;
+    margin-bottom: 40px;
 }
 .prev-btn{
+    flex: 1; /* 남은 공간을 1 비율로 차지 */
     width: 119.66px;
     height: 58px;
     border: 1.5px solid #E8E0D8;
@@ -129,9 +159,17 @@
     font-weight: 600;
     font-size: 15px;
     font-family: 'Noto Sans KR',serif;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.prev-btn:hover {
+    transform: scale(1.03);
 }
 .next-btn{
-    width: 201.34px;
+    flex: 1.7; /* 다음 버튼이 조금 더 길게(1.7 비율) 차지 */
     height: 58px;
     border-radius: 14px;
     background-color: #6B9E7A;
@@ -139,9 +177,18 @@
     font-weight: 600;
     font-size: 15px;
     font-family: 'Noto Sans KR',serif;
+
+    transition: background-color 0.3s ease;
+    transition: transform 0.2s ease, background-color 0.3s ease;
 }
-.next-next:disabled{
+/* 비활성화 상태가 아닐 때만 마우스 호버 시 3% 커짐 */
+.next-btn:not(:disabled):hover {
+    transform: scale(1.03);
+}
+
+.next-btn:disabled {
     background-color: #C5D6CA;
+    cursor: not-allowed;
 }
 
 

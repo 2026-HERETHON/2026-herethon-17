@@ -66,10 +66,10 @@ body {
 .app-container {
   width: 100%;
   max-width: 430px; /* 아이폰 14/15 Pro Max 너비 기준 */
-  height: 100vh;    /* 화면 높이에 꽉 차게 */
-  max-height: 100dvh; /* 모바일 브라우저 주소창 고려한 최신 속성 */
+  height: 100dvh;   /* 화면 높이에 꽉 차게 - 스크롤 시 배경이 끊기지 않도록 고정 */
   background-color: var(--bg-ivory);
   position: relative;
+  overflow: hidden; /* 내부 요소가 넘치지 않도록 */
   
   /* Flexbox로 상단헤더-본문-하단탭바 세로 배치 */
   display: flex;
@@ -88,17 +88,6 @@ body {
   
   background-color: transparent;
   flex-shrink: 0;
-}
-
-
-/* 메인 스크롤 영역 */
-.app-content {
-  flex: 1; /* 남은 공간을 모두 차지함 */
-  overflow-y: auto; /* 내용이 길어지면 안에서만 스크롤 됨 */
-  padding: 20px;
-  /* 스크롤바 숨기기 */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 /* 하단 GNB바 */

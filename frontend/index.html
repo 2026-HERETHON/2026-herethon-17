@@ -8,42 +8,48 @@
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/home.css">
-  </head>
+</head>
 <body>
   
   <div class="app-container">
     
     <main class="app-content">
+
       <div class="home-header">
-          <div class="home-logo">
-          <img src="../frontend/assets/icons/home_herb_icon.png" alt="">
-            <span class="home-logotext">HERb</span>
-        </div>
-        <div class="home-headericons">
-          <button class="home-iconbtn" id="home-noti">
-            <img src="../frontend/assets/icons/NotiIcon.png" alt="">
-          </button>
-          <button class="home-iconbtn" id="home-profile">
-            <img src="" alt="">
-          </button>
+        <div class="home-logo">
+          <img src="assets/icons/home_herb_icon.png" alt="HERb 로고">
+          <span class="home-logotext">HERb</span>
         </div>
       </div>
 
       <div class="welcome-banner" id="welcome-banner" style="display: none;">
-        <button class="welcome-close"> x </button>
-        <p class="welcome-text">🌿 오랜만이에요, <span id="welcome-username">수현</span>님!<br>
-          <span id="welcome-days">8</span>일 만에 만났어요. 그동안 잘 지내셨나요?<br>
-          다시 함께 시작해봐요 🌱</p>
+        <button class="welcome-close" id="welcome-close">x</button>
+        <p class="welcome-text">
+          🌿 오랜만이에요, <span id="welcome-username">수현</span>님!<br>
+          <span class="welcome-days"><span id="welcome-days">8</span>일 만에 만났어요. 그동안 잘 지내셨나요?</span><br>
+          다시 함께 시작해봐요 🌱
+        </p>
       </div>
 
       <div class="home-greeting">
-        <p class="home-date" id="home-date">2026년 6월 27일 토요일</p>
+        <div class="home-greeting-top">
+          <p class="home-date" id="home-date">2026년 6월 27일 토요일</p>
+          <div class="home-headericons">
+            <button class="home-iconbtn" id="home-noti">
+              <img src="assets/icons/NotiIcon.png" alt="알림">
+            </button>
+            <button class="home-iconbtn" id="home-profile">
+              <!-- <img src="assets/icons/ProfileIcon.png" alt="프로필"> -->
+            </button>
+          </div>
+        </div>
+
         <h1 class="home-username">안녕하세요, <span id="username">수현</span>님 👋</h1>
       </div>
 
       <div class="summary-card">
         <p class="summary-label">오늘의 요약</p>
-        <h2 class="summary-stage">지금 나는 <span id="stage-name">혼란기</span></h2>
+        <h2 class="summary-stage">지금 나는 <span class="summary-stage1" id="stage-name">혼란기</span></h2>
 
         <div class="summary-week">
           <p class="summary-weeklabel">이번 주 기록</p>
@@ -89,9 +95,9 @@
         </a>
       </div>
 
-      
-      </main>
-      <nav class="app-bottom-tab">
+    </main>
+
+    <nav class="app-bottom-tab">
       <a href="index.html" class="tab-item active">
         <img src="assets/icons/tab_home_active.svg" alt="" class="tab-icon">
         <span class="tab-text">홈</span>

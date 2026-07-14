@@ -1,0 +1,35 @@
+<!-- 4.3 저장 완료 페이지-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb - 기록 완료</title>
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/tracker.css">
+</head>
+<body>
+  <main class="app-container">
+    
+    <section id="step-3" class="step-section active">
+      
+      <div class="save-complete-header">
+        <img src="assets/icons/report_save.svg" alt="저장 완료 화분 아이콘" class="save-icon">
+        <h2 class="save-title">오늘의 기록을 저장했어요</h2>
+      </div>
+
+      <!-- 백엔드에서 렌더링할 최종 기록 결과 영역 -->
+      <div class="record-list" id="record-list-step3">
+        <!-- (예: 증상 및 강도 뱃지가 렌더링됩니다) -->
+      </div>
+
+      <div class="button-group col">
+        <button type="button" id="btn-view-report" class="btn btn-primary" style="width: 100%;" onclick="window.location.href='report.html'">패턴 리포트 보기</button>
+        <a href="index.html" class="btn-home">홈으로</a>
+      </div>
+
+    </section>
+
+  </main>
+</body>
+</html>

@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.template.context_processors import request
+
 from accounts.models import User
-# from diagnosis.models import DiagnosisResponse
+from diagnosis.models import DiagnosisResult
 from django.contrib.auth.decorators import login_required
 
 
@@ -27,13 +29,10 @@ def login_view(request):
 
         login(request, user)
 
-        # diagnosis 앱과 연결 예정. 연결 후 주석 제거.
-        # if not DiagnosisResponse.objects.filter(user=user).exists():
-        #     return redirect("/diagnosis/")
-        # else:
-        #     return redirect("/home/")
-
-        return redirect("/admin/")   # 임시. 연결 후 제거 예정
+        if not DiagnosisResult.objects.filter(user=user).exists():
+            return redirect("diagnosis:form")
+        else:
+            return redirect("home:home")
 
     return render(request, "accounts/login.html")
 
@@ -91,8 +90,20 @@ def signup_view(request):
 @login_required
 def mypage_view(request):
 
+    # 자가진단 결과 중 가장 최근 것 조회
+    latest_diagnosis = DiagnosisResult.objects.filter(
+        user=request.user
+    ).order_by("-created_at").first()
+
+    # 자가진단 결과 있으면 그 단계로, 없으면 None
+    if latest_diagnosis:
+        current_stage = latest_diagnosis.stage
+    else:
+        current_stage = None
+
     return render(request, "accounts/mypage.html", {
         "user": request.user,
+        "current_stage": current_stage,
     })
 
 
@@ -126,9 +137,23 @@ def profile_view(request):
 
         return redirect("accounts:profile")
 
-    return render(request, "accounts/profile.html", {
-        "user": user
-    })
+    if request.method == "GET":
+
+        # 자가진단 결과 중 가장 최근 것 조회
+        latest_diagnosis = DiagnosisResult.objects.filter(
+            user=request.user
+        ).order_by("-created_at").first()
+
+        # 자가진단 결과 있으면 그 단계로, 없으면 None
+        if latest_diagnosis:
+            current_stage = latest_diagnosis.stage
+        else:
+            current_stage = None
+
+        return render(request, "accounts/profile.html", {
+            "user": user,
+            "current_stage": current_stage,
+        })
 
 
 # 알림 설정

@@ -12,6 +12,7 @@
     {% endif %}
 
     <p>이메일: {{ user.email }} (수정 불가)</p>
+    <p>현재 단계: {{ current_stage }}</p>
 
     <form method="post">
         {% csrf_token %}

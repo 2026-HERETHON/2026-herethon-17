@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'community',
     'diagnosis',
     'home',
+    'garden',
 ]
 
 MIDDLEWARE = [

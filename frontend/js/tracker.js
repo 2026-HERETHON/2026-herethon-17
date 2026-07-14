@@ -1,96 +1,163 @@
-document.addEventListener("DOMContentLoaded", function () {
-  
-  // ==========================================
-  // 수정 모드 테스트 스위치 (true면 3.4 수정 모드, false면 3.1 증상 선택)
-  // 백엔드 연동 시에는 삭제 필요. 추후 수정
-  // ==========================================
-  const TEST_EDIT_MODE = false; 
+document.addEventListener("DOMContentLoaded", () => {
 
   // ==========================================
-  // 공통 요소 찾기
+  // [증상 선택 페이지] select.html 로직
   // ==========================================
   const symptomCards = document.querySelectorAll("#step-1 .symptom-card");
   const btnNextStep1 = document.getElementById("btn-next-step1");
-  const btnPrevStep2 = document.getElementById("btn-prev-step2");
+  const selectForm = document.getElementById("symptom-select-form");
+
+  if (symptomCards.length > 0) {
+    
+    // 아이콘 색상 변경 (활성화/비활성화)
+    function updateIcon(card) {
+      const iconImg = card.querySelector(".symptom-icon");
+      if (iconImg) {
+        iconImg.src = card.classList.contains("active") 
+          ? iconImg.src.replace("_inactive.svg", "_active.svg") 
+          : iconImg.src.replace("_active.svg", "_inactive.svg");
+      }
+    }
+
+    // 다음 버튼 활성화 및 개수 업데이트
+    function updateNextButton() {
+      const activeCards = document.querySelectorAll("#step-1 .symptom-card.active");
+      const selectedCount = activeCards.length;
+      if (btnNextStep1) {
+        btnNextStep1.innerText = `다음 (${selectedCount}개 선택됨)`;
+        btnNextStep1.disabled = selectedCount === 0;
+      }
+    }
+
+    // 증상 카드 클릭 이벤트
+    symptomCards.forEach(card => {
+      card.addEventListener("click", function(e) {
+        e.preventDefault();
+        const hiddenInput = this.querySelector("input[type='checkbox']");
+        const isNoSymptom = this.dataset.id === "0" || this.querySelector("input[name='no_symptom']");
+        const isAlreadyActive = this.classList.contains("active");
+
+        if (!isAlreadyActive) {
+          if (isNoSymptom) {
+            // '증상 없음' 선택 시 다른 모든 증상 해제
+            symptomCards.forEach(c => {
+              c.classList.remove("active");
+              const inp = c.querySelector("input[type='checkbox']");
+              if (inp) inp.checked = false;
+              updateIcon(c);
+            });
+          } else {
+            // 다른 증상 선택 시 '증상 없음' 해제
+            const noSympCard = Array.from(symptomCards).find(c => c.dataset.id === "0");
+            if (noSympCard && noSympCard.classList.contains("active")) {
+              noSympCard.classList.remove("active");
+              const inp = noSympCard.querySelector("input[type='checkbox']");
+              if (inp) inp.checked = false;
+              updateIcon(noSympCard);
+            }
+          }
+          this.classList.add("active");
+          if (hiddenInput) hiddenInput.checked = true;
+        } else {
+          this.classList.remove("active");
+          if (hiddenInput) hiddenInput.checked = false;
+        }
+        
+        updateIcon(this);
+        updateNextButton();
+      });
+    });
+
+    // '증상 없음'일 경우 강도 페이지를 건너뛰고 바로 완료 페이지로
+    if (selectForm) {
+      selectForm.addEventListener("submit", (e) => {
+        const noSymptomCard = document.querySelector(".symptom-card[data-id='0']");
+        if (noSymptomCard && noSymptomCard.classList.contains("active")) {
+          e.preventDefault(); 
+          window.location.href = "complete.html";
+        }
+      });
+    }
+  }
+
+
+  // ==========================================
+  // [강도 선택 및 수정 페이지] intensity.html, edit.html 로직
+  // ==========================================
   const btnSubmitRecord = document.getElementById("btn-submit-record");
-  const backBtn = document.querySelector(".back-btn");
+  const editListContainer = document.getElementById("edit-strength-list");
 
-  // ==========================================
-  // 화면 전환 함수
-  // ==========================================
-  function showSection(sectionId) {
-    const sections = document.querySelectorAll(".step-section");
-    sections.forEach(sec => {
-      sec.classList.remove("active");
-      sec.style.display = "none";
-    });
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-      targetSection.classList.add("active");
-      targetSection.style.display = "flex";
-      window.scrollTo(0, 0);
+  // 프론트엔드 확인용: 수정 페이지(edit.html)에 데이터가 비어있으면 Mock 데이터 그리기
+  if (editListContainer && editListContainer.children.length === 0) {
+    renderMockEditCards(editListContainer);
+  }
+
+  // 동적(또는 백엔드)으로 생성된 버튼들도 무조건 클릭되도록 이벤트 위임(Delegation) 사용
+  document.body.addEventListener("click", function(e) {
+    if (e.target.classList.contains("btn-strength")) {
+      const btn = e.target;
+      const card = btn.closest(".strength-card");
+      if (!card) return;
+
+      const buttons = card.querySelectorAll(".btn-strength");
+      const hiddenInput = card.querySelector("input[type='hidden']");
+
+      // 모든 버튼 활성화 해제 후 클릭한 버튼만 활성화
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      
+      // hidden input에 값(low, mid, high) 넣기
+      if (hiddenInput) hiddenInput.value = btn.dataset.value;
+
+      // 강도 선택 페이지(intensity.html)인 경우, 모든 카드가 선택되었는지 확인 후 완료 버튼 켜기
+      if (btnSubmitRecord && document.getElementById("step-2")) {
+        let allSelected = true;
+        const allCards = document.querySelectorAll("#step-2 .strength-card");
+        allCards.forEach(c => {
+          const hi = c.querySelector("input[type='hidden']");
+          if (!hi || !hi.value) allSelected = false;
+        });
+        btnSubmitRecord.disabled = !allSelected;
+      }
     }
-  }
+  });
 
-  function updateIcon(card) {
-    const iconImg = card.querySelector(".symptom-icon");
-    if (iconImg) {
-      iconImg.src = card.classList.contains("active") 
-        ? iconImg.src.replace("_inactive.svg", "_active.svg") 
-        : iconImg.src.replace("_active.svg", "_inactive.svg");
-    }
-  }
 
   // ==========================================
-  // 페이지 초기 진입 분기
+  // [기록 수정 페이지] 토스트 메시지 처리 (edit.html)
   // ==========================================
-  if (TEST_EDIT_MODE) {
-    setupEditMode(); // 스위치가 true면 3.4 수정 모드로
-  } else {
-    showSection("step-1"); // 스위치가 false면 3.1 증상 선택으로
-  }
-
-  // 뒤로가기 버튼들 로직
-  if (backBtn) {
-    backBtn.addEventListener("click", () => window.history.back());
-  }
-  if (btnPrevStep2) {
-    btnPrevStep2.addEventListener("click", () => {
-      const step2Progress = document.querySelector("#step-2 .progress-green");
-      if (step2Progress) step2Progress.style.width = "50%";
-      showSection("step-1");
+  const btnEditComplete = document.getElementById("btn-edit-complete");
+  const editForm = document.getElementById("edit-form");
+  
+  if (editForm && btnEditComplete) {
+    editForm.addEventListener("submit", (e) => {
+      e.preventDefault(); // 페이지가 바로 넘어가지 않게 막음
+      
+      const toast = document.getElementById("toast-success");
+      if (toast) {
+        toast.classList.add("show");
+        
+        setTimeout(() => {
+          toast.classList.remove("show");
+          window.location.href = "complete.html"; 
+          // editForm.submit(); <- 실제 백엔드로 넘길 때는 이 코드 사용!! 추후 수정
+        }, 2000);
+      } else {
+        window.location.href = "complete.html";
+      }
     });
   }
 
-  // ==========================================
-  // 3.4 수정 모드 세팅 및 렌더링 로직
-  // ==========================================
-  function setupEditMode() {
-    const headerTitle = document.querySelector(".header-title");
-    const headerDate = document.querySelector(".header-date");
-    const modeBadge = document.getElementById("mode-badge");
 
-    if (headerTitle) headerTitle.innerText = "기록 수정";
-    if (headerDate) headerDate.innerText = "오늘 기록을 수정합니다";
-    if (modeBadge) modeBadge.style.display = "flex";
-
-    // 가상의 백엔드 데이터 (안면홍조: 강, 수면장애: 중)
-    // 백엔드 로직 받아오면 이 부분을 API 호출로 대체. 추후 수정
-    const previousSymptoms = [
+  // ==========================================
+  // 수정 페이지(edit.html) 테스트용 임시 렌더링 함수
+  // 백엔드에서 데이터 받아온 이후 삭제할 함수
+  // ==========================================
+  function renderMockEditCards(container) {
+    const prevData = [
       { id: "1", intensity: "high" }, 
       { id: "2", intensity: "mid" }
     ];
-
-    renderEditCards(previousSymptoms);
-    showSection("step-4");
-  }
-
-  function renderEditCards(prevData) {
-    const container = document.getElementById("edit-strength-list");
-    if (!container) return;
-    container.innerHTML = "";
-    
-    // 5개의 모든 증상 카드 강제 렌더링
     const allSymptoms = [
       { id: "1", name: "안면홍조", icon: "hot" }, 
       { id: "2", name: "수면장애", icon: "sleep" },
@@ -101,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     allSymptoms.forEach(symptom => {
       const prev = prevData.find(i => i.id === symptom.id);
-      const val = prev ? prev.intensity : ""; // low, mid, high
+      const val = prev ? prev.intensity : ""; 
       const inactiveIconSrc = `assets/icons/symptom_${symptom.icon}_inactive.svg`;
 
       const cardHTML = `
@@ -119,208 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>`;
       container.insertAdjacentHTML('beforeend', cardHTML);
     });
-
-    // 렌더링된 카드에 토글 연결
-    container.querySelectorAll(".strength-card").forEach(card => {
-      const buttons = card.querySelectorAll(".btn-strength");
-      const hiddenInput = card.querySelector("input[type='hidden']");
-      
-      buttons.forEach(btn => {
-        btn.addEventListener("click", function() {
-          const isAct = this.classList.contains("active");
-          
-          buttons.forEach(b => b.classList.remove("active"));
-          
-          if (!isAct) {
-            this.classList.add("active");
-            if (hiddenInput) hiddenInput.value = this.dataset.value;
-          } else {
-            if (hiddenInput) hiddenInput.value = "";
-          }
-        });
-      });
-    });
   }
 
-  // ==========================================
-  // 3.1 증상 선택 카드 클릭 로직
-  // ==========================================
-  function updateNextButton() {
-    const activeCards = document.querySelectorAll("#step-1 .symptom-card.active");
-    const selectedCount = activeCards.length;
-    if (btnNextStep1) {
-      btnNextStep1.innerText = `다음 (${selectedCount}개 선택됨)`;
-      btnNextStep1.disabled = selectedCount === 0;
-    }
-  }
-
-  symptomCards.forEach(card => {
-    card.addEventListener("click", function(e) {
-      e.preventDefault();
-      const hiddenInput = this.querySelector("input[type='checkbox']");
-      const isNoSymptom = this.dataset.id === "0" || this.querySelector("input[name='no_symptom']");
-      const isAlreadyActive = this.classList.contains("active");
-
-      if (!isAlreadyActive) {
-        if (isNoSymptom) {
-          symptomCards.forEach(c => {
-            c.classList.remove("active");
-            const inp = c.querySelector("input[type='checkbox']");
-            if (inp) inp.checked = false;
-            updateIcon(c);
-          });
-        } else {
-          const noSympCard = Array.from(symptomCards).find(c => c.dataset.id === "0" || c.querySelector("input[name='no_symptom']"));
-          if (noSympCard && noSympCard.classList.contains("active")) {
-            noSympCard.classList.remove("active");
-            const inp = noSympCard.querySelector("input[type='checkbox']");
-            if (inp) inp.checked = false;
-            updateIcon(noSympCard);
-          }
-        }
-        this.classList.add("active");
-        if (hiddenInput) hiddenInput.checked = true;
-      } else {
-        this.classList.remove("active");
-        if (hiddenInput) hiddenInput.checked = false;
-      }
-      updateIcon(this);
-      updateNextButton();
-    });
-  });
-
-  // ==========================================
-  // 3.1 -> 3.2 화면 전환 및 렌더링
-  // ==========================================
-  if (btnNextStep1) {
-    btnNextStep1.addEventListener("click", function() {
-      const activeCards = document.querySelectorAll("#step-1 .symptom-card.active");
-      const isNoSymptomSelected = Array.from(activeCards).some(c => c.dataset.id === "0");
-      
-      if (isNoSymptomSelected) {
-        saveRecordAndGoToStep3();
-      } else {
-        renderStrengthCards(activeCards);
-        if (btnSubmitRecord) btnSubmitRecord.disabled = true;
-        showSection("step-2");
-        setTimeout(() => {
-          const prog = document.querySelector("#step-2 .progress-green");
-          if (prog) prog.style.width = "100%";
-        }, 50);
-      }
-    });
-  }
-
-  function renderStrengthCards(activeCards) {
-    const container = document.getElementById("strength-list-step2");
-    if (!container) return;
-    container.innerHTML = "";
-    
-    activeCards.forEach(card => {
-      const id = card.dataset.id;
-      const name = card.querySelector(".symptom-name").innerText;
-      const iconSrc = card.querySelector(".symptom-icon").src.replace("_active.svg", "_inactive.svg");
-      
-      const cardHTML = `
-        <div class="strength-card" data-id="${id}">
-          <input type="hidden" name="intensity_${id}" value="">
-          <div class="strength-header">
-            <img src="${iconSrc}" class="symptom-icon" style="width: 28px; height: 28px;">
-            <span class="symptom-name">${name}</span>
-          </div>
-          <div class="strength-buttons">
-            <button type="button" class="btn-strength low" data-value="low">약</button>
-            <button type="button" class="btn-strength mid" data-value="mid">중</button>
-            <button type="button" class="btn-strength high" data-value="high">강</button>
-          </div>
-        </div>`;
-      container.insertAdjacentHTML('beforeend', cardHTML);
-    });
-    
-    container.querySelectorAll(".strength-card").forEach(c => {
-      const buttons = c.querySelectorAll(".btn-strength");
-      const hiddenInput = c.querySelector("input[type='hidden']");
-      buttons.forEach(btn => {
-        btn.addEventListener("click", function() {
-          buttons.forEach(b => b.classList.remove("active"));
-          this.classList.add("active");
-          if(hiddenInput) hiddenInput.value = this.dataset.value;
-          
-          let allSelected = true;
-          container.querySelectorAll(".strength-card").forEach(c2 => {
-            const hi = c2.querySelector("input[type='hidden']");
-            if(!hi || !hi.value) allSelected = false;
-          });
-          if (btnSubmitRecord) btnSubmitRecord.disabled = !allSelected;
-        });
-      });
-    });
-  }
-
-  // ==========================================
-  // 3.3 기록 완료 페이지 생성
-  // ==========================================
-  function saveRecordAndGoToStep3() {
-    const recordContainer = document.getElementById("record-list-step3");
-    if (!recordContainer) return;
-    recordContainer.innerHTML = "";
-
-    const activeCards = document.querySelectorAll("#step-1 .symptom-card.active");
-    const isNoSymptomSelected = Array.from(activeCards).some(c => c.dataset.id === "0");
-
-    if (isNoSymptomSelected) {
-      recordContainer.innerHTML = `
-        <div class="record-card">
-          <div class="record-info">
-            <img src="assets/icons/symptom_none_inactive.svg" class="symptom-icon" style="width:24px; height:24px;">
-            <span class="symptom-name">증상 없음</span>
-          </div>
-        </div>`;
-    } else {
-      const strengthCards = document.querySelectorAll("#strength-list-step2 .strength-card");
-      const map = { low: "약", mid: "중", high: "강" };
-      
-      strengthCards.forEach(c => {
-        const name = c.querySelector(".symptom-name").innerText;
-        const iconSrc = c.querySelector(".symptom-icon").src;
-        const val = c.querySelector("input[type='hidden']").value;
-        const text = map[val] || "";
-        
-        recordContainer.insertAdjacentHTML('beforeend', `
-          <div class="record-card">
-            <div class="record-info">
-              <img src="${iconSrc}" class="symptom-icon" style="width:24px; height:24px;">
-              <span class="symptom-name">${name}</span>
-            </div>
-            <div class="record-badge ${val}">${text}</div>
-          </div>`);
-      });
-    }
-    showSection("step-3");
-  }
-
-  if (btnSubmitRecord) {
-    btnSubmitRecord.addEventListener("click", saveRecordAndGoToStep3);
-  }
-
-  const btnViewReport = document.getElementById("btn-view-report");
-  if (btnViewReport) {
-    btnViewReport.addEventListener("click", () => window.location.href = "report.html");
-  }
-
-  // ==========================================
-  // [수정 모드] 수정 완료 토스트 및 이동
-  // ==========================================
-  const btnEditComplete = document.getElementById("btn-edit-complete");
-  if (btnEditComplete) {
-    btnEditComplete.addEventListener("click", () => {
-      const toast = document.getElementById("toast-success");
-      if (toast) {
-        toast.classList.add("show");
-        setTimeout(() => {
-          toast.classList.remove("show");
-        }, 2000);
-      }
-    });
-  }
 });

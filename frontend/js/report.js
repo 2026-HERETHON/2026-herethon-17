@@ -282,3 +282,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 백엔드 연동 전 테스트용 (추후 연동 시 삭제)
   updateMonthlySummary(23, 20, 3);
+
+  // ==========================================
+  // 리포트 화면 캡처 및 이미지 다운로드 기능
+  // ==========================================
+  const btnDownload = document.getElementById("btn-download");
+
+  if (btnDownload) {
+    btnDownload.addEventListener("click", () => {
+      // 현재 켜져 있는 탭이 '주간'인지 '월간'인지 파악
+      const isWeekly = document.getElementById("btn-weekly").classList.contains("active");
+      
+      // 캡처할 타겟 영역 설정
+      const targetArea = isWeekly 
+        ? document.getElementById("weekly-report-area") 
+        : document.getElementById("monthly-report-area");
+
+      // 화면에서 임시로 숨길 요소들 찾기 (화살표, 산부인과 링크)
+      const arrows = targetArea.querySelectorAll(".date-btn");
+      const mapLink = targetArea.querySelector(".map-link-card");
+
+
+      arrows.forEach(btn => btn.style.visibility = "hidden");
+      if (mapLink) mapLink.style.display = "none";
+
+      // html2canvas로 화면 캡쳐
+      html2canvas(targetArea, {
+        scale: 2, 
+        backgroundColor: "#FAF9F7" 
+      }).then(canvas => {
+        
+        arrows.forEach(btn => btn.style.visibility = "visible");
+        if (mapLink) mapLink.style.display = "flex";
+
+        // 이미지 파일로 만들어서 유저 기기에 다운로드
+        const link = document.createElement("a");
+        link.download = isWeekly ? "주간_패턴_리포트.png" : "월간_패턴_리포트.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    });
+  }

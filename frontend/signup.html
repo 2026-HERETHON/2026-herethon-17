@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>HERb - signup</title>
+  <title>HERb</title>
 
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/common.css">
@@ -12,17 +12,22 @@
 <body>
   
   <div class="app-container">
+
+    <!-- ==========================================
+         상단 헤더
+    ========================================== -->
+    <header class="signup-header">
+      <!-- 뒤로 가기 -->
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+
+      <!-- 페이지 타이틀 -->
+      <h1 class="header-title">이메일로 가입하기</h1>
+    
+    </header>
     
     <main class="app-content">
-
-        <div class="signup-container">
-
-            <div class="signup-header">
-                <a href="#" class="back-btn">
-                    <img src="../frontend/assets/icons/back.svg" alt="뒤로가기">
-                </a>
-            <h1 class="signup-title">이메일로 가입하기</h1>
-            </div>
 
             
                 <form class="signup-form" id="signup-form">
@@ -57,7 +62,7 @@
                             <div class="signup-policyitem">
                                 <input type="checkbox" id="policy-essential" required>
                                 <span class="signup-checkbox">
-                                    <img src="../frontend/assets/icons/Checkedicon.png" alt="" class="signup-checkedicon">
+                                    <img src="assets/icons/Checkedicon.png" alt="" class="signup-checkedicon">
                                 </span>
                                 <span class="signup-policytext">서비스 이용약관 동의 (필수)</span>
                             </div>
@@ -69,7 +74,7 @@
                             <div class="signup-policyitem">
                                 <input type="checkbox" id="policy-selective" required>
                                 <span class="signup-checkbox">
-                                    <img src="../frontend/assets/icons/Checkedicon.png" alt="" class="signup-checkedicon">
+                                    <img src="assets/icons/Checkedicon.png" alt="" class="signup-checkedicon">
                                 </span>
                                 <span class="signup-policytext">개인정보 수집 및 이용 동의 (선택)</span>
                             </div>

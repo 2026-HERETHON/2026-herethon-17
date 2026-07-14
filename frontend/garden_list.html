@@ -1,3 +1,4 @@
+<!-- 5.1. 화분 목록 페이지-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,15 +6,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>HERb</title>
 
-  <link rel="icon" href="assets/images/favicon.png" type="image/png">
-  <link rel="stylesheet" href="css/garden.css">
-  </head>
+  <link rel="icon" href="assets/images/favicon.png" type="image/png"/>
+  <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/garden.css"/>
+</head>
 <body>
-  
   <div class="app-container">
-    
+    <header class="app-header">
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+      <h1 class="header-title">나의 정원</h1>
+      <!-- 화분 추가 버튼-->
+      <button class="plus-btn"><img src="assets/icons/plus.svg" alt="화분 추가"/></button>
+    </header>
+
     <main class="app-content">
-      </main>
+      <!--반복되는 아이템 부분-->
+      <div class="timeline-container">
+
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-icon">🧘</div>
+            <div class="timeline-line"></div>
+          </div>
+        
+          <div class="timeline-card">
+            <div class="card-header">
+              <span class="card-date">6월 23일</span>
+              <span class="card-badge">오늘</span>
+            </div>
+            <h3 class="card-title">요가 클래스 첫 등록</h3>
+            <p class="card-content">"운동하고 나니 몸이 개운해졌다."</p>
+          </div>
+        </div>
+      
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-icon">🌅</div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-card">
+            <div class="card-header">
+              <span class="card-date">6월 10일</span>
+              <span class="card-badge">13일 전</span>
+            </div>
+            <h3 class="card-title">아침 산책 30일 도전 시작</h3>
+            <p class="card-content">"작게 시작했는데 벌써 2주째!"</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-icon">📚</div>
+            <div class="timeline-line"></div>
+          </div>
+        
+          <div class="timeline-card">
+            <div class="card-header">
+              <span class="card-date">5월 28일</span>
+              <span class="card-badge">26일전</span>
+            </div>
+            <h3 class="card-title">독서 모임 참가</h3>
+            <p class="card-content">"오랜만에 새로운 사람들과 이야기하니 즐거웠다......."</p>
+          </div>
+        </div>
+      
+      </div>
+    </main>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+    
+      <!-- 홈 -->
+      <a href="index.html" class="tab-item">
+      <img src="assets/icons/tab_home_inactive.svg" alt="홈" class="tab-icon"/>
+      <span class="tab-text">홈</span>
+      </a>
+    
+      <!-- 패턴 리포트 -->
+      <a href="report.html" class="tab-item">
+      <img src="assets/icons/tab_report_inactive.svg" alt="리포트" class="tab-icon"/>
+      <span class="tab-text">리포트</span>
+      </a>
+    
+      <!-- 나의 정원 (현재 페이지 - Active 아이콘) -->
+      <a href="garden.html" class="tab-item active">
+      <img src="assets/icons/tab_garden_active.svg" alt="나의 정원" class="tab-icon"/>
+      <span class="tab-text">나의 정원</span>
+      </a>
+    
+      <!-- 허브 커뮤니티 -->
+      <a href="community.html" class="tab-item">
+      <img src="assets/icons/tab_community_inactive.svg" alt="커뮤니티" class="tab-icon"/>
+      <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
 
   </div>
 

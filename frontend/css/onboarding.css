@@ -349,5 +349,10 @@
 .signup-btn.active{
     background-color: #6B9E7A;
     cursor: pointer;
+
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+.signup-btn:hover.active {
+  transform: scale(1.02);
+}

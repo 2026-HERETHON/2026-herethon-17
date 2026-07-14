@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'reports',
     'accounts',
     'diagnosis',
+    'home',
 ]
 
 MIDDLEWARE = [

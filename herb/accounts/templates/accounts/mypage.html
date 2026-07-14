@@ -9,12 +9,13 @@
     <h1>마이페이지</h1>
     <p>이름: {{ user.name }}</p>
     <p>이메일: {{ user.email }}</p>
+    <p>현재 단계: {{ current_stage }}</p>
 
     <ul>
-        <li>프로필/계정 설정</li>
-        <li>알림 설정</li>
-        <li>자가진단 다시하기 (diagnosis 연동 예정)</li>
-        <li>내가 쓴 글 (community 연동 예정)</li>
+        <li><a href="{% url 'accounts:profile' %}">프로필/계정 설정</a></li>
+        <li><a href="{% url 'accounts:notifications' %}">알림 설정</a></li>
+        <li><a href="{% url 'diagnosis:form' %}">자가진단 다시하기</a></li>
+        <li><a href="{% url 'community:my_posts' %}">내가 쓴 글</a></li>
         <li>
             <form method="post" action="{% url 'accounts:logout' %}">
                 {% csrf_token %}

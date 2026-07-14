@@ -15,33 +15,27 @@ document.addEventListener("DOMContentLoaded", function () {
   // ==========================================
   const btnWeekly = document.getElementById("btn-weekly");
   const btnMonthly = document.getElementById("btn-monthly");
+  const weeklyArea = document.getElementById("weekly-report-area");
+  const monthlyArea = document.getElementById("monthly-report-area");
+
 
   if (btnWeekly && btnMonthly) {
-    
-    // 주간 버튼을 클릭했을 때
     btnWeekly.addEventListener("click", function () {
-      if (!this.classList.contains("active")) {
-        this.classList.add("active");
-        btnMonthly.classList.remove("active");
-        
-        // TODO: 나중에 여기에 4.1 주간 리포트 렌더링 함수를 넣을 예정
-        console.log("주간 리포트 화면으로 전환");
-      }
+      this.classList.add("active");
+      btnMonthly.classList.remove("active");
+      weeklyArea.style.display = "block";  // 주간 켜기
+      monthlyArea.style.display = "none";  // 월간 끄기
     });
 
-    // 월간 버튼을 클릭했을 때
     btnMonthly.addEventListener("click", function () {
-      if (!this.classList.contains("active")) {
-        this.classList.add("active");
-        btnWeekly.classList.remove("active");
-        
-        // TODO: 나중에 여기에 4.2 월간 리포트 렌더링 함수를 넣을 예정
-        console.log("월간 리포트 화면으로 전환");
-      }
+      this.classList.add("active");
+      btnWeekly.classList.remove("active");
+      monthlyArea.style.display = "block"; // 월간 켜기
+      weeklyArea.style.display = "none";   // 주간 끄기
+      
+      renderCalendar(); // 월간 탭이 열릴 때 달력 그리기
     });
-    
   }
-});
 
 // ==========================================
   // [주간 리포트] 날짜 변경 및 동적 차트 렌더링
@@ -199,3 +193,92 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 페이지 로드 시 증상별 현황 렌더링 실행
   renderSymptomStatus(symptomStatusData);
+
+  // ==========================================
+  // [월간 리포트] 캘린더 동적 렌더링 로직
+  // ==========================================
+  let currentMonthDate = new Date(2026, 5, 1); // 시작 기준일: 2026년 6월 1일 (JS에서 월은 0부터 시작)
+  
+  const btnPrevMonth = document.getElementById("btn-prev-month");
+  const btnNextMonth = document.getElementById("btn-next-month");
+  const monthDateText = document.getElementById("month-date-text");
+
+  // 가상의 월간 증상 데이터 (YYYY-M-D 형식)
+  const monthlySymptomData = {
+    "2026-6-2": "severe", "2026-6-5": "severe", "2026-6-9": "severe", 
+    "2026-6-10": "severe", "2026-6-13": "severe", "2026-6-15": "severe", 
+    "2026-6-17": "severe", "2026-6-26": "severe",
+    "2026-6-1": "mild", "2026-6-3": "mild", "2026-6-7": "mild", 
+    "2026-6-8": "mild", "2026-6-11": "mild", "2026-6-14": "mild", 
+    "2026-6-18": "mild", "2026-6-19": "mild", "2026-6-21": "mild", 
+    "2026-6-23": "mild", "2026-6-24": "mild"
+  };
+
+  const mockTodayStr = "2026-6-27"; 
+
+  // 월 이동 버튼 이벤트
+  if (btnPrevMonth) {
+    btnPrevMonth.addEventListener("click", () => {
+      currentMonthDate.setMonth(currentMonthDate.getMonth() - 1);
+      renderCalendar();
+    });
+  }
+  if (btnNextMonth) {
+    btnNextMonth.addEventListener("click", () => {
+      currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
+      renderCalendar();
+    });
+  }
+
+  // 캘린더 그리기 함수
+  function renderCalendar() {
+    const grid = document.getElementById("calendar-grid");
+    if (!grid) return;
+    grid.innerHTML = ""; // 기존 달력 초기화
+
+    const year = currentMonthDate.getFullYear();
+    const month = currentMonthDate.getMonth();
+
+    // 상단 텍스트 업데이트
+    if (monthDateText) monthDateText.innerText = `${year}년 ${month + 1}월`;
+
+    // 이번 달 1일의 요일 (0: 일요일, 1: 월요일...)
+    const firstDay = new Date(year, month, 1).getDay();
+    // 이번 달의 총 일수
+    const lastDate = new Date(year, month + 1, 0).getDate();
+
+    // 1일이 시작하기 전까지 빈 칸 만들기
+    for (let i = 0; i < firstDay; i++) {
+      grid.innerHTML += `<div class="date-box" style="background: transparent;"></div>`;
+    }
+
+    // 1일부터 마지막 날까지 날짜 박스 채우기
+    for (let day = 1; day <= lastDate; day++) {
+      const dateStr = `${year}-${month + 1}-${day}`;
+      const status = monthlySymptomData[dateStr] || "none";
+      
+      let cssClass = "date-box";
+      if (status === "mild") cssClass += " symptom-mild";
+      if (status === "severe") cssClass += " symptom-severe";
+      if (dateStr === mockTodayStr) cssClass += " is-today";
+
+      grid.innerHTML += `<div class="${cssClass}">${day}</div>`;
+    }
+  }
+})
+
+// ==========================================
+  // [월간 리포트] 이번 달 요약 업데이트 함수
+  // ==========================================
+  function updateMonthlySummary(totalDays, symptomDays, noneDays) {
+    const elTotal = document.getElementById("summary-total-days");
+    const elSymptom = document.getElementById("summary-symptom-days");
+    const elNone = document.getElementById("summary-none-days");
+
+    if (elTotal) elTotal.innerText = `${totalDays}일`;
+    if (elSymptom) elSymptom.innerText = `${symptomDays}일`;
+    if (elNone) elNone.innerText = `${noneDays}일`;
+  }
+
+  // 백엔드 연동 전 테스트용 (추후 연동 시 삭제)
+  updateMonthlySummary(23, 20, 3);

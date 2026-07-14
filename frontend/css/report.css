@@ -400,3 +400,217 @@
   font-weight: 400;
   line-height: 18px; 
 }
+
+/* =====================================
+   4.2 월간 리포트 캘린더 카드
+===================================== */
+.calendar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  box-sizing: border-box;
+  
+  margin: 0 20px 16px 20px; /* 양옆 20px 여백 */
+  padding: 20px 20px;       /* 안쪽 20px 여백 */
+  
+  align-self: stretch; 
+}
+
+/* 요일 글씨 영역 */
+.calendar-header {
+  display: grid; 
+  grid-template-columns: repeat(7, 1fr); /* 7등분 */
+  width: 100%; 
+  margin-bottom: 8px; 
+}
+
+.calendar-header span {
+  text-align: center;
+  color: #9A9A9A;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16.5px;
+}
+
+/* 날짜 박스들이 들어갈 7열 바둑판 (Grid) */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); 
+  width: 100%; 
+  row-gap: 10px; /* 세로 간격 */
+  justify-items: center;
+}
+
+/* 날짜 박스 공통 디자인 */
+.date-box {
+  display: flex;
+  width: 100%;
+  height: auto; 
+  aspect-ratio: 1/1; 
+  
+  max-width: 36px; /
+  margin: 0 auto;
+  
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  
+  /* 기본 상태 (증상 없음) */
+  background: transparent;
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16.5px;
+  box-sizing: border-box;
+}
+
+/* 증상별 상태 클래스 */
+.date-box.symptom-mild {
+  background: #C8E0CE;
+  color: #4A7A58;
+}
+
+.date-box.symptom-severe {
+  background: #E05C5C;
+  color: #FFFFFF;
+}
+
+/* 오늘 날짜 상태 클래스 */
+.date-box.is-today {
+  border: 2px solid #6B9E7A;
+  color: #4A7A58;
+  font-weight: 800;
+}
+
+/* 오늘이면서 증상이 심한 경우(빨간 배경 + 흰 글씨 덮어쓰기) */
+.date-box.symptom-severe.is-today {
+  color: #FFFFFF; 
+}
+
+/* =====================================
+   4.2 월간 리포트 - 달력 하단 증상 범례
+===================================== */
+.calendar-legend {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  gap: 16px; /* '증상 있음', '증상 심함' 묶음 사이의 간격 */
+  margin-bottom: 24px; /* '이번 달 요약' 카드와의 하단 여백 */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* 네모 박스와 글씨 사이의 좁은 간격 */
+}
+
+/* 네모 박스 공통 스타일 */
+.legend-color {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  box-sizing: border-box; 
+}
+
+/* 개별 네모 박스 색상 */
+.legend-color.mild {
+  background: #C8E0CE;
+}
+
+.legend-color.severe {
+  background: #E05C5C;
+}
+
+.legend-color.none {
+  border: 1.5px solid #E8E0D8;
+  background: transparent;
+}
+
+/* 범례 글씨 스타일 */
+.legend-text {
+  color: #9A9A9A;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16.5px;
+}
+
+/* =====================================
+   4.2 월간 리포트 - 이번 달 요약 카드
+===================================== */
+.summary-card {
+  display: flex;
+  padding: 18px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
+  align-self: stretch;
+  border-radius: 18px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  
+  margin: 0 20px 24px 20px; 
+  box-sizing: border-box;
+}
+
+.summary-title {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  margin-bottom: 8px;
+}
+
+/* 3개의 초록 박스를 감싸는 가로 정렬 컨테이너 */
+.summary-box-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 8px; /* 박스 사이의 간격 */
+}
+
+/* 개별 초록 박스 */
+.summary-box {
+  display: flex;
+  flex: 1; /* 3개가 가로 공간을 공평하게 나눠 가짐 */
+  max-width: 110px; 
+  padding: 12px 8px;
+  flex-direction: column;
+  
+  /* 글씨가 한가운데 오도록 center 적용 */
+  align-items: center; 
+  justify-content: center;
+  
+  border-radius: 12px;
+  background: #EDF5EF;
+  box-sizing: border-box;
+}
+
+/* n일 글씨 */
+.summary-number {
+  color: #4A7A58;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 27px;
+}
+
+/* 기록일, 증상일, 증상 없음 글씨 */
+.summary-label {
+  color: #9A9A9A;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16.5px;
+}

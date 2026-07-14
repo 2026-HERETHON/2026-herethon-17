@@ -48,7 +48,7 @@
 
       <!-- 4.1 주간 리포트 -->
 
-      <div class="report-content" id="report-content-area">
+      <div class="report-content" id="weekly-report-area">
         <!-- 날짜 네비게이터 -->
         <div class="date-navigator">
           <button type="button" class="date-btn" id="btn-prev-week">
@@ -86,10 +86,86 @@
             <span class="map-subtitle">네이버 지도에서 확인하기 →</span>
           </div>
         </a>
-      
-      
       </div>
       
+      <!-- 4.2 월간 리포트 (초기엔 숨김 상태) -->
+        <div class="report-content" id="monthly-report-area" style="display: none;">
+          
+          <!-- 월간 날짜 네비게이터 -->
+          <div class="date-navigator">
+            <button type="button" class="date-btn" id="btn-prev-month">
+              <img src="assets/icons/arrow_left.svg" alt="이전 달">
+            </button>
+            <span class="date-text" id="month-date-text">2026년 7월</span>
+            <button type="button" class="date-btn" id="btn-next-month">
+              <img src="assets/icons/arrow_right.svg" alt="다음 달">
+            </button>
+          </div>
+
+          <!-- 캘린더 카드 -->
+          <div class="calendar-card">
+            <div class="calendar-header">
+              <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+            </div>
+            <!-- JS가 날짜 박스들을 채워넣을 영역 -->
+            <div class="calendar-grid" id="calendar-grid"></div>
+          </div>
+
+
+          <!-- 캘린더 하단 증상 범례 -->
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <span class="legend-color mild"></span>
+              <span class="legend-text">증상 있음</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color severe"></span>
+              <span class="legend-text">증상 심함</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color none"></span>
+              <span class="legend-text">증상 없음</span>
+            </div>
+          </div>
+
+          <!-- 이번 달 요약 카드 -->
+          <div class="summary-card">
+            <span class="summary-title">이번 달 요약</span>
+            
+            <div class="summary-box-container">
+              <!-- 기록일 -->
+              <div class="summary-box">
+                <span class="summary-number" id="summary-total-days">23일</span>
+                <span class="summary-label">기록일</span>
+              </div>
+              
+              <!-- 증상일 -->
+              <div class="summary-box">
+                <span class="summary-number" id="summary-symptom-days">20일</span>
+                <span class="summary-label">증상일</span>
+              </div>
+              
+              <!-- 증상 없음 -->
+              <div class="summary-box">
+                <span class="summary-number" id="summary-none-days">3일</span>
+                <span class="summary-label">증상 없음</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 가까운 산부인과 찾기 링크 버튼 -->
+          <a href="https://map.naver.com/p/search/%EC%82%B0%EB%B6%80%EC%9D%B8%EA%B3%BC?c=15.00,0,0,0,dh" target="_blank" class="map-link-card">
+            <img src="assets/icons/map.svg" alt="지도 아이콘" class="map-icon">
+            <div class="map-text-group">
+              <span class="map-title">가까운 산부인과 찾기</span>
+              <span class="map-subtitle">네이버 지도에서 확인하기 →</span>
+            </div>
+          </a>
+
+        </div>
+
+
+
     </main>
 
     <!-- ==========================================

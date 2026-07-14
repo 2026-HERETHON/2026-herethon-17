@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // 수정 모드 테스트 스위치 (true면 3.4 수정 모드, false면 3.1 증상 선택)
   // 백엔드 연동 시에는 삭제 필요. 추후 수정
   // ==========================================
-  const TEST_EDIT_MODE = true; 
+  const TEST_EDIT_MODE = false; 
 
   // ==========================================
   // 공통 요소 찾기

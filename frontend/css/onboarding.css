@@ -294,7 +294,8 @@
 .signup-policycontainer{
     margin: 0 22px 14px 22px;
     width: auto;
-    height: 91px;
+    min-height: 91px;
+    height: auto;
     border: 1.5px solid #E8E0D8;
     border-radius: 14px;
     background-color: #FFFFFF;
@@ -305,6 +306,9 @@
     gap: 8px;
 
 
+}
+.signup-policyerror.show {
+  display: block;
 }
 .signup-policy{
     cursor: pointer;

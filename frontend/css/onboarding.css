@@ -271,10 +271,31 @@
 
     
 }
+.signup-pw-error {
+    display: none;
+    color: #E05C5C;
+    font-size: 11px;
+    font-weight: 400;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin-top: 10px;         
+    margin-bottom: 0;
+}
+
+.signup-inputgroup.error input {
+    border-color: #E05C5C !important;
+}
+.signup-inputgroup.error .signup-pw-error {
+    display: block !important;         
+}
+
+.signup-inputgroup.success input {
+    border-color: #6B9E7A !important;
+}
 .signup-policycontainer{
     margin: 0 22px 14px 22px;
     width: auto;
-    height: 91px;
+    min-height: 91px;
+    height: auto;
     border: 1.5px solid #E8E0D8;
     border-radius: 14px;
     background-color: #FFFFFF;
@@ -285,6 +306,9 @@
     gap: 8px;
 
 
+}
+.signup-policyerror.show {
+  display: block;
 }
 .signup-policy{
     cursor: pointer;
@@ -329,6 +353,7 @@
     font-size: 11px;
     font-weight: 400;
     font-family:'Noto Sans KR', serif;
+    margin-left: 36px;
 }
 
 .signup-btn{

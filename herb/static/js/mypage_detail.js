@@ -45,9 +45,24 @@
     }, 2000);
   }
 
-  // "수정하기/변경하기" 버튼 클릭 시 가짜 토스트를 띄우던 로직은 삭제됨
-  // <form method="post">가 자연스럽게 서버(profile_view)로 제출되고,
-  // 처리 후 accounts:profile로 redirect되면서 새로 페이지가 로드됨
+  // 모든 '수정하기/변경하기' 버튼을 찾아 이벤트 연결
+  const editButtons = document.querySelectorAll(".btn-edit");
+
+  editButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+
+      e.preventDefault(); // 기본 submit 막기
+
+      showToast("toast-success");
+
+      // 토스트가 보인 뒤 제출
+      setTimeout(() => {
+        button.closest("form").submit();
+      }, 2000);
+
+    });
+  });
+
 
   // ==========================================
   // 내가 쓴 글 페이지에서 게시글 상세 페이지로 이동하는 로직

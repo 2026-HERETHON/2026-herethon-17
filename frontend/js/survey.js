@@ -151,15 +151,13 @@ function finishSurvey() {
     window.location.href = "survey_result.html";
   }, 1500);
 }
-// ================================================================
-// [추가 및 덮어쓰기] 1.4 여정 단계 배정 및 결과 화면 연동 로직
-// ================================================================
 
-// 기존 finishSurvey 함수를 대체합니다. (동점 시 보수적 처리 원칙 반영)
+//  자가진단 문항 선택에 따른 여정 단계 배정
+
 function finishSurvey() {
-  let countA = 0; // 1점 선택 개수
-  let countB = 0; // 2점 선택 개수
-  let countC = 0; // 3점 선택 개수
+  let countA = 0; 
+  let countB = 0; 
+  let countC = 0; 
 
   answers.forEach((answerIndex, qIndex) => {
     const score = questions[qIndex].options[answerIndex].score;
@@ -168,15 +166,15 @@ function finishSurvey() {
     else if (score === 3) countC++;
   });
 
-  // 여정 단계 배정 알고리즘 (A > B > C 우선순위 적용)
+  // 여정 단계 배정 로직 (A > B > C 우선순위 적용)
   let resultStage = "혼란기"; // 기본값
 
   if (countA >= countB && countA >= countC) {
-    resultStage = "혼란기"; // A가 가장 많거나 동점인 경우
+    resultStage = "혼란기"; 
   } else if (countB > countA && countB >= countC) {
-    resultStage = "적응기"; // B가 가장 많거나 C와 동점인 경우
+    resultStage = "적응기"; 
   } else if (countC > countA && countC > countB) {
-    resultStage = "재도약기"; // C가 단독으로 가장 많은 경우
+    resultStage = "재도약기"; 
   }
 
   // 로컬스토리지에 배정 결과 저장
@@ -201,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const stage = localStorage.getItem("herbSurveyResult") || "혼란기";
     renderSurveyResult(stage);
 
-    // 다시 진단하기 버튼 이벤트 연결
+    // 다시 진단하기 버튼 - 진단 첫번째 문항으로 연결
     const retryBtn = document.querySelector(".retry-btn");
     if (retryBtn) {
       retryBtn.addEventListener("click", () => {

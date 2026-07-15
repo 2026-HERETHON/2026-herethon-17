@@ -25,96 +25,84 @@
 
       <!-- 페이지 타이틀 -->
       <h1 class="header-title">이메일로 가입하기</h1>
+
     </header>
 
     <main class="app-content">
 
-      <form class="signup-form" id="signup-form" method="post">
-        {% csrf_token %}
 
-        <div class="signup-inputgroup" id="nameGroup">
-          <label for="name">이름</label>
-          <input type="text" id="name" name="name" value="{{ request.POST.name|default:'' }}" placeholder="이름을 입력하세요" required>
+                <form class="signup-form" id="signup-form" method="post">
+                    {% csrf_token %}
+
+                    <div class="signup-inputgroup">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" name="name" value="{{ request.POST.name|default:'' }}" placeholder="이름을 입력하세요" required>
+                    </div>
+
+                    <div class="signup-inputgroup{% if errors.email %} error{% endif %}" id="email-group">
+                        <label for="email">이메일</label>
+                        <input type="email" id="email" name="email" value="{{ request.POST.email|default:'' }}" placeholder="이메일을 입력하세요" required>
+                        <p class="signup-pw-error" id="email-error">{% if errors.email %}{{ errors.email }}{% else %}이미 가입된 이메일입니다. 다른 이메일을 입력해 주세요.{% endif %}</p>
+
+                    </div>
+
+                    <div class="signup-inputgroup{% if errors.password %} error{% endif %}" id="pw-group">
+                        <label for="password">비밀번호</label>
+                        <input type="password" id="password" name="password" placeholder="8자 이상 입력하세요" required>
+                        <p class="signup-pw-error" id="pw-length-error">{% if errors.password %}{{ errors.password }}{% else %}비밀번호가 너무 짧습니다. 비밀번호를 8자 이상 입력해 주세요.{% endif %}</p>
+                    </div>
+
+                    <div class="signup-inputgroup{% if errors.password_confirm %} error{% endif %}" id="pw-again-group">
+                        <label for="password-again">비밀번호 확인</label>
+                        <input type="password" id="password-again" name="password_confirm" placeholder="비밀번호를 다시 입력하세요" required>
+                        <p class="signup-pw-error" id="pw-match-error">{% if errors.password_confirm %}{{ errors.password_confirm }}{% else %}비밀번호가 일치하지 않습니다.{% endif %}</p>
+                    </div>
+
+                    <div class="signup-inputgroup">
+                        <label for="birthdate">생년월일 (선택)</label>
+                        <input type="text" id="birthdate" name="birth_date" value="{{ request.POST.birth_date|default:'' }}" placeholder="YYYY.MM.DD">
+                    </div>
+
+
+                    <div class="signup-policycontainer">
+                        <label class="signup-policy">
+                            <div class="signup-policyitem">
+                                <input type="checkbox" id="policy-essential" name="terms_agreed">
+                                <span class="signup-checkbox">
+                                    <img src="{% static 'assets/icons/Checkedicon.png' %}" alt="" class="signup-checkedicon">
+                                </span>
+                                <span class="signup-policytext">서비스 이용약관 동의 (필수)</span>
+                            </div>
+                        </label>
+
+                        <span class="signup-policyerror{% if errors.terms %} show{% endif %}">서비스 이용약관에 동의해 주세요.</span>
+
+                        <label class="signup-policy">
+                            <div class="signup-policyitem">
+                                <input type="checkbox" id="policy-selective" >
+                                <span class="signup-checkbox">
+                                    <img src="{% static 'assets/icons/Checkedicon.png' %}" alt="" class="signup-checkedicon">
+                                </span>
+                                <span class="signup-policytext">개인정보 수집 및 이용 동의 (선택)</span>
+                            </div>
+                        </label>
+
+
+                    </div>
+
+                    <button type="submit" class="signup-btn active">가입하기</button>
+
+                </form>
+
+
+
+
         </div>
-
-        <div class="signup-inputgroup" id="emailGroup">
-          <label for="email">이메일</label>
-          <input type="email" id="email" name="email" value="{{ request.POST.email|default:'' }}" placeholder="이메일을 입력하세요" required>
-          <span class="error-message" data-error="email">이미 가입된 이메일입니다. 다른 이메일을 입력해 주세요.</span>
-        </div>
-
-        <div class="signup-inputgroup" id="passwordGroup">
-          <label for="password">비밀번호</label>
-          <input type="password" id="password" name="password" placeholder="8자 이상 입력하세요" required>
-          <span class="error-message" data-error="password">비밀번호가 너무 짧습니다. 비밀번호를 8자 이상 입력해 주세요.</span>
-        </div>
-
-        <div class="signup-inputgroup" id="passwordConfirmGroup">
-          <label for="password-again">비밀번호 확인</label>
-          <input type="password" id="password-again" name="password_confirm" placeholder="비밀번호를 다시 입력하세요" required>
-          <span class="error-message" data-error="password_confirm">비밀번호가 일치하지 않습니다.</span>
-        </div>
-
-        <div class="signup-inputgroup" id="birthdateGroup">
-          <label for="birthdate">생년월일 (선택)</label>
-          <input type="text" id="birthdate" name="birth_date" value="{{ request.POST.birth_date|default:'' }}" placeholder="YYYY.MM.DD">
-        </div>
-
-        <div class="signup-policycontainer">
-          <label class="signup-policy">
-            <div class="signup-policyitem">
-              <input type="checkbox" id="policy-essential" name="terms_agreed">
-              <span class="signup-checkbox">
-                <img src="{% static 'assets/icons/Checkedicon.png' %}" alt="" class="signup-checkedicon">
-              </span>
-              <span class="signup-policytext">서비스 이용약관 동의 (필수)</span>
-            </div>
-          </label>
-
-          <span class="signup-policyerror" id="termsError">서비스 이용약관에 동의해 주세요.</span>
-
-          <label class="signup-policy">
-            <div class="signup-policyitem">
-              <input type="checkbox" id="policy-selective">
-              <span class="signup-checkbox">
-                <img src="{% static 'assets/icons/Checkedicon.png' %}" alt="" class="signup-checkedicon">
-              </span>
-              <span class="signup-policytext">개인정보 수집 및 이용 동의 (선택)</span>
-            </div>
-          </label>
-
-        </div>
-
-        <button type="submit" class="signup-btn active">가입하기</button>
-
-      </form>
-
-    </main>
+      </main>
 
   </div>
 
-  {% if errors %}
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        {% if errors.email %}
-        showError(document.getElementById("emailGroup"), "email");
-        {% endif %}
-
-        {% if errors.password %}
-        showError(document.getElementById("passwordGroup"), "password");
-        {% endif %}
-
-        {% if errors.password_confirm %}
-        showError(document.getElementById("passwordConfirmGroup"), "password_confirm");
-        {% endif %}
-
-        {% if errors.terms %}
-        document.getElementById("termsError").style.display = "block";
-        {% endif %}
-    });
-  </script>
-  {% endif %}
-
   <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/signup.js' %}"></script>
 </body>
 </html>

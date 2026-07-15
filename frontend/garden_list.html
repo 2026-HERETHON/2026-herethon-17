@@ -8,6 +8,7 @@
 
   <link rel="icon" href="assets/images/favicon.png" type="image/png"/>
   <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/tracker.css"/>
   <link rel="stylesheet" href="css/garden.css"/>
 </head>
 <body>
@@ -18,14 +19,16 @@
       </button>
       <h1 class="header-title">나의 정원</h1>
       <!-- 화분 추가 버튼-->
-      <button class="plus-btn"><img src="assets/icons/plus.svg" alt="화분 추가"/></button>
+      <a href="garden_write.html" class="plus-btn">
+        <img src="assets/icons/plus.svg" alt="화분 추가"/>
+      </a>
     </header>
 
     <main class="app-content">
       <!--반복되는 아이템 부분-->
       <div class="timeline-container">
 
-        <div class="timeline-item">
+        <a href="garden_detail.html" class="timeline-item">
           <div class="timeline-left">
             <div class="timeline-icon">🧘</div>
             <div class="timeline-line"></div>
@@ -39,9 +42,9 @@
             <h3 class="card-title">요가 클래스 첫 등록</h3>
             <p class="card-content">"운동하고 나니 몸이 개운해졌다."</p>
           </div>
-        </div>
+        </a>
       
-        <div class="timeline-item">
+        <a href="#" class="timeline-item">
           <div class="timeline-left">
             <div class="timeline-icon">🌅</div>
             <div class="timeline-line"></div>
@@ -54,9 +57,9 @@
             <h3 class="card-title">아침 산책 30일 도전 시작</h3>
             <p class="card-content">"작게 시작했는데 벌써 2주째!"</p>
           </div>
-        </div>
+        </a>
 
-        <div class="timeline-item">
+        <a href="#" class="timeline-item">
           <div class="timeline-left">
             <div class="timeline-icon">📚</div>
             <div class="timeline-line"></div>
@@ -70,7 +73,7 @@
             <h3 class="card-title">독서 모임 참가</h3>
             <p class="card-content">"오랜만에 새로운 사람들과 이야기하니 즐거웠다......."</p>
           </div>
-        </div>
+        </a>
       
       </div>
     </main>
@@ -105,6 +108,22 @@
 
   </div>
 
+  <!-- 토스트 메시지 컨테이너 -->
+  <div id="toast-container" class="toast-container">
+    <!-- 성공 토스트 메시지 (초록색) -->
+    <div id="toast-success" class="toast-message toast-success">
+      <img src="assets/icons/check_circle.svg" alt="성공" class="toast-icon">
+      <span class="toast-text">삭제가 정상적으로 완료되었어요.</span>
+    </div>
+    <!-- 실패/에러 토스트 메시지 (빨간색) -->
+    <div id="toast-error" class="toast-message toast-error">
+      <img src="assets/icons/check_circle_error.svg" alt="실패" class="toast-icon">
+      <span class="toast-text">게시글을 삭제하지 못했습니다.<br>다시 한번 시도해 주세요.</span>
+    </div>
+  </div>
+  
+
   <script src="js/common.js"></script>
+  <script src="js/garden.js"></script>
 </body>
 </html>

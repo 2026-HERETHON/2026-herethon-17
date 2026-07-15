@@ -18,7 +18,7 @@
       </button>
       <h1 class="header-title">글쓰기</h1>
       <!-- 게시 버튼 -->
-      <button class="post-write-btn">게시</button>
+      <button type="submit" form="post-write-form" class="post-write-btn">게시</button>
     </header>
 
     <main class="app-content">
@@ -48,11 +48,32 @@
           <div class="post-write-group">
             <label class="post-write-label">증상 태그 선택</label>
             <div class="post-write-tag-container">
-              <button type="button" class="post-write-tag-btn">안면홍조</button>
-              <button type="button" class="post-write-tag-btn">수면장애</button>
-              <button type="button" class="post-write-tag-btn">감정기복</button>
-              <button type="button" class="post-write-tag-btn">피로감</button>
-              <button type="button" class="post-write-tag-btn">관절통</button>
+              
+              <label class="post-write-tag-item">
+                <input type="checkbox" name="tags" value="안면홍조" class="post-write-tag-input">
+                <span class="post-write-tag-btn">안면홍조</span>
+              </label>
+            
+              <label class="post-write-tag-item">
+                <input type="checkbox" name="tags" value="수면장애" class="post-write-tag-input">
+                <span class="post-write-tag-btn">수면장애</span>
+              </label>
+            
+              <label class="post-write-tag-item">
+                <input type="checkbox" name="tags" value="감정기복" class="post-write-tag-input">
+                <span class="post-write-tag-btn">감정기복</span>
+              </label>
+            
+              <label class="post-write-tag-item">
+                <input type="checkbox" name="tags" value="피로감" class="post-write-tag-input">
+                <span class="post-write-tag-btn">피로감</span>
+              </label>
+            
+              <label class="post-write-tag-item">
+                <input type="checkbox" name="tags" value="관절통" class="post-write-tag-input">
+                <span class="post-write-tag-btn">관절통</span>
+              </label>
+            
             </div>
           </div>
 

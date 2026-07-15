@@ -21,9 +21,9 @@
     
       <!-- 수정 삭제 버튼 -->
       <div class="header-action-group">
-        <button class="action-btn edit-btn">
+        <a href="garden_write.html" class="action-btn edit-btn">
           <img src="assets/icons/pencil.svg" alt="수정"/>
-        </button>
+        </a>
         <button class="action-btn delete-btn" id="deleteBtn">
           <img src="assets/icons/Trash.svg" alt="삭제"/>
         </button>
@@ -39,7 +39,7 @@
         <span class="card-date-top">2025년 6월 27일</span>
       </div>
     
-      <div class="info-card">
+      <div class="info-card" data-created-at="2026-06-16T05:00:00">
         <div class="info-header">
           <span class="badge-new">새로운 도전</span>
           <span class="info-date">6월 27일 월요일</span>
@@ -77,22 +77,6 @@
       </div>
     </div>
 
-    <!-- 토스트 메시지 컨테이너 -->
-    <div id="toast-container" class="toast-container">
-
-      <!-- 성공 토스트 메시지 (초록색) -->
-      <div id="toast-success" class="toast-message toast-success">
-        <img src="assets/icons/check_circle.svg" alt="성공" class="toast-icon">
-        <span class="toast-text">수정이 정상적으로 완료되었어요.</span>
-      </div>
-
-      <!-- 실패/에러 토스트 메시지 (빨간색) -->
-      <div id="toast-error" class="toast-message toast-error">
-        <img src="assets/icons/check_circle_error.svg" alt="실패" class="toast-icon">
-        <span class="toast-text">기록을 수정하지 못했습니다.<br>다시 한번 시도해 주세요.</span>
-      </div>
-    </div>
-  
     <!-- 하단 GNB바 -->
     <nav class="app-bottom-tab">
     
@@ -123,5 +107,6 @@
   
   </div>
   <script src="js/common.js"></script>
+  <script src="js/garden.js"></script>
 </body>
 </html>

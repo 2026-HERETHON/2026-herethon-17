@@ -1,6 +1,14 @@
-/** 5, 6, 7 **/
 .app-content {
     padding: 0 22px;
+    flex: 1;            /* 남은 세로 공간을 모두 차지 */
+    overflow-y: auto;   /* 내용이 영역보다 길어지면 세로 스크롤바 생성 */
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none;    /* Firefox */
+    padding-bottom: 100px;
+}
+
+.app-content::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Opera */
 }
 
 .write-btn {
@@ -32,6 +40,13 @@
     display: none;            /* 크롬, 사파리, 오페라 스크롤바 숨김 */
 }
 
+.community-tag-item {
+  cursor: pointer;
+}
+.community-tag-input {
+  display: none;
+}
+
 /* 기본 필터 버튼 스타일 (하얀색 바탕) */
 .filter-btn {
     display: inline-flex;
@@ -49,11 +64,9 @@
 }
 
 /* 활성화된 필터 버튼 스타일 (초록색 바탕) */
-.filter-btn.active {
+.community-tag-input:checked + .filter-btn {
     color: #fff;
     background: #6B9E7A;
-    border: none;
-    font-weight: 500;
 }
 
 /* 게시글 리스트 */
@@ -74,6 +87,8 @@
     border-radius: 18px;
     border: 1px solid #E8E0D8;
     background: #FFF;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 /* 상단 영역 (태그 + 시간) */
@@ -184,8 +199,6 @@
     display: flex;
     align-items: center;
     gap: 6px;
-}
-.detail-action-btn {
     background: none;
     border: none;
     font-size: 13px;
@@ -195,6 +208,7 @@
     cursor: pointer;
     padding: 0;
     font-family: inherit;
+    text-decoration: none;
 }
 .detail-divider {
     font-size: 11px;
@@ -239,8 +253,7 @@
 }
 
 .detail-like.active .count {
-  color: #E8A598;
-  font-weight: 600;
+    color: #E8A598;
 }
 
 /* 댓글 개수 영역 */
@@ -421,6 +434,17 @@
     font-size: 13px;
     font-weight: 500;
 }
+.post-write-tag-item {
+  cursor: pointer;
+}
+.post-write-tag-input {
+  display: none;
+}
+.post-write-tag-input:checked + .post-write-tag-btn {
+    color: #FFF;
+    border: 1px solid #6B9E7A;
+    background: #6B9E7A;
+}
 
 /* 제목 인풋 */
 .post-write-input {
@@ -489,141 +513,76 @@
     background: #6B9E7A;
 }
 
-
-/* ==========================================
-   댓글 수정 모드 스타일 추가
-   ========================================== */
-.comment-edit-btn, .comment-delete-btn {
+.comment-edit-btn,
+.comment-delete-btn{
     cursor: pointer;
-    color: #C6C6C6;
-}
-.comment-edit-btn:hover, .comment-delete-btn:hover {
-    color: #6B6B6B;
-}
-
-.comment-edit-input-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 5px;
-}
-
-.comment-edit-field {
-    width: 100%;
-    min-height: 44px;
-    border-radius: 12px;
-    border: 1.5px solid #6B9E7A; /* 피그마 초록색 테두리 */
-    background: #FFF;
-    padding: 10px 14px;
-    font-size: 14px;
-    color: #2D2D2D;
-    outline: none;
-}
-
-.comment-edit-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-}
-.comment-edit-actions button {
-    font-size: 12px;
-    font-weight: 500;
-    color: #9A9A9A;
-}
-.comment-edit-actions .comment-edit-save {
-    color: #6B9E7A;
-    font-weight: 700;
 }
 
 /* ==========================================
-   토스트 메시지 스타일 추가
+   댓글 수정 모드 (Comment Edit Mode)
    ========================================== */
-.toast-container {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    width: 85%;
-    pointer-events: none;
-}
 
-.toast-message {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 20px;
-    border-radius: 16px;
-    background: #4A6E55;
-    color: #FFF;
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-    transform: translateY(10px);
-}
-
-.toast-message.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.toast-icon {
-    width: 18px;
-    height: 18px;
-}
-
-/* 댓글 수정 모드 전체 컨테이너 */
+/* 수정 모드 기본 형태 */
 .comment-edit-mode {
-  display: none; /* 기본 상태는 숨김 (JS가 켜줌) */
+  display: none; /* JS 제어 전 기본 숨김 */
+  width: 100%;
 }
 
-/* 입력창과 버튼을 감싸는 박스 */
+/* 입력 필드를 감싸는 박스 간격 */
 .comment-edit-input-wrapper {
-  margin-top: 8px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* 텍스트 입력창 */
+/* 수정창 필드 - textarea 전용 스타일 */
 .comment-edit-field {
   width: 100%;
-  padding: 10px 12px;
-  border: 1.5px solid var(--main-green); /* 프로젝트 메인 초록색 */
-  border-radius: 12px;
-  outline: none;
+  min-height: 70px;         /* 여러 줄이 넉넉하게 보이는 기본 높이 */
+  padding: 12px 14px;
+  border: 1.5px solid var(--main-green, #6B9E7A);
+  border-radius: 14px;
+  background-color: #FFF;
+  color: #2D2D2D;
+  font-family: var(--font-sans, 'Noto Sans KR', sans-serif);
   font-size: 14px;
+  line-height: 1.5;         /* 줄간격 추가로 가독성 향상 */
+  outline: none;
+  resize: none;             /* 사용자가 임의로 크기 늘리는 핸들 제거 */
   box-sizing: border-box;
+  overflow-y: auto;         /* 내용이 너무 길어지면 내부 스크롤 생김 */
 }
 
-/* 취소/저장 버튼 그룹 */
+.comment-edit-field::placeholder {
+  color: #9A9A9A;
+}
+
+/* 버튼 우측 정렬 */
 .comment-edit-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 6px;
+  align-items: center;
+  gap: 12px;
+  padding-right: 4px;
 }
 
-/* 취소 버튼 */
+/* 취소 버튼 스타일 */
 .comment-edit-cancel {
   background: none;
   border: none;
-  color: var(--text-light-gray); /* 프로젝트 연한 회색 */
+  color: var(--text-light-gray, #9A9A9A);
   font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
   padding: 0;
 }
 
-/* 저장 버튼 */
+/* 저장 버튼 스타일 */
 .comment-edit-save {
   background: none;
   border: none;
-  color: var(--main-green); /* 프로젝트 메인 초록색 */
+  color: var(--main-green, #6B9E7A);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;

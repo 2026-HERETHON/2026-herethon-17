@@ -8,6 +8,7 @@
 
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/tracker.css"/>
   <link rel="stylesheet" href="css/community.css"/>
 </head>
 <body>
@@ -18,23 +19,48 @@
       </button>
       <h1 class="header-title">허브 커뮤니티</h1>
       <!-- 글쓰기 버튼-->
-      <button class="write-btn"><img src="assets/icons/white_pencil.svg" alt="글쓰기"/></button>
+      <a href="community_write.html" class="write-btn">
+        <img src="assets/icons/white_pencil.svg" alt="글쓰기"/>
+      </a>
     </header>
 
     <!-- 필터 요소 -->
     <div class="filter-container">
-      <button class="filter-btn active">전체</button>
-      <button class="filter-btn">안면홍조</button>
-      <button class="filter-btn">수면장애</button>
-      <button class="filter-btn">감정기복</button>
-      <button class="filter-btn">피로감</button>
-      <button class="filter-btn">관절통</button>
+      <label class="community-tag-item">
+        <input type="checkbox" id="tag-all" name="filter_tags" value="all" class="community-tag-input" checked>
+        <span class="filter-btn">전체</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="안면홍조" class="community-tag-input">
+        <span class="filter-btn">안면홍조</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="수면장애" class="community-tag-input">
+        <span class="filter-btn">수면장애</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="감정기복" class="community-tag-input">
+        <span class="filter-btn">감정기복</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="피로감" class="community-tag-input">
+        <span class="filter-btn">피로감</span>
+      </label>
+      
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="관절통" class="community-tag-input">
+        <span class="filter-btn">관절통</span>
+      </label>
     </div>
 
     <main class="app-content">
       <div class="post-list">
         <!--반복되는 아이템 부분-->
-        <div class="post-card">
+        <a href="community_detail.html" class="post-card">
           <!--태그, 작성 시간 -->
           <div class="post-card-top">
             <div class="post-tags-wrapper">
@@ -61,7 +87,7 @@
               <span class="count">3</span>
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </main>
 
@@ -94,7 +120,15 @@
     </nav>
 
   </div>
+  <!-- 토스트 메시지 컨테이너 -->
+  <div id="toast-container" class="toast-container">
+    <!-- 성공 토스트 메시지 (초록색) -->
+    <div id="toast-success" class="toast-message toast-success">
+      <img src="assets/icons/check_circle.svg" alt="성공" class="toast-icon">
+      <span class="toast-text">게시가 정상적으로 완료되었어요.</span>
+    </div>
+  </div>
 
-  <script src="js/common.js" defer></script>
+  <script src="js/community.js" defer></script>
 </body>
 </html>

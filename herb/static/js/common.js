@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
         title: "로그아웃 하시겠어요?",
         subtitle: "안전하게 로그아웃 후 홈 화면으로 이동합니다.",
         confirmText: "로그아웃", cancelText: "취소",
-        onConfirm: function() { console.log("로그아웃 로직 실행"); }
+        onConfirm: function() { document.getElementById("logout-form").submit(); }
       });
     });
   }

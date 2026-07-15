@@ -53,14 +53,14 @@ function validatePasswordMatch() {
   }
 }
 
-passwordInput?.addEventListener("input", () => {
+passwordInput?.addEventListener("blur", () => {
   validatePasswordLength();
   if (passwordAgainInput.value.length > 0) {
     validatePasswordMatch();
   }
 });
 
-passwordAgainInput?.addEventListener("input", validatePasswordMatch);
+passwordAgainInput?.addEventListener("blur", validatePasswordMatch);
 
 // 폼 제출 관련 로직(이메일 중복 체크 포함)은 삭제
 // <form method="post">가 자연스럽게 서버(signup_view)로 제출되도록 처리

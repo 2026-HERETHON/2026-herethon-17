@@ -1,3 +1,4 @@
+<!-- 글쓰기 페이지 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -6,17 +7,88 @@
   <title>HERb</title>
 
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/community.css">
-  </head>
+</head>
 <body>
-  
   <div class="app-container">
-    
+    <header class="app-header">
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+      <h1 class="header-title">글쓰기</h1>
+      <!-- 게시 버튼 -->
+      <button class="post-write-btn">게시</button>
+    </header>
+
     <main class="app-content">
-      </main>
+      <div class="post-write-container">
+        <div class="post-write-banner">
+          <div class="post-write-banner-icon">
+            <img src="assets/icons/write_banner_icon.svg" alt="나뭇잎">
+          </div>
+          <div class="post-write-banner-text">
+            <div class="banner-title">작성한 글은 익명으로 게시됩니다</div>
+            <div class="banner-desc">작성자 정보는 공개되지 않아요</div>
+          </div>
+        </div>
+
+        <form class="post-write-form">
+
+          <div class="post-write-group">
+            <label class="post-write-label">제목</label>
+            <input type="text" class="post-write-input" placeholder="제목을 입력해 주세요.">
+          </div>
+
+          <div class="post-write-group">
+            <label class="post-write-label">내용</label>
+            <textarea class="post-write-textarea" placeholder="내용을 입력해 주세요."></textarea>
+          </div>
+
+          <div class="post-write-group">
+            <label class="post-write-label">증상 태그 선택</label>
+            <div class="post-write-tag-container">
+              <button type="button" class="post-write-tag-btn">안면홍조</button>
+              <button type="button" class="post-write-tag-btn">수면장애</button>
+              <button type="button" class="post-write-tag-btn">감정기복</button>
+              <button type="button" class="post-write-tag-btn">피로감</button>
+              <button type="button" class="post-write-tag-btn">관절통</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </main>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+    
+      <!-- 홈 -->
+      <a href="index.html" class="tab-item">
+      <img src="assets/icons/tab_home_inactive.svg" alt="홈" class="tab-icon"/>
+      <span class="tab-text">홈</span>
+      </a>
+    
+      <!-- 패턴 리포트 -->
+      <a href="report.html" class="tab-item">
+      <img src="assets/icons/tab_report_inactive.svg" alt="리포트" class="tab-icon"/>
+      <span class="tab-text">리포트</span>
+      </a>
+    
+      <!-- 나의 정원 -->
+      <a href="garden_list.html" class="tab-item">
+      <img src="assets/icons/tab_garden_inactive.svg" alt="나의 정원" class="tab-icon"/>
+      <span class="tab-text">나의 정원</span>
+      </a>
+    
+      <!-- 허브 커뮤니티 (현재 페이지 - Active 아이콘) -->
+      <a href="community_list.html" class="tab-item active">
+      <img src="assets/icons/tab_community_active.svg" alt="커뮤니티" class="tab-icon"/>
+      <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
 
   </div>
-
-  <script src="js/common.js"></script>
+  <script src="js/common.js" defer></script>
 </body>
 </html>

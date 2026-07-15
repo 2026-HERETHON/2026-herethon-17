@@ -1,3 +1,4 @@
+<!-- 5.2. 화분 상세 페이지-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -6,17 +7,121 @@
   <title>HERb</title>
 
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/garden.css">
-  </head>
+</head>
 <body>
-  
   <div class="app-container">
     
+    <header class="app-header">
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기">
+      </button>
+      <h1 class="header-title">나의 화분</h1>
+    
+      <!-- 수정 삭제 버튼 -->
+      <div class="header-action-group">
+        <button class="action-btn edit-btn">
+          <img src="assets/icons/pencil.svg" alt="수정"/>
+        </button>
+        <button class="action-btn delete-btn" id="deleteBtn">
+          <img src="assets/icons/Trash.svg" alt="삭제"/>
+        </button>
+      </div>
+    
+    </header>
+  
     <main class="app-content">
-      </main>
+      <div class="graphic-card">
+        <div class="image-box">
+          <span class="card-emoji">🧘</span> 
+        </div>
+        <span class="card-date-top">2025년 6월 27일</span>
+      </div>
+    
+      <div class="info-card">
+        <div class="info-header">
+          <span class="badge-new">새로운 도전</span>
+          <span class="info-date">6월 27일 월요일</span>
+        </div>
+      
+        <h2 class="info-title">요가 클래스 첫 등록</h2>
+      
+        <div class="gray-line"></div>
+      
+        <div class="opinion-box">
+          <span class="opinion-label">한 줄 소감</span>
+          <p class="opinion-text">"운동하고 나니 몸이 개운해졌다."</p>
+        </div>
+      </div>
+      <div class="symptom-section">
+        <span class="symptom-label">기록 당일 증상</span>
+        <div class="symptom-tag-group">
+          <span class="symptom-tag">안면홍조</span>
+          <span class="symptom-tag">수면장애</span>
+        </div>
+      </div>
+    </main>
 
+    <!-- 삭제 모달 -->
+    <div id="deleteModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-icon"><img src="assets/icons/modal_alert_active.svg" alt="느낌표"/></div>
+        <h2 class="modal-title">정말 화분을 삭제하시겠어요?</h2>
+        <p class="modal-subtitle">삭제한 화분은 되돌릴 수 없으니 신중하게 선택해주세요</p>
+
+        <div class="modal-btn-group">
+          <button id="confirmDelete" class="modal-btn btn-delete">삭제하기</button>
+          <button id="cancelDelete" class="modal-btn btn-cancel">취소</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 토스트 메시지 컨테이너 -->
+    <div id="toast-container" class="toast-container">
+
+      <!-- 성공 토스트 메시지 (초록색) -->
+      <div id="toast-success" class="toast-message toast-success">
+        <img src="assets/icons/check_circle.svg" alt="성공" class="toast-icon">
+        <span class="toast-text">수정이 정상적으로 완료되었어요.</span>
+      </div>
+
+      <!-- 실패/에러 토스트 메시지 (빨간색) -->
+      <div id="toast-error" class="toast-message toast-error">
+        <img src="assets/icons/check_circle_error.svg" alt="실패" class="toast-icon">
+        <span class="toast-text">기록을 수정하지 못했습니다.<br>다시 한번 시도해 주세요.</span>
+      </div>
+    </div>
+  
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+    
+      <!-- 홈 -->
+      <a href="index.html" class="tab-item">
+      <img src="assets/icons/tab_home_inactive.svg" alt="홈" class="tab-icon"/>
+      <span class="tab-text">홈</span>
+      </a>
+    
+      <!-- 패턴 리포트 -->
+      <a href="report.html" class="tab-item">
+      <img src="assets/icons/tab_report_inactive.svg" alt="리포트" class="tab-icon"/>
+      <span class="tab-text">리포트</span>
+      </a>
+    
+      <!-- 나의 정원 (현재 페이지 - Active 아이콘) -->
+      <a href="garden_list.html" class="tab-item active">
+      <img src="assets/icons/tab_garden_active.svg" alt="나의 정원" class="tab-icon"/>
+      <span class="tab-text">나의 정원</span>
+      </a>
+    
+      <!-- 허브 커뮤니티 -->
+      <a href="community_list.html" class="tab-item">
+      <img src="assets/icons/tab_community_inactive.svg" alt="커뮤니티" class="tab-icon"/>
+      <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+  
   </div>
-
   <script src="js/common.js"></script>
 </body>
 </html>

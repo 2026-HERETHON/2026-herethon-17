@@ -12,9 +12,75 @@
 <body>
   
   <div class="app-container">
-    
+    <header class="app-header">
+      <!-- 뒤로 가기 -->
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+
+      <!-- 페이지 타이틀 -->
+      <h1 class="header-title">알림 설정</h1>
+    </header>
+
     <main class="app-content">
-      </main>
+        <div class="alarm-list">
+        
+        <!-- 오늘 기록 알림 -->
+        <div class="alarm-card">
+          <div class="alarm-text-wrapper">
+            <h3 class="alarm-card-title">오늘 기록 알림</h3>
+            <p class="alarm-card-desc">매일 저녁 기록을 잊지 않도록 알려드려요</p>
+          </div>
+          <!-- 알림 토글 (켜져있음) -->
+          <label class="alarm-toggle">
+            <input type="checkbox" checked/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- 커뮤니티 댓글 -->
+        <div class="alarm-card">
+          <div class="alarm-text-wrapper">
+            <h3 class="alarm-card-title">커뮤니티 댓글</h3>
+            <p class="alarm-card-desc">내 게시글에 댓글이 달리면 알려드려요</p>
+          </div>
+          <!-- 알림 토글 (켜져있음) -->
+          <label class="alarm-toggle">
+            <input type="checkbox" checked/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- 커뮤니티 좋아요 -->
+        <div class="alarm-card">
+          <div class="alarm-text-wrapper">
+            <h3 class="alarm-card-title">커뮤니티 좋아요</h3>
+            <p class="alarm-card-desc">내 게시글에 좋아요가 달리면 알려드려요</p>
+          </div>
+          <!-- 알림 토글 (꺼져있음) -->
+          <label class="alarm-toggle">
+            <input type="checkbox"/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- 기록 리마인더 시간 -->
+        <div class="alarm-card is-time-card">
+          <h3 class="time-card-title">기록 리마인더 시간</h3>
+          
+          <div class="time-setting-wrapper">
+            <div class="time-box">
+              <span class="time-text" id="time-text">오후 8:00</span>
+              <!-- 10분 단위로 설정된 네이티브 타임 피커 -->
+              <input type="time" id="time-input" value="20:00" step="600">
+            </div>
+            <!-- 버튼 클릭 시 time-input을 실행 -->
+            <label class="btn-change" for="time-input">변경</label>
+          </div>
+        </div>
+
+      </div>
+    </main>
 
     <!-- 하단 GNB바 -->
     <nav class="app-bottom-tab">
@@ -47,5 +113,6 @@
   </div>
 
   <script src="js/common.js"></script>
+  <script src="js/mypage_detail.js"></script>
 </body>
 </html>

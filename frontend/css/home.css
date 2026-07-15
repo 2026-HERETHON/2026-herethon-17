@@ -8,11 +8,14 @@
 
 }
 .home-date{
-    font-family:'Noto Serif KR', serif;
-    font-size: 13x;
+    font-family:'Noto Sans KR', serif;
+    font-size: 13px;
     font-weight: 400;
     color: #000000;
+    margin: 0;
 }
+
+
 .home-logo {
     display: flex;
     align-items: center;
@@ -58,6 +61,10 @@
 .home-iconbtn img {
     width: 22px;
     height: 22px;
+}
+.home-iconbtn-profile img{
+    width: 14px;
+    height: 17px;
 }
 
 .welcome-banner {
@@ -107,21 +114,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 6px;
 }
 
-.home-date {
-    font-family: 'Noto Sans KR', serif;
-    font-size: 13px;
-    color: #000000;
-    font-weight: 400;
-}
 
 .home-username {
     font-family: 'Noto Sans KR', serif;
     font-size: 22px;
     font-weight: 700;
     color: #2D2D2D;
+    margin: 0;
+    line-height: 100%;
 }
 
 .summary-card {
@@ -170,6 +172,7 @@
     font-family: 'Noto Sans KR', serif;
     font-size: 12px;
     font-weight: 400;
+    margin-bottom: 4px;
 }
 .summary-btn{
     background-color: #6B9E7A;
@@ -241,6 +244,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
+    margin-bottom: 75px;
 }
 .menu-card {
     background: #FFFFFF;
@@ -258,6 +262,7 @@
     font-family: 'Noto Sans KR', serif;
     font-size: 15px;
     font-weight: 700;
+    margin-bottom: 3px;
 }
 .menu-subtitle {
     font-family: 'Noto Sans KR',serif;
@@ -273,6 +278,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 12px;
 
 }
 
@@ -284,6 +290,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 12px;
+
 
 }
 
@@ -295,6 +303,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+     margin-bottom: 12px;
+
 }
 
 .menu-icon-community {
@@ -305,6 +315,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 12px;
+
 }
 
 .menu-iconwrap img {

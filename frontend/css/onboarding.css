@@ -184,6 +184,7 @@
 .btn-login.active {
     background: #6B9E7A;
     color: #fff;
+    cursor: pointer;
 }
 
 .login-noaccount {

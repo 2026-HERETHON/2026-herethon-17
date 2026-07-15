@@ -1,27 +1,135 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>마이페이지 테스트</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
 </head>
 <body>
 
-    <h1>마이페이지</h1>
-    <p>이름: {{ user.name }}</p>
-    <p>이메일: {{ user.email }}</p>
-    <p>현재 단계: {{ current_stage }}</p>
+  <div class="app-container">
+    <header class="app-header">
+      <!-- 뒤로 가기 -->
+      <button type="button" class="icon-btn back-btn">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기"/>
+      </button>
 
-    <ul>
-        <li><a href="{% url 'accounts:profile' %}">프로필/계정 설정</a></li>
-        <li><a href="{% url 'accounts:notifications' %}">알림 설정</a></li>
-        <li><a href="{% url 'diagnosis:form' %}">자가진단 다시하기</a></li>
-        <li><a href="{% url 'community:my_posts' %}">내가 쓴 글</a></li>
-        <li>
-            <form method="post" action="{% url 'accounts:logout' %}">
-                {% csrf_token %}
-                <button type="submit">로그아웃</button>
-            </form>
-        </li>
-    </ul>
+      <h1 class="header-title">마이페이지</h1>
+    </header>
+
+    <main class="app-content">
+      <div class="mypage-container">
+
+
+        <div class="mypage-profile-card">
+          <img src="{% static 'assets/icons/profile_leaf.svg' %}" alt="프로필"
+            class="mypage-avatar-img" id="profile-logo" data-stage="{{ current_stage }}">
+
+          <div class="mypage-user-info">
+            <h2 class="mypage-username">{{ user.name }}</h2>
+            <span class="mypage-user-email">{{ user.email }}</span>
+            <span class="mypage-status-badge">
+              현재 단계: {{ current_stage_display|default:"없음" }}
+            </span>
+          </div>
+        </div>
+
+        <div class="mypage-menu-list">
+
+          <!-- 프로필/계정 설정 -->
+          <a href="{% url 'accounts:profile' %}" class="mypage-menu-item">
+            <div class="mypage-menu-left">
+              <img src="{% static 'assets/icons/icon_profile.svg' %}" alt="프로필">
+              <span class="mypage-menu-text">프로필/계정 설정</span>
+            </div>
+            <img src="{% static 'assets/icons/arrow_right.svg' %}" alt="이동" class="mypage-menu-arrow">
+          </a>
+
+          <!-- 알림 설정 -->
+          <a href="{% url 'accounts:notifications' %}" class="mypage-menu-item">
+            <div class="mypage-menu-left">
+              <div class="mypage-menu-icon-wrapper bg-green-light">
+                <img src="{% static 'assets/icons/icon_noti.svg' %}" alt="알림">
+              </div>
+              <span class="mypage-menu-text">알림 설정</span>
+            </div>
+            <img src="{% static 'assets/icons/arrow_right.svg' %}" alt="이동" class="mypage-menu-arrow">
+          </a>
+
+          <!-- 자가진단 다시하기 -->
+          <a href="{% url 'diagnosis:retry' %}" class="mypage-menu-item">
+            <div class="mypage-menu-left">
+              <div class="mypage-menu-icon-wrapper bg-green-light">
+                <img src="{% static 'assets/icons/icon_pulse.svg' %}" alt="자가진단">
+              </div>
+              <span class="mypage-menu-text">자가진단 다시하기</span>
+            </div>
+            <img src="{% static 'assets/icons/arrow_right.svg' %}" alt="이동" class="mypage-menu-arrow">
+          </a>
+
+          <!-- 내가 쓴 글 -->
+          <a href="{% url 'community:my_posts' %}" class="mypage-menu-item">
+            <div class="mypage-menu-left">
+              <div class="mypage-menu-icon-wrapper bg-green-light">
+                <img src="{% static 'assets/icons/icon_posts.svg' %}" alt="내가쓴글">
+              </div>
+              <span class="mypage-menu-text">내가 쓴 글</span>
+            </div>
+            <img src="{% static 'assets/icons/arrow_right.svg' %}" alt="이동" class="mypage-menu-arrow">
+          </a>
+
+          <!-- 로그아웃 -->
+          <a href="{% url 'accounts:logout' %}" class="mypage-menu-item logout-item">
+            <div class="mypage-menu-left">
+              <div class="mypage-menu-icon-wrapper bg-red-light">
+                <img src="{% static 'assets/icons/icon_logout.svg' %}" alt="로그아웃">
+              </div>
+              <span class="mypage-menu-text color-red">로그아웃</span>
+            </div>
+            <img src="{% static 'assets/icons/arrow_right.svg' %}" alt="이동" class="mypage-menu-arrow">
+          </a>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+
+      <!-- 홈 -->
+      <a href="{% url 'home:home' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_home_inactive.svg' %}" alt="홈" class="tab-icon"/>
+        <span class="tab-text">홈</span>
+      </a>
+
+      <!-- 패턴 리포트 -->
+      <a href="{% url 'reports:weekly' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon"/>
+        <span class="tab-text">리포트</span>
+      </a>
+
+      <!-- 나의 정원 -->
+      <a href="{% url 'garden:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_garden_inactive.svg' %}" alt="나의 정원" class="tab-icon"/>
+        <span class="tab-text">나의 정원</span>
+      </a>
+
+      <!-- 허브 커뮤니티 -->
+      <a href="{% url 'community:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_community_inactive.svg' %}" alt="커뮤니티" class="tab-icon"/>
+        <span class="tab-text">커뮤니티</span>
+      </a>
+
+    </nav>
+
+  </div>
+
+  <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/mypage_datail.js' %}"></script>
 </body>
 </html>

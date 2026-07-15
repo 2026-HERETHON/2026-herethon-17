@@ -270,6 +270,7 @@
     color: #9A9A9A;
     font-weight: 400;
 }
+
 .menu-icon-tracker {
     background: #EDF5EF;
     width: 44px;
@@ -283,7 +284,7 @@
 }
 
 .menu-icon-report {
-    background: #FDF0E6;
+    background-color: #EDEFFE;
     width: 44px;
     height: 44px;
     border-radius: 14px;
@@ -296,7 +297,7 @@
 }
 
 .menu-icon-garden {
-    background: #F5EFE8;
+    background-color: #F5EFE8;
     width: 44px;
     height: 44px;
     border-radius: 14px;
@@ -308,7 +309,7 @@
 }
 
 .menu-icon-community {
-    background: #FDEEE9;
+    background-color: #FDEEE9;
     width: 44px;
     height: 44px;
     border-radius: 14px;

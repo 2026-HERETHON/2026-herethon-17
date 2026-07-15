@@ -297,3 +297,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+/*
+showError, hideAllErrors 함수가 login, signup 공통으로 쓰여서
+static/js/login.js -> static/js/common.js 로 옮김
+*/
+function showError(group, errorType) {
+  group.classList.remove("valid");
+  group.classList.add("error");
+  hideAllErrors(group);
+  const errorEl = group.querySelector(`[data-error="${errorType}"]`);
+  if (errorEl) errorEl.classList.add("show");
+}
+
+function hideAllErrors(group) {
+  group.querySelectorAll(".error-message").forEach(el => el.classList.remove("show"));
+}
+
+document.getElementById("loginForm")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  window.location.href = "survey.html";
+});

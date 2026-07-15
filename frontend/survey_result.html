@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>HERb - servey result</title>
+  <title>HERb</title>
 
   <link rel="icon" href="assets/images/favicon.png" type="image/png">
   <link rel="stylesheet" href="css/common.css">
@@ -11,7 +11,7 @@
   </head>
 <body>
   
-  <div class="app-container">
+  <div class="app-container result-bg">
     
     <main class="app-content">
       <div class="result-header">
@@ -29,17 +29,15 @@
           <p class="result-subname" id="result-subname">낯선 나를 마주하는 시기</p>
 
           <ul class="result-info" id="result-info">
-            <div class="result-infogroup">
               <li>• 예전과 다른 몸과 마음이 낯설게 느껴져요</li>
               <li>• 에너지가 떨어지고 무기력함을 느끼기 쉬워요</li>
               <li>• 이 변화를 아직 주변에 말하지 못했을 수 있어요</li>
               <li>• 하루하루를 버티는 데 집중하게 돼요</li>
-            </div>
           </ul>
         </div>
 
         <div class="result-types">
-          <div class="result-honlan" id="result-honlan">
+          <div class="result-honlan active" id="result-honlan">
             <h3>혼란기</h3>
             <p>낯선 나를<br>마주하는 시기</p>
           </div>
@@ -57,23 +55,15 @@
       </div>
 
       <div class="result-nav">
-        <button type="button" class="start-btn">HERb 시작하기</button>
-        <button type="button" class="retry-btn">다시 진단하기</button>
+        <button type="button" class="start-btn" onclick="location.href='index.html'">HERb 시작하기</button>
+        <button type="button" class="retry-btn" onclick="location.href='survey.html'">다시 진단하기</button>
       </div>
-
-
-
-
-
-
 
       <p class="result-notice">
         이 결과는 의학적 진단이 아니라,<br>
         지금의 나를 이해하기 위한 참고 지표입니다.<br>
         언제든 다시 진단해 볼 수 있어요.
       </p>
-
-
 
       </main>
 

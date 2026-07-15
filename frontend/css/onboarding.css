@@ -185,8 +185,12 @@
     background: #6B9E7A;
     color: #fff;
     cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
+.btn-login:hover.active {
+  transform: scale(1.02);
+}
 .login-noaccount {
     font-family: 'Noto Sans KR', serif;
     text-align: center;

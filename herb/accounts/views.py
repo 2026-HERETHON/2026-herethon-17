@@ -99,12 +99,15 @@ def mypage_view(request):
     # 자가진단 결과 있으면 그 단계로, 없으면 None
     if latest_diagnosis:
         current_stage = latest_diagnosis.stage
+        current_stage_display = latest_diagnosis.get_stage_display()  # 화면 한글 표시용
     else:
         current_stage = None
+        current_stage_display = None
 
     return render(request, "accounts/mypage.html", {
         "user": request.user,
         "current_stage": current_stage,
+        "current_stage_display": current_stage_display
     })
 
 
@@ -148,12 +151,15 @@ def profile_view(request):
         # 자가진단 결과 있으면 그 단계로, 없으면 None
         if latest_diagnosis:
             current_stage = latest_diagnosis.stage
+            current_stage_display = latest_diagnosis.get_stage_display()
         else:
             current_stage = None
+            current_stage_display = None
 
         return render(request, "accounts/profile.html", {
             "user": user,
             "current_stage": current_stage,
+            "current_stage_display": current_stage_display
         })
 
 

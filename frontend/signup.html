@@ -41,10 +41,10 @@
                         <input type="password" id="password" placeholder="8자 이상 입력하세요" required>
                     </div>
 
-                    <div class="signup-inputgroup">
-                        <label for="password-again">비밀번호 확인</label>
+
+                    <div class="signup-inputgroup" id="pw-again-group"> <label for="password-again">비밀번호 확인</label>
                         <input type="password" id="password-again" placeholder="비밀번호를 다시 입력하세요" required>
-                    </div>
+                        <p class="signup-pw-error">비밀번호가 일치하지 않습니다.</p> </div>
 
                     <div class="signup-inputgroup">
                         <label for="birthdate">생년월일 (선택)</label>
@@ -67,7 +67,7 @@
                         
                         <label class="signup-policy">
                             <div class="signup-policyitem">
-                                <input type="checkbox" id="policy-selective" required>
+                                <input type="checkbox" id="policy-selective" >
                                 <span class="signup-checkbox">
                                     <img src="../frontend/assets/icons/Checkedicon.png" alt="" class="signup-checkedicon">
                                 </span>
@@ -91,5 +91,6 @@
   </div>
 
   <script src="js/common.js"></script>
+  <script src="js/signup.js"></script>
 </body>
 </html>

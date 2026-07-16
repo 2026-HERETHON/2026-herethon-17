@@ -34,11 +34,11 @@
       <div class="home-greeting">
         <div class="home-greeting-top">
           <p class="home-date" id="home-date">2026년 6월 27일 토요일</p>
-          <div class="home-headericons">
-            <button class="home-iconbtn" id="home-noti">
+            <div class="home-headericons">
+            <button class="home-iconbtn" id="home-noti" onclick="window.location.href='mypage_noti.html'">
               <img src="assets/icons/NotiIcon.png" alt="알림">
             </button>
-            <button class="home-iconbtn home-iconbtn-profile" id="home-profile">
+            <button class="home-iconbtn home-iconbtn-profile" id="home-profile" onclick="window.location.href='mypage.html'">
               <img src="assets/icons/ProfileIcon.png" alt="프로필">
             </button>
           </div>
@@ -57,12 +57,13 @@
           </div>
         </div>
 
-        <button class="summary-btn" id="record-btn">오늘 증상 기록하기</button>
+        <button class="summary-btn" id="record-btn" onclick="window.location.href='select.html'">오늘 증상 기록하기</button>
       </div>
 
       <p class="home-menutitle">오늘은 무엇을 할까요?</p>
       <div class="home-menugrid">
-        <a href="tracker.html" class="menu-card">
+        
+        <a href="select.html" class="menu-card">
           <div class="menu-iconwrap menu-icon-tracker">
             <img src="assets/icons/TrackerIcon.png" alt="">
           </div>

@@ -27,6 +27,13 @@ def login_view(request):
                 "error": "비밀번호가 틀립니다. 비밀번호를 다시 확인해 주세요."
             })
 
+        previous_login = user.last_login
+
+        if previous_login:
+            request.session["previous_login_at"] = previous_login.isoformat()
+        else:
+            request.session.pop("previous_login_at", None)
+
         login(request, user)
 
         if not DiagnosisResult.objects.filter(user=user).exists():

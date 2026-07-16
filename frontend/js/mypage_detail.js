@@ -1,117 +1,113 @@
+document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
-  // 유저의 단계에 따라 아이콘과 텍스트가 바뀌는 로직
-  // ==========================================
-  
-  document.addEventListener("DOMContentLoaded", () => {
-
-  const logoImg = document.getElementById("profile-logo");
-  const nameText = document.getElementById("profile-name");
-  const emailText = document.getElementById("profile-email");
-  const stageText = document.getElementById("profile-stage-text");
-
-  // 가상의 백엔드 데이터 (추후 실제 API fetch 코드로 교체)
-  const userData = {
-    name: "박수현",
-    email: "id@email.com",
-    stage: "혼란기" // "혼란기", "적응기", "재도약기" 중 하나
-  };
-
-  // 현재 단계에 맞는 SVG 파일명 매칭하기
-  let svgFileName = "";
-  if (userData.stage === "혼란기") {
-    svgFileName = "profile_leaf.svg";
-  } else if (userData.stage === "적응기") {
-    svgFileName = "profile_clover.svg";
-  } else if (userData.stage === "재도약기") {
-    svgFileName = "profile_flowerLotus.svg";
-  } else {
-    svgFileName = "profile_leaf.svg"; 
-  }
-
-  // 화면에 데이터 뿌려주기
-  if (logoImg) {
-    logoImg.src = `assets/icons/${svgFileName}`;
-  }
-  if (nameText) {
-    nameText.innerText = userData.name;
-  }
-  if (emailText) {
-    emailText.innerText = userData.email;
-  }
-  if (stageText) {
-    stageText.innerText = `현재 단계: ${userData.stage}`;
-  }
-});
-
-  // ==========================================
-  // 계정 정보 수정 및 토스트 메시지 연결
-  // ==========================================
-  
   // 토스트 메시지 띄우는 함수
+  // ==========================================
   function showToast(toastId) {
     const toastElement = document.getElementById(toastId);
     if (!toastElement) return;
-  
-    // 토스트 나타나게 하기
+
     toastElement.classList.add("show");
-  
-    // 2초 뒤에 사라지게 하기
     setTimeout(() => {
       toastElement.classList.remove("show");
     }, 2000);
   }
 
-  // 모든 '수정하기/변경하기' 버튼을 찾아 이벤트 연결
-  const editButtons = document.querySelectorAll(".btn-edit");
+  // ==========================================
+  // 프로필/계정 설정 페이지 (/accounts/profile/)
+  // ==========================================
+  const profileForm = document.getElementById("edit-form");
   
-  editButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      // (백엔드 전송 로직이 들어가야함. 추후수정)
+  if (profileForm) {
+    // 프로필 로고 SVG 변경 로직 
+    // 2-1. 프로필 로고 SVG 변경 로직 
+    const logoImg = document.getElementById("profile-logo");
+    const stageContainer = document.querySelector(".profile-stage-badge");
+    const profileImageInput = document.getElementById("profile_image_input"); // 숨김 인풋 가져오기
+    
+    if (logoImg && stageContainer) {
+      const currentStage = stageContainer.getAttribute("data-stage") || "혼란기";
+      let svgFileName = "profile_leaf.svg"; // 기본값
       
-      // 통신 성공 가정 하에 성공 토스트 띄우기
-      showToast("toast-success");
-    });
-  });
-  
-  // ==========================================
-  // 내가 쓴 글 페이지에서 게시글 상세 페이지로 이동하는 로직
-  // ==========================================
+      if (currentStage === "적응기") svgFileName = "profile_clover.svg";
+      if (currentStage === "재도약기") svgFileName = "profile_flowerLotus.svg";
+      
+      // 화면에 이미지 적용
+      logoImg.src = `/static/icons/${svgFileName}`; 
+      
+      // 백엔드 전송용 폼 데이터에 현재 아이콘 이름 세팅
+      if (profileImageInput) {
+        profileImageInput.value = svgFileName;
+      }
+    }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // 화면에 있는 모든 게시글 카드(.post-card) 가져오기
+    // 폼 데이터 비동기 전송 (AJAX)
+    const editButtons = document.querySelectorAll(".btn-edit");
+    
+    editButtons.forEach(button => {
+      button.addEventListener("click", async (e) => {
+        e.preventDefault();
+        
+        // Django의 CSRF 토큰 가져오기 
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        // 폼 데이터 수집
+        const formData = new FormData(profileForm);
+
+        try {
+          // 명세서에 따른 URL로 POST 요청
+          const response = await fetch('/accounts/profile/', {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrfToken,
+            },
+            body: formData
+          });
+
+          if (response.ok) {
+            showToast("toast-success");
+            // 성공 후 필요시 mypage로 리다이렉트
+          } else {
+            showToast("toast-error");
+          }
+        } catch (error) {
+          console.error("Profile update error:", error);
+          showToast("toast-error");
+        }
+      });
+    });
+  }
+
+  // ==========================================
+  // 내가 쓴 글 페이지 (/community/my-posts)
+  // ==========================================
   const postCards = document.querySelectorAll(".post-card");
-
-  // 각각의 카드에 클릭 이벤트 달기
-  postCards.forEach(card => {
-    card.addEventListener("click", () => {
-      // HTML에 적어둔 data-id 값을 가져옴. (없을 경우를 대비해 '1'을 기본값으로)
-      const postId = card.getAttribute("data-id") || "1";
-      
-      // 해당 id를 파라미터로 붙여서 상세 페이지로 이동
-      // 예: community_detail.html?id=1
-      window.location.href = `community_detail.html?id=${postId}`;
+  
+  if (postCards.length > 0) {
+    postCards.forEach(card => {
+      card.addEventListener("click", () => {
+        const postId = card.getAttribute("data-id");
+        if (postId) {
+          // 명세에 맞춰 Django URL 패턴으로 이동
+          window.location.href = `/community/detail/${postId}/`; 
+        }
+      });
     });
-  });
-});
-
+  }
 
   // ==========================================
-  // 알림 설정 - 기록 리마인더 시간 스피너 로직
+  // 알림 설정 페이지 (/accounts/notifications/)
   // ==========================================
-
-document.addEventListener("DOMContentLoaded", () => {
   const timeInput = document.getElementById("time-input");
   const timeText = document.getElementById("time-text");
-  
   const btnChange = document.querySelector(".btn-change");
+  // 알림 설정 폼 요소 가져오기
+  const notificationForm = document.getElementById("notification-form"); 
 
   if (timeInput && timeText) {
-    
-    // 데스크톱 환경에서도 강제로 시스템 팝업을 띄우는 코드
+    // 데스크톱 환경 시스템 팝업 강제 호출
     if (btnChange) {
       btnChange.addEventListener("click", (e) => {
         e.preventDefault();
-        
         try {
           timeInput.showPicker(); 
         } catch (error) {
@@ -120,33 +116,48 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // 사용자가 스피너/팝업에서 시간을 바꿨을 때 실행되는 이벤트 
+    // 시간 선택 시 UI 업데이트
     timeInput.addEventListener("change", (e) => {
-      const timeVal = e.target.value; // "20:00" 형태의 문자열
+      const timeVal = e.target.value;
       if (!timeVal) return;
 
       const [hourString, minuteString] = timeVal.split(":");
       let hour = parseInt(hourString, 10);
       let minute = parseInt(minuteString, 10);
-
-      // 오전/오후 계산 로직
-      let period = "오전";
-      let displayHour = hour;
-
-      if (hour >= 12) {
-        period = "오후";
-        if (hour > 12) {
-          displayHour = hour - 12;
-        }
-      } else if (hour === 0) {
-        displayHour = 12; // 밤 12시는 오전 12시로 표시
-      }
-
-      // 분이 한 자리일 경우 앞에 0 붙이기 (예: 0 -> 00)
+      let period = hour >= 12 ? "오후" : "오전";
+      let displayHour = hour > 12 ? hour - 12 : (hour === 0 ? 12 : hour);
       const displayMinute = minute < 10 ? "0" + minute : minute;
 
-      // 계산된 시간을 화면에 표시
       timeText.innerText = `${period} ${displayHour}:${displayMinute}`;
+      
+      // 시간을 변경하자마자 백엔드로 저장하려면 아래 로직 활성화
+      // saveNotificationSettings(); 
     });
+  }
+  
+  // 알림 설정 폼 전송 함수 (필요없으면 삭제하셔도 됩니다!)
+  async function saveNotificationSettings() {
+    if(!notificationForm) return;
+    
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const formData = new FormData(notificationForm);
+
+    try {
+      const response = await fetch('/accounts/notifications/', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrfToken,
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        showToast("toast-success");
+      } else {
+        showToast("toast-error");
+      }
+    } catch (error) {
+      showToast("toast-error");
+    }
   }
 });

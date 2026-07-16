@@ -26,37 +26,43 @@
     <main class="app-content">
         <div class="post-list">
         <!-- 게시글 카드 (반복되는 아이템) -->
-        <div class="post-card" data-id="1">
-          <!-- 태그, 작성 시간 -->
+        <!-- 서버에서 넘어온 posts 데이터를 반복 -->
+        {% for post in posts %}
+        <div class="post-card" data-id="{{ post.id }}">
+          
           <div class="post-card-top">
             <div class="post-tags-wrapper">
-              <span class="symptom-tag">안면홍조</span>
+              <!-- 게시글의 태그 -->
+              <span class="symptom-tag">{{ post.tag_name }}</span>
             </div>
-            <span class="post-time">방금 전</span>
+            <!-- 작성 시간 -->
+            <span class="post-time">{{ post.created_at|timesince }} 전</span>
           </div>
         
-          <!-- 제목, 본문 -->
-          <h3 class="post-card-title">안면홍조가 갑자기 심해졌어요</h3>
-          <p class="post-card-content">
-            요즘 날씨가 더워서 그런지 더 힘드네요. 여러분은 어떻게 대처하시나요?
-          </p>
+          <h3 class="post-card-title">{{ post.title }}</h3>
+          <p class="post-card-content">{{ post.content|truncatechars:40 }}</p>
         
-          <!-- 좋아요, 댓글 -->
           <div class="post-card-bottom">
             <div class="post-item">
               <img src="assets/icons/icon_like.svg" alt="좋아요"/>
-              <span class="count">12</span>
+              <span class="count">{{ post.like_count }}</span>
             </div>
             <div class="post-item">
               <img src="assets/icons/icon_chat.svg" alt="댓글"/>
-              <span class="count">3</span>
+              <span class="count">{{ post.comment_count }}</span>
             </div>
           </div>
+          
         </div>
-        
+        {% empty %}
+        <!-- 작성한 글이 없을 때 나타나는 화면 -->
+        <div style="text-align: center; padding: 40px 0; color: #9A9A9A;">
+          작성한 게시글이 없습니다.
+        </div>
+        {% endfor %}
+        <!-- 반복문 끝 -->
 
       </div>
-
     </main>
 
     <!-- 하단 GNB바 -->

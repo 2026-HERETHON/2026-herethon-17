@@ -24,7 +24,10 @@
 
     <main class="app-content">
         <div class="alarm-list">
-        
+        <!-- 데이터 전송을 위해 전체 카드를 form 태그로 묶기 -->
+        <form id="notification-form" class="alarm-list" action="/accounts/notifications/" method="POST">
+          {% csrf_token %}
+
         <!-- 오늘 기록 알림 -->
         <div class="alarm-card">
           <div class="alarm-text-wrapper">
@@ -33,7 +36,8 @@
           </div>
           <!-- 알림 토글 (켜져있음) -->
           <label class="alarm-toggle">
-            <input type="checkbox" checked/>
+            <!-- name="daily_notification" -->
+            <input type="checkbox" name="daily_notification" {% if user_settings.daily_notification %}checked{% endif %} />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -46,7 +50,8 @@
           </div>
           <!-- 알림 토글 (켜져있음) -->
           <label class="alarm-toggle">
-            <input type="checkbox" checked/>
+            <!-- name="comment_notification" -->
+            <input type="checkbox" name="comment_notification" {% if user_settings.comment_notification %}checked{% endif %} />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -59,7 +64,8 @@
           </div>
           <!-- 알림 토글 (꺼져있음) -->
           <label class="alarm-toggle">
-            <input type="checkbox"/>
+            <!-- name="like_notification" -->
+            <input type="checkbox" name="like_notification" {% if user_settings.like_notification %}checked{% endif %} />
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -70,9 +76,9 @@
           
           <div class="time-setting-wrapper">
             <div class="time-box">
-              <span class="time-text" id="time-text">오후 8:00</span>
-              <!-- 10분 단위로 설정된 네이티브 타임 피커 -->
-              <input type="time" id="time-input" value="20:00" step="600">
+              <span class="time-text" id="time-text">오후 8:00</span> <!-- JS가 초기화 시 변경함 -->
+              <!-- name="reminder_time" -->
+              <input type="time" name="reminder_time" id="time-input" value="{{ user_settings.reminder_time|default:'20:00' }}" step="600">
             </div>
             <!-- 버튼 클릭 시 time-input을 실행 -->
             <label class="btn-change" for="time-input">변경</label>

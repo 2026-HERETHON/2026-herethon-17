@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
       monthlyArea.style.display = "block"; // 월간 켜기
       weeklyArea.style.display = "none";   // 주간 끄기
 
-      renderCalendar(); // 월간 탭이 열릴 때 달력 그리기
+      loadAndRenderMonthlyReport(); // 월간 탭이 열릴 때 달력 그리기
     });
   }
 
@@ -173,9 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // 배경 점선
     const bgLinesHTML = `
       <div class="chart-bg-lines">
-        <img src="assets/icons/dot_line.svg" alt="">
-        <img src="assets/icons/dot_line.svg" alt="">
-        <img src="assets/icons/dot_line.svg" alt="">
+        <img src="/static/assets/icons/dot_line.svg" alt="">
+        <img src="/static/assets/icons/dot_line.svg" alt="">
+        <img src="/static/assets/icons/dot_line.svg" alt="">
       </div>
     `;
 
@@ -333,7 +333,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
   }
-})
 
 // ==========================================
   // [월간 리포트] 이번 달 요약 업데이트 함수
@@ -427,5 +426,5 @@ document.addEventListener("DOMContentLoaded", function () {
       if (downloadBtn) downloadBtn.style.display = "none";
     }
   }
-
+})
   // 초기 뷰 체크는 loadAndRenderWeeklyReport()에서 API 응답 결과에 따라 실행됨

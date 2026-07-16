@@ -49,6 +49,17 @@ def intensity_view(request):
 
         symptoms = Symptom.objects.filter(id__in=symptom_ids)
 
+        # 증상별 아이콘 파일명 매칭
+        symptom_icon_map = {
+            "안면홍조": "hot",
+            "수면장애": "sleep",
+            "감정기복": "mood",
+            "피로감": "fatigue",
+            "관절통": "joint",
+        }
+        for symptom in symptoms:
+            symptom.icon_key = symptom_icon_map.get(symptom.name, "hot")
+
         # "이전" 버튼을 눌렀을 때, 지금 선택된 증상들을 다시 select 화면에 전달하기 위한 URL
         prev_query = urlencode([("symptom_ids", sid) for sid in symptom_ids])
         prev_url = f"/tracker/select/?{prev_query}"

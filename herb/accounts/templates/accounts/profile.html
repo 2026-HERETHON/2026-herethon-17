@@ -46,9 +46,9 @@
       {% endif %}
 
         <!-- 이름 수정 폼 -->
-      <form id="name-form" class="profile-edit-form" method="post">
+      <form id="name-form" class="profile-edit-form" method="post" action="{% url 'accounts:profile' %}">
         {% csrf_token %}
-        <input type="hidden" name="action" value="update_name">
+        <input type="hidden" name="form_action" value="update_name">
 
         <!-- 이름 -->
         <div class="input-group">

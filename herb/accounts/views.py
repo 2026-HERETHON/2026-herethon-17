@@ -119,7 +119,7 @@ def profile_view(request):
 
     if request.method == "POST":
 
-        action = request.POST.get("action")
+        action = request.POST.get("form_action")
 
         if action == "update_name":
             name = request.POST.get("name")

@@ -49,17 +49,28 @@
   const editButtons = document.querySelectorAll(".btn-edit");
 
   editButtons.forEach(button => {
-    button.addEventListener("click", (e) => {
+    button.addEventListener("click", async (e) => {
 
-      e.preventDefault(); // 기본 submit 막기
+      e.preventDefault();
 
-      showToast("toast-success");
+      const form = button.closest("form");
+      const formData = new FormData(form);
 
-      // 토스트가 보인 뒤 제출
-      setTimeout(() => {
-        button.closest("form").submit();
-      }, 2000);
+      // 서버에 몰래 요청 (페이지 이동 없이)
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+      });
 
+      if (response.ok) {
+        // 화면 텍스트만 즉시 바꿔치기
+        if (formData.has("name")) {
+          document.getElementById("profile-name").innerText = formData.get("name");
+        }
+        showToast("toast-success");
+      } else {
+        showToast("toast-error");
+      }
     });
   });
 

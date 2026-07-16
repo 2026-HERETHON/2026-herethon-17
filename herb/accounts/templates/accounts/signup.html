@@ -19,7 +19,7 @@
     ========================================== -->
     <header class="signup-header">
       <!-- 뒤로 가기 -->
-      <button class="icon-btn back-btn">
+      <button class="icon-btn" id="signupBackBtn">
         <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기"/>
       </button>
 
@@ -103,5 +103,12 @@
 
   <script src="{% static 'js/common.js' %}"></script>
   <script src="{% static 'js/signup.js' %}"></script>
+
+  <script>
+    document.getElementById("signupBackBtn")?.addEventListener("click", () => {
+      window.location.href = "{% url 'accounts:login' %}";
+    });
+  </script>
+
 </body>
 </html>

@@ -1,5 +1,72 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  // ==========================================
+  // 유틸리티 함수
+  // ==========================================
   
+  function getDateString(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}-${month}-${day}`;
+  }
+
+  // ==========================================
+  // 백엔드 API 호출 함수
+  // ==========================================
+
+  /* 주간 리포트 데이터 조회
+   @param {Date} startDate - 주의 시작일 (일요일)
+   @returns {Promise<Object>} {daily_scores: [int], symptoms: [{name, count, color}]}
+   */
+  async function fetchWeeklyReportData(startDate) {
+    const startDateStr = getDateString(startDate);
+    const apiUrl = `/reports/weekly/?start_date=${startDateStr}`;
+    
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("주간 리포트 데이터 로드 실패:", error);
+      return { 
+        daily_scores: [0, 0, 0, 0, 0, 0, 0], 
+        symptoms: [],
+        week_range: ""
+      };
+    }
+  }
+
+  /* 월간 리포트 데이터 조회
+   @param {Date} monthDate - 월의 기준일
+   @returns {Promise<Object>} {daily_status: {date: level}, summary: {total_days, symptom_days, none_days}}
+   */
+  async function fetchMonthlyReportData(monthDate) {
+    const year = monthDate.getFullYear();
+    const month = monthDate.getMonth() + 1;
+    const apiUrl = `/reports/monthly/?year=${year}&month=${month}`;
+    
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("월간 리포트 데이터 로드 실패:", error);
+      return { 
+        daily_status: {},
+        summary: { total_days: 0, symptom_days: 0, none_days: 0 },
+        year: year,
+        month: month
+      };
+    }
+  }
+
   // ==========================================
   // 뒤로 가기 버튼 로직
   // ==========================================
@@ -41,17 +108,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // [주간 리포트] 날짜 변경 및 동적 차트 렌더링
   // ==========================================
   
-  // 기준 날짜 설정 (여기톤 날짜가 포함된 주차 7월 13일 ~ 7월 19일)
-  let currentStartDate = new Date(2026, 6, 13); // JS에서 6 = 7월
+  // 기준 날짜 설정 (현재 주의 일요일)
+  let currentStartDate = new Date();
+  currentStartDate.setDate(currentStartDate.getDate() - currentStartDate.getDay()); // 이번 주 일요일
 
   const btnPrevWeek = document.getElementById("btn-prev-week");
   const btnNextWeek = document.getElementById("btn-next-week");
   const weekDateText = document.getElementById("week-date-text");
 
-  // 가상의 차트 데이터 (월~일 강도 점수 합산) 
-  // 백엔드 연동 추후 수정
-  const chartData = [2, 1, 3, 2, 4, 1, 0]; 
-  const dayLabels = ['월', '화', '수', '목', '금', '토', '일'];
+  const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
 
   // 날짜 텍스트 업데이트 함수
   function updateWeekText() {
@@ -66,12 +131,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // 버튼 클릭 이벤트 (일주일씩 이동)
+  // 버튼 클릭 이벤트 (일주일씩 이동 및 데이터 재로드)
   if (btnPrevWeek) {
     btnPrevWeek.addEventListener("click", () => {
       currentStartDate.setDate(currentStartDate.getDate() - 7);
       updateWeekText();
-      // TODO: 백엔드에서 이전 주 데이터 받아와서 다시 차트 그리기
+      loadAndRenderWeeklyReport();
     });
   }
 
@@ -79,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnNextWeek.addEventListener("click", () => {
       currentStartDate.setDate(currentStartDate.getDate() + 7);
       updateWeekText();
-      // TODO: 백엔드에서 다음 주 데이터 받아와서 다시 차트 그리기
+      loadAndRenderWeeklyReport();
     });
   }
 
@@ -134,22 +199,28 @@ document.addEventListener("DOMContentLoaded", function () {
     chartArea.innerHTML = yAxisHTML + bgLinesHTML + barsHTML;
   }
 
+  // 주간 리포트 데이터 로드 및 렌더링
+  async function loadAndRenderWeeklyReport() {
+    const reportData = await fetchWeeklyReportData(currentStartDate);
+    
+    if (reportData && reportData.daily_scores) {
+      renderWeeklyChart(reportData.daily_scores);
+      renderSymptomStatus(reportData.symptoms || []);
+      
+      // 데이터 유무 판단: daily_scores가 모두 0이고 symptoms가 비어있으면 데이터 없음
+      const hasData = reportData.daily_scores.some(score => score > 0) || 
+                     (reportData.symptoms && reportData.symptoms.length > 0);
+      checkAndRenderView(hasData);
+    }
+  }
+
   // 페이지 로드 시 최초 1회 실행
   updateWeekText();
-  renderWeeklyChart(chartData);
+  loadAndRenderWeeklyReport();
 
   // ==========================================
   // [주간 리포트] 증상별 현황 동적 렌더링
   // ==========================================
-  
-  // 가상의 백엔드 데이터 (증상별 횟수)
-  const symptomStatusData = [
-    { name: "안면홍조", count: 5, color: "#E05C5C" },
-    { name: "수면장애", count: 4, color: "#7B89D4" },
-    { name: "피로감", count: 2, color: "#E8A940" },
-    { name: "감정기복", count: 0, color: "#82A183" }, // 0회 (숨김 처리됨), 기디 분께 색상 여쭤보고 추후수정
-    { name: "관절통", count: 0, color: "#865523" }    // 0회 (숨김 처리됨), 기디 분께 색상 여쭤보고 추후수정
-  ];
 
   function renderSymptomStatus(data) {
     const listContainer = document.getElementById("symptom-status-list");
@@ -191,47 +262,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 페이지 로드 시 증상별 현황 렌더링 실행
-  renderSymptomStatus(symptomStatusData);
-
   // ==========================================
   // [월간 리포트] 캘린더 동적 렌더링 로직
   // ==========================================
-  let currentMonthDate = new Date(2026, 5, 1); // 시작 기준일: 2026년 6월 1일 (JS에서 월은 0부터 시작)
+  let currentMonthDate = new Date(); // 현재 월을 기준으로 시작
   
   const btnPrevMonth = document.getElementById("btn-prev-month");
   const btnNextMonth = document.getElementById("btn-next-month");
   const monthDateText = document.getElementById("month-date-text");
 
-  // 가상의 월간 증상 데이터 (YYYY-M-D 형식)
-  const monthlySymptomData = {
-    "2026-6-2": "severe", "2026-6-5": "severe", "2026-6-9": "severe", 
-    "2026-6-10": "severe", "2026-6-13": "severe", "2026-6-15": "severe", 
-    "2026-6-17": "severe", "2026-6-26": "severe",
-    "2026-6-1": "mild", "2026-6-3": "mild", "2026-6-7": "mild", 
-    "2026-6-8": "mild", "2026-6-11": "mild", "2026-6-14": "mild", 
-    "2026-6-18": "mild", "2026-6-19": "mild", "2026-6-21": "mild", 
-    "2026-6-23": "mild", "2026-6-24": "mild"
-  };
-
-  const mockTodayStr = "2026-6-27"; 
-
   // 월 이동 버튼 이벤트
   if (btnPrevMonth) {
     btnPrevMonth.addEventListener("click", () => {
       currentMonthDate.setMonth(currentMonthDate.getMonth() - 1);
-      renderCalendar();
+      loadAndRenderMonthlyReport();
     });
   }
   if (btnNextMonth) {
     btnNextMonth.addEventListener("click", () => {
       currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
-      renderCalendar();
+      loadAndRenderMonthlyReport();
     });
   }
 
   // 캘린더 그리기 함수
-  function renderCalendar() {
+  function renderCalendar(monthlyData) {
     const grid = document.getElementById("calendar-grid");
     if (!grid) return;
     grid.innerHTML = ""; // 기존 달력 초기화
@@ -255,14 +310,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // 1일부터 마지막 날까지 날짜 박스 채우기
     for (let day = 1; day <= lastDate; day++) {
       const dateStr = `${year}-${month + 1}-${day}`;
-      const status = monthlySymptomData[dateStr] || "none";
+      const status = monthlyData.daily_status?.[dateStr] || "none";
       
       let cssClass = "date-box";
       if (status === "mild") cssClass += " symptom-mild";
       if (status === "severe") cssClass += " symptom-severe";
-      if (dateStr === mockTodayStr) cssClass += " is-today";
 
       grid.innerHTML += `<div class="${cssClass}">${day}</div>`;
+    }
+  }
+
+  // 월간 리포트 데이터 로드 및 렌더링
+  async function loadAndRenderMonthlyReport() {
+    const reportData = await fetchMonthlyReportData(currentMonthDate);
+    
+    if (reportData) {
+      renderCalendar(reportData);
+      updateMonthlySummary(
+        reportData.summary?.total_days || 0,
+        reportData.summary?.symptom_days || 0,
+        reportData.summary?.none_days || 0
+      );
     }
   }
 })
@@ -280,8 +348,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elNone) elNone.innerText = `${noneDays}일`;
   }
 
-  // 백엔드 연동 전 테스트용 (추후 연동 시 삭제)
-  updateMonthlySummary(23, 20, 3);
+  // 페이지 로드 시 월간 리포트 초기 로드
+  loadAndRenderMonthlyReport();
 
   // ==========================================
   // 리포트 화면 캡처 및 이미지 다운로드 기능
@@ -325,33 +393,32 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ==========================================
-  // 데이터 유무에 따른 화면 전환 및 다운로드 버튼 숨김 처리
+  // 데이터 유무에 따른 화면 전환
   // ==========================================
-  const hasData = false; // 백엔드 연동 전 테스트용 (true면 리포트, false면 빈 화면)
-
-  const weeklyArea = document.getElementById("weekly-report-area");
-  const monthlyArea = document.getElementById("monthly-report-area");
-  const emptyArea = document.getElementById("empty-report-area");
   
-  const toggleContainer = document.querySelector(".toggle-container");
-  const downloadBtn = document.getElementById("btn-download");
+  function checkAndRenderView(hasData) {
+    const weeklyArea = document.getElementById("weekly-report-area");
+    const monthlyArea = document.getElementById("monthly-report-area");
+    const emptyArea = document.getElementById("empty-report-area");
+    
+    const toggleContainer = document.querySelector(".toggle-container");
+    const downloadBtn = document.getElementById("btn-download");
 
-  const btnWeeklyToggle = document.getElementById("btn-weekly");
-  const btnMonthlyToggle = document.getElementById("btn-monthly");
+    const btnWeeklyToggle = document.getElementById("btn-weekly");
+    const btnMonthlyToggle = document.getElementById("btn-monthly");
 
-  function checkAndRenderView() {
     if (hasData) {
       // 데이터가 있을 때: 빈 화면을 끄고 주간 리포트로 전환
-      emptyArea.style.display = "none";
-      weeklyArea.style.display = "block"; 
+      if (emptyArea) emptyArea.style.display = "none";
+      if (weeklyArea) weeklyArea.style.display = "block"; 
       
       if (toggleContainer) toggleContainer.style.pointerEvents = "auto";
       if (downloadBtn) downloadBtn.style.display = "block";
     } else {
       // 데이터가 없을 때: 주간/월간을 끄고 빈 화면으로 전환
-      weeklyArea.style.display = "none";
-      monthlyArea.style.display = "none";
-      emptyArea.style.display = "flex";
+      if (weeklyArea) weeklyArea.style.display = "none";
+      if (monthlyArea) monthlyArea.style.display = "none";
+      if (emptyArea) emptyArea.style.display = "flex";
 
       if (btnWeeklyToggle) btnWeeklyToggle.classList.remove("active");
       if (btnMonthlyToggle) btnMonthlyToggle.classList.remove("active");
@@ -361,5 +428,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // 페이지 로딩 시 화면 체크 실행
-  checkAndRenderView();
+  // 초기 뷰 체크는 loadAndRenderWeeklyReport()에서 API 응답 결과에 따라 실행됨

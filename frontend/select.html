@@ -1,4 +1,5 @@
-<!-- 4.1 증상 선택 페이지--><!DOCTYPE html>
+<!-- 4.1 증상 선택 페이지-->
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -24,7 +25,7 @@
     <section id="step-1" class="step-section active">
       <div class="progress-wrapper">
         <div class="progress-gray">
-          <div class="progress-green" style="width: 25%;"></div> <!-- 진행도 수정 -->
+          <div class="progress-green" data-progress-target="50"></div>
         </div>
       </div>
       
@@ -110,13 +111,12 @@
         </div>
 
         <div class="bottom-fixed-area">
-          <!-- 버튼 클릭 시 form이 submit 되거나 JS에서 location.href로 넘기면 됩니다 -->
           <button type="submit" id="btn-next-step1" class="btn btn-next" disabled>다음 (0개 선택됨)</button>
         </div>
       </form>
     </section>
   </main>
   
-  <script src="js/tracker.js"></script>
+  <script src="js/select.js"></script>
 </body>
 </html>

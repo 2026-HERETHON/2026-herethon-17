@@ -86,6 +86,14 @@
 
   </main>
 
+  {% if just_saved %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      showToast("toast-success");
+    });
+  </script>
+  {% endif %}
+
   <script src="{% static 'js/edit.js' %}"></script>
   <script src="{% static 'js/toast.js' %}"></script>
 </body>

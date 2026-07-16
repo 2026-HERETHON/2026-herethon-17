@@ -139,9 +139,17 @@ def edit_view(request):
         date=date.today()
     ).first()
 
+    symptom_icon_map = {
+        "안면홍조": "hot",
+        "수면장애": "sleep",
+        "감정기복": "mood",
+        "피로감": "fatigue",
+        "관절통": "joint",
+    }
+
     # GET: 오늘 기록 불러와서 화면에 표시
     if request.method == "GET":
-        symptoms = Symptom.objects.all()
+        symptoms = list(Symptom.objects.all())
 
         # 오늘 기록에 저장된 모든 증상 기록(SymptomEntry)을 "증상 id: 강도" 형태의 딕셔너리 생성
         intensity_map = {}
@@ -152,12 +160,12 @@ def edit_view(request):
         # 강도 값이 있으면 그 강도로, 없으면 None 표시
         for symptom in symptoms:
             symptom.saved_intensity = intensity_map.get(symptom.id)
+            symptom.icon_key = symptom_icon_map.get(symptom.name, "hot")
 
         return render(request, "tracker/edit.html", {
             "symptoms": symptoms,
             "no_symptom": today_record.no_symptom,
         })
-
 
     # POST: 수정 완료 버튼 눌렀을 때, 기존 기록을 덮어쓰기
     if request.method == "POST":
@@ -167,7 +175,7 @@ def edit_view(request):
 
         # 증상 없음 + 다른 증상 동시 선택 방지
         if no_symptom and symptom_ids:
-            symptoms = Symptom.objects.all()
+            symptoms = list(Symptom.objects.all())
 
             intensity_map = {}
             for entry in today_record.entries.all():
@@ -175,12 +183,11 @@ def edit_view(request):
 
             for symptom in symptoms:
                 symptom.saved_intensity = intensity_map.get(symptom.id)
+                symptom.icon_key = symptom_icon_map.get(symptom.name, "hot")
 
             return render(request, "tracker/edit.html", {
                 "symptoms": symptoms,
-                "no_symptom": today_record.no_symptom,
-                # 아래는 임시 검증용 에러 메시지 (프론트 연동 후 삭제 예정)
-                "error": "증상없음과 다른 증상을 동시에 선택할 수 없습니다.",
+                "no_symptom": today_record.no_symptom
             })
 
         # 기존 증상 기록들 삭제 (덮어쓰기 위해)
@@ -208,7 +215,7 @@ def edit_view(request):
         today_record.save()
 
         # 저장 후 다시 오늘 기록 조회 -> 수정 화면에 필요한 데이터 재구성
-        symptoms = Symptom.objects.all()
+        symptoms = list(Symptom.objects.all())
 
         intensity_map = {}
         for entry in today_record.entries.all():
@@ -216,6 +223,7 @@ def edit_view(request):
 
         for symptom in symptoms:
             symptom.saved_intensity = intensity_map.get(symptom.id)
+            symptom.icon_key = symptom_icon_map.get(symptom.name, "hot")
 
         return render(request, "tracker/edit.html", {
             "symptoms": symptoms,

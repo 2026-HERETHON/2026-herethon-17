@@ -1,58 +1,92 @@
+{% load static %}
+<!-- 기록 수정 모드 페이지-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>기록 수정</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb - 기록 수정</title>
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/tracker.css' %}">
 </head>
-<body>
-    <h1>오늘 기록 수정</h1>
 
-    <form method="post">
+<body>
+  <main class="app-container">
+
+    <header class="app-header">
+      <button class="icon-btn back-btn" onclick="window.history.back()">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기">
+      </button>
+
+      <div class="header-text-group">
+        <!-- JS가 하던 역할을 HTML에 직접 적용 -->
+        <h1 class="header-title">기록 수정</h1>
+        <p class="header-date">오늘 기록을 수정합니다</p>
+      </div>
+
+      <!-- 수정 모드 뱃지 고정 표시 -->
+      <span class="mode-badge" id="mode-badge" style="display: flex;">수정 모드</span>
+    </header>
+
+    <section id="step-4" class="step-section active">
+
+      <form action="{% url 'tracker:edit' %}" method="POST" id="edit-form">
         {% csrf_token %}
 
-        {% for symptom in symptoms %}
-            <p>
-                <label>
-                    <input type="checkbox" name="symptom_ids" value="{{ symptom.id }}"
-                        {% if symptom.saved_intensity %}checked{% endif %}>
-                    {{ symptom.name }}
-                </label>
-            </p>
+        <!-- 5개의 증상 카드가 모두 렌더링 될 영역 (백엔드 처리 권장) -->
+        <div class="strength-list" id="edit-strength-list">
 
-            <label>
-                <input type="radio" name="intensity_{{ symptom.id }}" value="약"
-                    {% if symptom.saved_intensity == "약" %}checked{% endif %}> 약
-            </label>
+          <!-- JS 동적 렌더링 영역 (추후 백엔드에서 데이터와 함께 뿌려줌) -->
+          {% for symptom in symptoms %}
 
-            <label>
-                <input type="radio" name="intensity_{{ symptom.id }}" value="중"
-                    {% if symptom.saved_intensity == "중" %}checked{% endif %}> 중
-            </label>
+          <div class="strength-card
+          {% if symptom.saved_intensity %}is-selected{% endif %}" data-id="{{ symptom.id }}">
+            <input type="checkbox" class="symptom-select-checkbox" name="symptom_ids[]" value="{{ symptom.id }}"
+              {% if symptom.saved_intensity %}checked{% endif %} style="display: none;">
 
-            <label>
-                <input type="radio" name="intensity_{{ symptom.id }}" value="강"
-                    {% if symptom.saved_intensity == "강" %}checked{% endif %}> 강
-            </label>
+            <div class="strength-header" style="cursor: pointer;">
+              <img src="{% static 'assets/icons/symptom_' %}{{ symptom.icon_key }}_inactive.svg" alt="{{ symptom.name }} 아이콘" class="symptom-icon" style="width: 28px; height: 28px;">
+              <span class="symptom-name">{{ symptom.name }}</span>
+            </div>
 
-            <br><br>
-        {% endfor %}
+            <input type="hidden" name="intensity_{{ symptom.id }}" value="{{ symptom.saved_intensity|default:'' }}">
 
-        <label>
-            <input type="checkbox" name="no_symptom" value="on"
-                   {% if no_symptom %}checked{% endif %}>
-            증상 없음
-        </label>
-        <br><br>
+            <div class="strength-buttons">
+              <button type="button" class="btn-strength low
+              {% if symptom.saved_intensity == 'low' %}active{% endif %}" data-value="low">약</button>
+              <button type="button" class="btn-strength mid
+              {% if symptom.saved_intensity == 'mid' %}active{% endif %}" data-value="mid">중</button>
+              <button type="button" class="btn-strength high
+              {% if symptom.saved_intensity == 'high' %}active{% endif %}" data-value="high">강</button>
+            </div>
+          </div>
 
-        <button type="submit">수정 완료</button>
-    </form>
+          {% endfor %}
+        </div>
 
-    {% if just_saved %}
-        <p class="save-message">수정 완료되었습니다.</p>
-    {% endif %}
+        <div class="button-group">
+          <a href="{% url 'home:home' %}" class="btn btn-secondary">홈으로</a>
+          <button type="submit" id="btn-edit-complete" class="btn btn-primary">수정 완료</button>
+        </div>
+      </form>
 
-    {% if error %}
-        <p class="error-message">{{ error }}</p>
-    {% endif %}
+    </section>
+
+    <!-- 토스트 메시지 컨테이너 -->
+    <div id="toast-container" class="toast-container">
+      <div id="toast-success" class="toast-message toast-success">
+        <img src="{% static 'assets/icons/check_circle.svg' %}" alt="성공" class="toast-icon">
+        <span class="toast-text">수정이 정상적으로 완료되었어요.</span>
+      </div>
+      <div id="toast-error" class="toast-message toast-error">
+        <img src="{% static 'assets/icons/check_circle_error.svg' %}" alt="실패" class="toast-icon">
+        <span class="toast-text">기록을 수정하지 못했습니다.<br>다시 한번 시도해 주세요.</span>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="{% static 'js/edit.js' %}"></script>
+  <script src="{% static 'js/toast.js' %}"></script>
 </body>
 </html>

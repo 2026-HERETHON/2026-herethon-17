@@ -1,5 +1,154 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+  // ==========================================
+  // 트래커 데이터 로드 및 점수 계산 함수
+  // ==========================================
   
+  // 트래커에서 저장한 데이터 형식: { symptomIds: [], intensities: {id: "low"|"mid"|"high"}, updatedAt: ISO, noSymptom: boolean }
+  
+  function getIntensityScore(intensityValue) {
+    if (intensityValue === "low") return 1;
+    if (intensityValue === "mid") return 2;
+    if (intensityValue === "high") return 3;
+    return 0;
+  }
+
+  function getLevelFromScore(score) {
+    if (score === 0) return "none";
+    if (score >= 1 && score <= 5) return "mild";
+    if (score >= 6) return "severe";
+    return "none";
+  }
+
+  function getDateString(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${year}-${month}-${day}`;
+  }
+
+  function calculateDailyScore(record) {
+    if (!record || record.noSymptom) return 0;
+    
+    let totalScore = 0;
+    if (record.intensities) {
+      Object.values(record.intensities).forEach(intensity => {
+        totalScore += getIntensityScore(intensity);
+      });
+    }
+    return totalScore;
+  }
+
+  function getTrackerDataByDate(dateStr) {
+    // 임시: sessionStorage에서 완료된 기록을 날짜 기반으로 조회
+    // 실제 백엔드 연동 시 API 호출로 대체
+    const completed = sessionStorage.getItem("herb-tracker-completed");
+    if (!completed) return null;
+    
+    const record = JSON.parse(completed);
+    const recordDate = new Date(record.updatedAt);
+    const recordDateStr = getDateString(recordDate);
+    
+    if (recordDateStr === dateStr) {
+      return record;
+    }
+    return null;
+  }
+
+  function getWeeklyChartData() {
+    const data = [];
+    
+    // 현재 선택된 주의 시작일부터 7일간 데이터 수집
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date(currentStartDate);
+      currentDate.setDate(currentStartDate.getDate() + i);
+      const dateStr = getDateString(currentDate);
+      
+      const record = getTrackerDataByDate(dateStr);
+      const score = record ? calculateDailyScore(record) : 0;
+      data.push(score);
+    }
+    
+    return data;
+  }
+
+  function getMonthlySymptomData() {
+    // 임시: 월간 데이터 계산
+    // 실제 백엔드 연동 시 API 호출로 대체
+    const data = {};
+    const currentDate = new Date(2026, 5, 1); // 6월 1일 기준
+    const currentMonth = currentDate.getMonth();
+    const lastDate = new Date(currentDate.getFullYear(), currentMonth + 1, 0).getDate();
+    
+    for (let day = 1; day <= lastDate; day++) {
+      const testDate = new Date(currentDate.getFullYear(), currentMonth, day);
+      const dateStr = getDateString(testDate);
+      
+      // 테스트 데이터: 실제로는 트래커 데이터에서 로드
+      const record = getTrackerDataByDate(dateStr);
+      if (record) {
+        const score = calculateDailyScore(record);
+        const level = getLevelFromScore(score);
+        if (level !== "none") {
+          data[dateStr] = level;
+        }
+      }
+    }
+    
+    return data;
+  }
+
+  function getSymptomStatusData() {
+    // 현재 선택된 주의 증상별 현황 수집
+    const statusMap = {};
+    
+    // 현재 선택된 주의 7일간의 모든 기록에서 증상 수집
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date(currentStartDate);
+      currentDate.setDate(currentStartDate.getDate() + i);
+      const dateStr = getDateString(currentDate);
+      
+      const record = getTrackerDataByDate(dateStr);
+      if (record && !record.noSymptom && record.symptomIds) {
+        record.symptomIds.forEach(id => {
+          if (!statusMap[id]) {
+            statusMap[id] = { count: 0, maxIntensity: 0 };
+          }
+          statusMap[id].count += 1;
+          
+          // 최고 강도 추적
+          if (record.intensities && record.intensities[id]) {
+            const score = getIntensityScore(record.intensities[id]);
+            statusMap[id].maxIntensity = Math.max(statusMap[id].maxIntensity, score);
+          }
+        });
+      }
+    }
+    
+    // 증상 카탈로그와 매핑
+    const symptomNames = {
+      "1": { name: "안면홍조", color: "#E05C5C" },
+      "2": { name: "수면장애", color: "#7B89D4" },
+      "3": { name: "감정기복", color: "#82A183" },
+      "4": { name: "피로감", color: "#E8A940" },
+      "5": { name: "관절통", color: "#865523" }
+    };
+    
+    const result = [];
+    Object.entries(statusMap).forEach(([id, data]) => {
+      const symptoms = symptomNames[id];
+      if (symptoms) {
+        result.push({
+          name: symptoms.name,
+          count: data.count,
+          color: symptoms.color
+        });
+      }
+    });
+    
+    return result;
+  }
+
   // ==========================================
   // 뒤로 가기 버튼 로직
   // ==========================================
@@ -50,8 +199,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 가상의 차트 데이터 (월~일 강도 점수 합산) 
   // 백엔드 연동 추후 수정
-  const chartData = [2, 1, 3, 2, 4, 1, 0]; 
-  const dayLabels = ['월', '화', '수', '목', '금', '토', '일'];
+  const chartData = getWeeklyChartData();
+  const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
 
   // 날짜 텍스트 업데이트 함수
   function updateWeekText() {
@@ -71,7 +220,9 @@ document.addEventListener("DOMContentLoaded", function () {
     btnPrevWeek.addEventListener("click", () => {
       currentStartDate.setDate(currentStartDate.getDate() - 7);
       updateWeekText();
-      // TODO: 백엔드에서 이전 주 데이터 받아와서 다시 차트 그리기
+      const newChartData = getWeeklyChartData();
+      renderWeeklyChart(newChartData);
+      renderSymptomStatus(getSymptomStatusData());
     });
   }
 
@@ -79,7 +230,9 @@ document.addEventListener("DOMContentLoaded", function () {
     btnNextWeek.addEventListener("click", () => {
       currentStartDate.setDate(currentStartDate.getDate() + 7);
       updateWeekText();
-      // TODO: 백엔드에서 다음 주 데이터 받아와서 다시 차트 그리기
+      const newChartData = getWeeklyChartData();
+      renderWeeklyChart(newChartData);
+      renderSymptomStatus(getSymptomStatusData());
     });
   }
 
@@ -141,16 +294,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // ==========================================
   // [주간 리포트] 증상별 현황 동적 렌더링
   // ==========================================
-  
-  // 가상의 백엔드 데이터 (증상별 횟수)
-  const symptomStatusData = [
-    { name: "안면홍조", count: 5, color: "#E05C5C" },
-    { name: "수면장애", count: 4, color: "#7B89D4" },
-    { name: "피로감", count: 2, color: "#E8A940" },
-    { name: "감정기복", count: 0, color: "#82A183" }, // 0회 (숨김 처리됨), 기디 분께 색상 여쭤보고 추후수정
-    { name: "관절통", count: 0, color: "#865523" }    // 0회 (숨김 처리됨), 기디 분께 색상 여쭤보고 추후수정
-  ];
-
   function renderSymptomStatus(data) {
     const listContainer = document.getElementById("symptom-status-list");
     if (!listContainer) return;
@@ -192,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // 페이지 로드 시 증상별 현황 렌더링 실행
-  renderSymptomStatus(symptomStatusData);
+  renderSymptomStatus(getSymptomStatusData());
 
   // ==========================================
   // [월간 리포트] 캘린더 동적 렌더링 로직
@@ -203,16 +346,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const btnNextMonth = document.getElementById("btn-next-month");
   const monthDateText = document.getElementById("month-date-text");
 
-  // 가상의 월간 증상 데이터 (YYYY-M-D 형식)
-  const monthlySymptomData = {
-    "2026-6-2": "severe", "2026-6-5": "severe", "2026-6-9": "severe", 
-    "2026-6-10": "severe", "2026-6-13": "severe", "2026-6-15": "severe", 
-    "2026-6-17": "severe", "2026-6-26": "severe",
-    "2026-6-1": "mild", "2026-6-3": "mild", "2026-6-7": "mild", 
-    "2026-6-8": "mild", "2026-6-11": "mild", "2026-6-14": "mild", 
-    "2026-6-18": "mild", "2026-6-19": "mild", "2026-6-21": "mild", 
-    "2026-6-23": "mild", "2026-6-24": "mild"
-  };
+  // 월간 증상 데이터 동적 로드
+  const getMonthlyData = () => getMonthlySymptomData();
+  
+  const monthlySymptomData = getMonthlyData();
 
   const mockTodayStr = "2026-6-27"; 
 

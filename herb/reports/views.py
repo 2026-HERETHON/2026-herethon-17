@@ -4,7 +4,12 @@ from django.contrib.auth.decorators import login_required
 from tracker.services import get_daily_score
 from tracker.models import DailyRecord, SymptomEntry
 from calendar import monthrange
+from django.http import JsonResponse
 
+# 화면 자체를 보여주는 뷰 추가
+@login_required
+def report_view(request):
+    return render(request, "reports/report.html")
 
 # 주간 리포트: 특정 주의 증상 기록을 주간 그래프와 증상별 현황으로 보여줌
 @login_required
@@ -64,15 +69,28 @@ def weekly_view(request):
         else:   # 처음 등장하는 증상이면 1로 시작
             symptom_counts[symptom_name] = 1
 
+    # 증상별 색상 매칭 (프론트 report.js가 그래프에 색을 입히기 위해 요구하는 형태)
+    symptom_color_map = {
+        "안면홍조": "#E05C5C",
+        "수면장애": "#7B89D4",
+        "감정기복": "#C373C7",
+        "피로감": "#E8A940",
+        "관절통": "#B1DB4E",
+    }
 
-    return render(request, "reports/weekly.html", {
-        "monday": monday,
-        "sunday": sunday,
-        "prev_week": prev_week,
-        "next_week": next_week,
-        "weekly_scores": weekly_scores,
-        "has_record": has_record,
-        "symptom_counts": symptom_counts,
+    # symptom_counts(딕셔너리)를, 프론트가 원하는 리스트 형태로 변환
+    symptoms = [
+        {"name": name, "count": count, "color": symptom_color_map.get(name, "#9A9A9A")}
+        for name, count in symptom_counts.items()
+    ]
+
+    # 화면 상단에 표시할 날짜 범위 텍스트 (예: "7월 13일 - 7월 19일")
+    week_range = f"{monday.month}월 {monday.day}일 - {sunday.month}월 {sunday.day}일"
+
+    return JsonResponse({
+        "daily_scores": weekly_scores,
+        "symptoms": symptoms,
+        "week_range": week_range,
     })
 
 
@@ -114,19 +132,19 @@ def monthly_view(request):
         next_month = month + 1
 
     # 날짜별 증상 분류: 없음/있음/심함 계산 (캘린더 색상 표시)
-    day_levels = {}
+    # report.js가 daily_status의 키를 "년-월-일" 형태로 기대하므로 맞춰서 생성
+    daily_status = {}
     for i in range(last_day_num):   # 마지막 날까지 반복
         current_day = first_day + timedelta(days=i)
         day_score_result = get_daily_score(request.user, current_day)
 
-        day_levels[current_day.day] = day_score_result["level"]
-
+        date_key = f"{current_day.year}-{current_day.month}-{current_day.day}"
+        daily_status[date_key] = day_score_result["level"]
 
     # 이번 달 요약 집계 변수: 0으로 초기화
     record_count = 0
     symptom_day_count = 0
     no_symptom_day_count = 0
-
 
     # 기록 여부, 증상 유무 집계
     for i in range(last_day_num):
@@ -146,19 +164,13 @@ def monthly_view(request):
             else:
                 symptom_day_count += 1
 
-    # 이 달에 기록이 하나라도 있는지 확인 (빈 상태 처리)
-    has_record = record_count > 0
-
-    return render(request, "reports/monthly.html", {
+    return JsonResponse({
+        "daily_status": daily_status,
+        "summary": {
+            "total_days": record_count,
+            "symptom_days": symptom_day_count,
+            "none_days": no_symptom_day_count,
+        },
         "year": year,
         "month": month,
-        "prev_year": prev_year,
-        "prev_month": prev_month,
-        "next_year": next_year,
-        "next_month": next_month,
-        "day_levels": day_levels,
-        "has_record": has_record,
-        "record_count": record_count,
-        "symptom_day_count": symptom_day_count,
-        "no_symptom_day_count": no_symptom_day_count,
     })

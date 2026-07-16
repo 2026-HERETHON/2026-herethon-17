@@ -78,6 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // UI 렌더링 함수 - 최종 데이터를 읽어 화면에 리포트 카드 생성
   // ==========================================
+  // ==========================================
+  // UI 렌더링 함수 - 최종 데이터를 읽어 화면에 리포트 카드 생성
+  // ==========================================
   function renderCompleteRecord(record) {
     if (!recordListContainer) return;
 
@@ -90,20 +93,18 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="record-info">
             <span class="symptom-name">저장된 기록이 없어요</span>
           </div>
-          <span class="record-badge low">-</span>
         </div>`;
       return;
     }
 
-    // 1단계에서 '증상 없음'을 선택하고 넘어온 경우
+    // 1단계에서 '증상 없음'을 선택하고 넘어온 경우 (뱃지 숨김)
     if (record.noSymptom) {
       recordListContainer.innerHTML = `
         <div class="record-card">
           <div class="record-info">
             <img src="assets/icons/symptom_none_inactive.svg" alt="증상 없음" class="symptom-icon" style="width: 28px; height: 28px;">
-            <span class="symptom-name">증상 없음</span>
+            <span class="symptom-name">증상 없음</span> 
           </div>
-          <span class="record-badge low">없음</span>
         </div>`;
       return;
     }

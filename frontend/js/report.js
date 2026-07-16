@@ -1,25 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
 
   // ==========================================
-  // 트래커 데이터 로드 및 점수 계산 함수
+  // 유틸리티 함수
   // ==========================================
   
-  // 트래커에서 저장한 데이터 형식: { symptomIds: [], intensities: {id: "low"|"mid"|"high"}, updatedAt: ISO, noSymptom: boolean }
-  
-  function getIntensityScore(intensityValue) {
-    if (intensityValue === "low") return 1;
-    if (intensityValue === "mid") return 2;
-    if (intensityValue === "high") return 3;
-    return 0;
-  }
-
-  function getLevelFromScore(score) {
-    if (score === 0) return "none";
-    if (score >= 1 && score <= 5) return "mild";
-    if (score >= 6) return "severe";
-    return "none";
-  }
-
   function getDateString(date) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
@@ -27,126 +11,60 @@ document.addEventListener("DOMContentLoaded", function () {
     return `${year}-${month}-${day}`;
   }
 
-  function calculateDailyScore(record) {
-    if (!record || record.noSymptom) return 0;
-    
-    let totalScore = 0;
-    if (record.intensities) {
-      Object.values(record.intensities).forEach(intensity => {
-        totalScore += getIntensityScore(intensity);
-      });
-    }
-    return totalScore;
-  }
+  // ==========================================
+  // 백엔드 API 호출 함수
+  // ==========================================
 
-  function getTrackerDataByDate(dateStr) {
-    // 임시: sessionStorage에서 완료된 기록을 날짜 기반으로 조회
-    // 실제 백엔드 연동 시 API 호출로 대체
-    const completed = sessionStorage.getItem("herb-tracker-completed");
-    if (!completed) return null;
+  /* 주간 리포트 데이터 조회
+   @param {Date} startDate - 주의 시작일 (일요일)
+   @returns {Promise<Object>} {daily_scores: [int], symptoms: [{name, count, color}]}
+   */
+  async function fetchWeeklyReportData(startDate) {
+    const startDateStr = getDateString(startDate);
+    const apiUrl = `/reports/weekly/?start_date=${startDateStr}`;
     
-    const record = JSON.parse(completed);
-    const recordDate = new Date(record.updatedAt);
-    const recordDateStr = getDateString(recordDate);
-    
-    if (recordDateStr === dateStr) {
-      return record;
-    }
-    return null;
-  }
-
-  function getWeeklyChartData() {
-    const data = [];
-    
-    // 현재 선택된 주의 시작일부터 7일간 데이터 수집
-    for (let i = 0; i < 7; i++) {
-      const currentDate = new Date(currentStartDate);
-      currentDate.setDate(currentStartDate.getDate() + i);
-      const dateStr = getDateString(currentDate);
-      
-      const record = getTrackerDataByDate(dateStr);
-      const score = record ? calculateDailyScore(record) : 0;
-      data.push(score);
-    }
-    
-    return data;
-  }
-
-  function getMonthlySymptomData() {
-    // 임시: 월간 데이터 계산
-    // 실제 백엔드 연동 시 API 호출로 대체
-    const data = {};
-    const currentDate = new Date(2026, 5, 1); // 6월 1일 기준
-    const currentMonth = currentDate.getMonth();
-    const lastDate = new Date(currentDate.getFullYear(), currentMonth + 1, 0).getDate();
-    
-    for (let day = 1; day <= lastDate; day++) {
-      const testDate = new Date(currentDate.getFullYear(), currentMonth, day);
-      const dateStr = getDateString(testDate);
-      
-      // 테스트 데이터: 실제로는 트래커 데이터에서 로드
-      const record = getTrackerDataByDate(dateStr);
-      if (record) {
-        const score = calculateDailyScore(record);
-        const level = getLevelFromScore(score);
-        if (level !== "none") {
-          data[dateStr] = level;
-        }
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
       }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("주간 리포트 데이터 로드 실패:", error);
+      return { 
+        daily_scores: [0, 0, 0, 0, 0, 0, 0], 
+        symptoms: [],
+        week_range: ""
+      };
     }
-    
-    return data;
   }
 
-  function getSymptomStatusData() {
-    // 현재 선택된 주의 증상별 현황 수집
-    const statusMap = {};
+  /* 월간 리포트 데이터 조회
+   @param {Date} monthDate - 월의 기준일
+   @returns {Promise<Object>} {daily_status: {date: level}, summary: {total_days, symptom_days, none_days}}
+   */
+  async function fetchMonthlyReportData(monthDate) {
+    const year = monthDate.getFullYear();
+    const month = monthDate.getMonth() + 1;
+    const apiUrl = `/reports/monthly/?year=${year}&month=${month}`;
     
-    // 현재 선택된 주의 7일간의 모든 기록에서 증상 수집
-    for (let i = 0; i < 7; i++) {
-      const currentDate = new Date(currentStartDate);
-      currentDate.setDate(currentStartDate.getDate() + i);
-      const dateStr = getDateString(currentDate);
-      
-      const record = getTrackerDataByDate(dateStr);
-      if (record && !record.noSymptom && record.symptomIds) {
-        record.symptomIds.forEach(id => {
-          if (!statusMap[id]) {
-            statusMap[id] = { count: 0, maxIntensity: 0 };
-          }
-          statusMap[id].count += 1;
-          
-          // 최고 강도 추적
-          if (record.intensities && record.intensities[id]) {
-            const score = getIntensityScore(record.intensities[id]);
-            statusMap[id].maxIntensity = Math.max(statusMap[id].maxIntensity, score);
-          }
-        });
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
       }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("월간 리포트 데이터 로드 실패:", error);
+      return { 
+        daily_status: {},
+        summary: { total_days: 0, symptom_days: 0, none_days: 0 },
+        year: year,
+        month: month
+      };
     }
-    
-    // 증상 카탈로그와 매핑
-    const symptomNames = {
-      "1": { name: "안면홍조", color: "#E05C5C" },
-      "2": { name: "수면장애", color: "#7B89D4" },
-      "3": { name: "감정기복", color: "#82A183" },
-      "4": { name: "피로감", color: "#E8A940" },
-      "5": { name: "관절통", color: "#865523" }
-    };
-    
-    const result = [];
-    Object.entries(statusMap).forEach(([id, data]) => {
-      const symptoms = symptomNames[id];
-      if (symptoms) {
-        result.push({
-          name: symptoms.name,
-          count: data.count,
-          color: symptoms.color
-        });
-      }
-    });
-    
-    return result;
   }
 
   // ==========================================
@@ -190,16 +108,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // [주간 리포트] 날짜 변경 및 동적 차트 렌더링
   // ==========================================
   
-  // 기준 날짜 설정 (여기톤 날짜가 포함된 주차 7월 13일 ~ 7월 19일)
-  let currentStartDate = new Date(2026, 6, 13); // JS에서 6 = 7월
+  // 기준 날짜 설정 (현재 주의 일요일)
+  let currentStartDate = new Date();
+  currentStartDate.setDate(currentStartDate.getDate() - currentStartDate.getDay()); // 이번 주 일요일
 
   const btnPrevWeek = document.getElementById("btn-prev-week");
   const btnNextWeek = document.getElementById("btn-next-week");
   const weekDateText = document.getElementById("week-date-text");
 
-  // 가상의 차트 데이터 (월~일 강도 점수 합산) 
-  // 백엔드 연동 추후 수정
-  const chartData = getWeeklyChartData();
   const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
 
   // 날짜 텍스트 업데이트 함수
@@ -215,14 +131,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // 버튼 클릭 이벤트 (일주일씩 이동)
+  // 버튼 클릭 이벤트 (일주일씩 이동 및 데이터 재로드)
   if (btnPrevWeek) {
     btnPrevWeek.addEventListener("click", () => {
       currentStartDate.setDate(currentStartDate.getDate() - 7);
       updateWeekText();
-      const newChartData = getWeeklyChartData();
-      renderWeeklyChart(newChartData);
-      renderSymptomStatus(getSymptomStatusData());
+      loadAndRenderWeeklyReport();
     });
   }
 
@@ -230,9 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnNextWeek.addEventListener("click", () => {
       currentStartDate.setDate(currentStartDate.getDate() + 7);
       updateWeekText();
-      const newChartData = getWeeklyChartData();
-      renderWeeklyChart(newChartData);
-      renderSymptomStatus(getSymptomStatusData());
+      loadAndRenderWeeklyReport();
     });
   }
 
@@ -287,13 +199,29 @@ document.addEventListener("DOMContentLoaded", function () {
     chartArea.innerHTML = yAxisHTML + bgLinesHTML + barsHTML;
   }
 
+  // 주간 리포트 데이터 로드 및 렌더링
+  async function loadAndRenderWeeklyReport() {
+    const reportData = await fetchWeeklyReportData(currentStartDate);
+    
+    if (reportData && reportData.daily_scores) {
+      renderWeeklyChart(reportData.daily_scores);
+      renderSymptomStatus(reportData.symptoms || []);
+      
+      // 데이터 유무 판단: daily_scores가 모두 0이고 symptoms가 비어있으면 데이터 없음
+      const hasData = reportData.daily_scores.some(score => score > 0) || 
+                     (reportData.symptoms && reportData.symptoms.length > 0);
+      checkAndRenderView(hasData);
+    }
+  }
+
   // 페이지 로드 시 최초 1회 실행
   updateWeekText();
-  renderWeeklyChart(chartData);
+  loadAndRenderWeeklyReport();
 
   // ==========================================
   // [주간 리포트] 증상별 현황 동적 렌더링
   // ==========================================
+
   function renderSymptomStatus(data) {
     const listContainer = document.getElementById("symptom-status-list");
     if (!listContainer) return;
@@ -334,41 +262,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 페이지 로드 시 증상별 현황 렌더링 실행
-  renderSymptomStatus(getSymptomStatusData());
-
   // ==========================================
   // [월간 리포트] 캘린더 동적 렌더링 로직
   // ==========================================
-  let currentMonthDate = new Date(2026, 5, 1); // 시작 기준일: 2026년 6월 1일 (JS에서 월은 0부터 시작)
+  let currentMonthDate = new Date(); // 현재 월을 기준으로 시작
   
   const btnPrevMonth = document.getElementById("btn-prev-month");
   const btnNextMonth = document.getElementById("btn-next-month");
   const monthDateText = document.getElementById("month-date-text");
 
-  // 월간 증상 데이터 동적 로드
-  const getMonthlyData = () => getMonthlySymptomData();
-  
-  const monthlySymptomData = getMonthlyData();
-
-  const mockTodayStr = "2026-6-27"; 
-
   // 월 이동 버튼 이벤트
   if (btnPrevMonth) {
     btnPrevMonth.addEventListener("click", () => {
       currentMonthDate.setMonth(currentMonthDate.getMonth() - 1);
-      renderCalendar();
+      loadAndRenderMonthlyReport();
     });
   }
   if (btnNextMonth) {
     btnNextMonth.addEventListener("click", () => {
       currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
-      renderCalendar();
+      loadAndRenderMonthlyReport();
     });
   }
 
   // 캘린더 그리기 함수
-  function renderCalendar() {
+  function renderCalendar(monthlyData) {
     const grid = document.getElementById("calendar-grid");
     if (!grid) return;
     grid.innerHTML = ""; // 기존 달력 초기화
@@ -392,14 +310,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // 1일부터 마지막 날까지 날짜 박스 채우기
     for (let day = 1; day <= lastDate; day++) {
       const dateStr = `${year}-${month + 1}-${day}`;
-      const status = monthlySymptomData[dateStr] || "none";
+      const status = monthlyData.daily_status?.[dateStr] || "none";
       
       let cssClass = "date-box";
       if (status === "mild") cssClass += " symptom-mild";
       if (status === "severe") cssClass += " symptom-severe";
-      if (dateStr === mockTodayStr) cssClass += " is-today";
 
       grid.innerHTML += `<div class="${cssClass}">${day}</div>`;
+    }
+  }
+
+  // 월간 리포트 데이터 로드 및 렌더링
+  async function loadAndRenderMonthlyReport() {
+    const reportData = await fetchMonthlyReportData(currentMonthDate);
+    
+    if (reportData) {
+      renderCalendar(reportData);
+      updateMonthlySummary(
+        reportData.summary?.total_days || 0,
+        reportData.summary?.symptom_days || 0,
+        reportData.summary?.none_days || 0
+      );
     }
   }
 })
@@ -417,8 +348,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (elNone) elNone.innerText = `${noneDays}일`;
   }
 
-  // 백엔드 연동 전 테스트용 (추후 연동 시 삭제)
-  updateMonthlySummary(23, 20, 3);
+  // 페이지 로드 시 월간 리포트 초기 로드
+  loadAndRenderMonthlyReport();
 
   // ==========================================
   // 리포트 화면 캡처 및 이미지 다운로드 기능
@@ -462,33 +393,32 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ==========================================
-  // 데이터 유무에 따른 화면 전환 및 다운로드 버튼 숨김 처리
+  // 데이터 유무에 따른 화면 전환
   // ==========================================
-  const hasData = false; // 백엔드 연동 전 테스트용 (true면 리포트, false면 빈 화면)
-
-  const weeklyArea = document.getElementById("weekly-report-area");
-  const monthlyArea = document.getElementById("monthly-report-area");
-  const emptyArea = document.getElementById("empty-report-area");
   
-  const toggleContainer = document.querySelector(".toggle-container");
-  const downloadBtn = document.getElementById("btn-download");
+  function checkAndRenderView(hasData) {
+    const weeklyArea = document.getElementById("weekly-report-area");
+    const monthlyArea = document.getElementById("monthly-report-area");
+    const emptyArea = document.getElementById("empty-report-area");
+    
+    const toggleContainer = document.querySelector(".toggle-container");
+    const downloadBtn = document.getElementById("btn-download");
 
-  const btnWeeklyToggle = document.getElementById("btn-weekly");
-  const btnMonthlyToggle = document.getElementById("btn-monthly");
+    const btnWeeklyToggle = document.getElementById("btn-weekly");
+    const btnMonthlyToggle = document.getElementById("btn-monthly");
 
-  function checkAndRenderView() {
     if (hasData) {
       // 데이터가 있을 때: 빈 화면을 끄고 주간 리포트로 전환
-      emptyArea.style.display = "none";
-      weeklyArea.style.display = "block"; 
+      if (emptyArea) emptyArea.style.display = "none";
+      if (weeklyArea) weeklyArea.style.display = "block"; 
       
       if (toggleContainer) toggleContainer.style.pointerEvents = "auto";
       if (downloadBtn) downloadBtn.style.display = "block";
     } else {
       // 데이터가 없을 때: 주간/월간을 끄고 빈 화면으로 전환
-      weeklyArea.style.display = "none";
-      monthlyArea.style.display = "none";
-      emptyArea.style.display = "flex";
+      if (weeklyArea) weeklyArea.style.display = "none";
+      if (monthlyArea) monthlyArea.style.display = "none";
+      if (emptyArea) emptyArea.style.display = "flex";
 
       if (btnWeeklyToggle) btnWeeklyToggle.classList.remove("active");
       if (btnMonthlyToggle) btnMonthlyToggle.classList.remove("active");
@@ -498,5 +428,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // 페이지 로딩 시 화면 체크 실행
-  checkAndRenderView();
+  // 초기 뷰 체크는 loadAndRenderWeeklyReport()에서 API 응답 결과에 따라 실행됨

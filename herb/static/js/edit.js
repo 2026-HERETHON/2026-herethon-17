@@ -182,13 +182,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const buttons = card.querySelectorAll(".btn-strength");
       const hiddenCheckbox = card.querySelector("input[type='checkbox'][name='symptom_ids']");
 
-      buttons.forEach((b) => b.classList.remove("active"));
-      button.classList.add("active");
-      if (hiddenInput) hiddenInput.value = button.dataset.value || "";
+      const isAlreadyActive = button.classList.contains("active");
 
-      // 강도를 선택하면 자동으로 카드가 활성화됨
-      card.classList.add("is-selected");
-      if (hiddenCheckbox) hiddenCheckbox.checked = true;
+      buttons.forEach((b) => b.classList.remove("active"));
+
+      if (isAlreadyActive) {
+
+          // 같은 버튼을 다시 눌렀으면 선택 해제
+        if (hiddenInput) hiddenInput.value = "";
+        card.classList.remove("is-selected");
+        if (hiddenCheckbox) hiddenCheckbox.checked = false;
+
+      } else {
+        // 강도를 선택하면 자동으로 카드가 활성화됨
+        button.classList.add("active");
+        if (hiddenInput) hiddenInput.value = button.dataset.value || "";
+        card.classList.add("is-selected");
+        if (hiddenCheckbox) hiddenCheckbox.checked = true;
+      }
 
       refreshEditSubmitState(); // 버튼 누를 때마다 유효성 검사
       return;

@@ -172,14 +172,19 @@ body {
 
 /* 초록색 바 (현재 진행률) */
 .progress-green {
-  width: 50%;
+  width: 0%;
   height: 6px;
   flex-shrink: 0;
   border-radius: 99px;
   background: #6B9E7A;
 
   /* 부드럽게 게이지가 차오르는 효과 */
-  transition: width 0.3s ease;
+  transition: width 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+}
+
+.progress-green.is-animated {
+  width: var(--progress-target, 0%);
 }
 
 /* =====================================

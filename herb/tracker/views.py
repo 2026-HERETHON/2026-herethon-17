@@ -9,21 +9,8 @@ from urllib.parse import urlencode
 @login_required
 def select_view(request):
 
-    # 증상별 아이콘 파일명 매칭 (이름 기준)
-    symptom_icon_map = {
-        "안면홍조": "hot",
-        "수면장애": "sleep",
-        "감정기복": "mood",
-        "피로감": "fatigue",
-        "관절통": "joint",
-    }
-
     symptoms = Symptom.objects.all()
 
-    # 각 증상 객체에 아이콘 키 값을 추가로 붙여줌
-    for symptom in symptoms:
-        symptom.icon_key = symptom_icon_map.get(symptom.name, "hot")
-        
     # 이전 버튼으로 돌아왔을 때, 이전 선택을 다시 체크 표시하기 위함
     selected_symptom_ids = request.GET.getlist("symptom_ids")
     return render(request, "tracker/select.html", {

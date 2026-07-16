@@ -105,8 +105,26 @@ def complete_view(request):
         date=date.today()
     ).first()
 
+    # 아이콘 매칭
+    symptom_icon_map = {
+        "안면홍조": "hot",
+        "수면장애": "sleep",
+        "감정기복": "mood",
+        "피로감": "fatigue",
+        "관절통": "joint",
+    }
+
+    entries_with_icon = []
+
+    # 기록 있고, 증상없음이 아닐 때만 아이콘 매칭
+    if found_daily_record and not found_daily_record.no_symptom:
+        entries_with_icon = list(found_daily_record.entries.all())
+        for entry in entries_with_icon:
+            entry.symptom.icon_key = symptom_icon_map.get(entry.symptom.name, "hot")
+
     return render(request, "tracker/complete.html", {
         "daily_record": found_daily_record,
+        "entries_with_icon": entries_with_icon,
         "date": date.today(),
     })
 

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts.views import splash_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     path("home/", include("home.urls")),
     path("community/", include("community.urls")),
     path("garden/", include("garden.urls")),
+    path("", splash_view, name="splash"),
 ]
 
 if settings.DEBUG:

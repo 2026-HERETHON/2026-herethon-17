@@ -1,32 +1,137 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>프로필/계정 설정</title>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mypage_detail.css' %}">
+  </head>
 <body>
-    <h1>프로필/계정 설정</h1>
 
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
+  <div class="app-container">
 
-    <p>이메일: {{ user.email }} (수정 불가)</p>
-    <p>현재 단계: {{ current_stage }}</p>
+   <header class="app-header">
+      <!-- 뒤로 가기 -->
+      <button class="icon-btn back-btn">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기"/>
+      </button>
 
-    <form method="post">
+      <!-- 페이지 타이틀 -->
+      <h1 class="header-title">프로필/계정 설정</h1>
+    </header>
+
+    <main class="app-content">
+
+      <!-- 상단 프로필 박스 -->
+      <div class="profile-card">
+        <!-- 단계별 로고 (JS에서 동적으로 변경) -->
+        <img src="{% static 'assets/icons/profile_leaf.svg' %}" alt="프로필 로고" id="profile-logo" class="profile-logo" data-stage="{{ current_stage }}">
+
+        <!-- 유저 정보 -->
+        <h2 id="profile-name" class="profile-name">{{ user.name }}</h2>
+        <p id="profile-email" class="profile-email">{{ user.email }}</p>
+
+        <!-- 현재 단계 뱃지 -->
+        <div class="profile-stage-badge">
+          <span id="profile-stage-text">현재 단계: {{ current_stage_display|default:"없음" }}</span>
+        </div>
+      </div>
+
+      {% if error %}
+        <p style="color:red;">{{ error }}</p>
+      {% endif %}
+
+        <!-- 이름 수정 폼 -->
+      <form id="name-form" class="profile-edit-form" method="post" action="{% url 'accounts:profile' %}">
         {% csrf_token %}
-        <label>이름: <input type="text" name="name" value="{{ user.name }}"></label>
-        <button type="submit" name="action" value="update_name">수정하기</button>
-    </form>
+        <input type="hidden" name="form_action" value="update_name">
 
-    <form method="post">
+        <!-- 이름 -->
+        <div class="input-group">
+          <label class="input-label">이름</label>
+          <div class="input-box">
+            <!-- value에 현재 이름 넣어두기 -->
+            <input type="text" name="name" class="input-field" value="{{ user.name }}" />
+            <button type="submit" class="btn-edit">수정하기</button>
+          </div>
+        </div>
+      </form>
+
+        <!-- 이메일 (수정 불가) -->
+        <div class="input-group">
+          <label class="input-label">이메일</label>
+          <div class="input-box">
+            <!-- readonly 속성으로 수정을 막음 -->
+            <input type="email" class="input-field readonly-field" value="{{ user.email }}" readonly />
+          </div>
+        </div>
+
+        <!-- 비밀번호 수정 폼 -->
+      <form id="password-form" class="profile-edit-form" method="post">
         {% csrf_token %}
-        <label>새 비밀번호: <input type="password" name="new_password" placeholder="새 비밀번호 입력"></label>
-        <button type="submit" name="action" value="update_password">변경하기</button>
-    </form>
+        <input type="hidden" name="action" value="update_password">
 
-    <br>
-    <a href="{% url 'accounts:mypage' %}">마이페이지로 돌아가기</a>
+        <div class="input-group">
+          <label class="input-label">비밀번호</label>
+          <div class="input-box">
+            <input type="password" name="new_password" class="input-field" placeholder="비밀번호를 입력해주세요" />
+            <button type="submit" class="btn-edit">변경하기</button>
+          </div>
+        </div>
+      </form>
+
+    </main>
+
+    <!-- 토스트 메시지 컨테이너 -->
+    <div id="toast-container" class="toast-container">
+      <div id="toast-success" class="toast-message toast-success">
+        <img src="{% static 'assets/icons/check_circle.svg' %}" alt="성공" class="toast-icon">
+        <span class="toast-text">수정이 정상적으로 완료되었어요.</span>
+      </div>
+      <div id="toast-error" class="toast-message toast-error">
+        <img src="{% static 'assets/icons/check_circle_error.svg' %}" alt="실패" class="toast-icon">
+        <span class="toast-text">정보를 수정하지 못했습니다.<br>다시 한번 시도해 주세요.</span>
+      </div>
+    </div>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+
+      <!-- 홈 -->
+      <a href="{% url 'home:home' %}" class="tab-item">
+      <img src="{% static 'assets/icons/tab_home_inactive.svg' %}" alt="홈" class="tab-icon"/>
+      <span class="tab-text">홈</span>
+      </a>
+
+      <!-- 패턴 리포트 -->
+      <a href="{% url 'reports:weekly' %}" class="tab-item">
+      <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon"/>
+      <span class="tab-text">리포트</span>
+      </a>
+
+      <!-- 나의 정원 -->
+      <a href="{% url 'garden:list' %}" class="tab-item">
+      <img src="{% static 'assets/icons/tab_garden_inactive.svg' %}" alt="나의 정원" class="tab-icon"/>
+      <span class="tab-text">나의 정원</span>
+      </a>
+
+      <!-- 허브 커뮤니티 -->
+      <a href="{% url 'community:list' %}" class="tab-item">
+      <img src="{% static 'assets/icons/tab_community_inactive.svg' %}" alt="커뮤니티" class="tab-icon"/>
+      <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+
+  </div>
+
+
+
+  <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/toast.js' %}"></script>
+  <script src="{% static 'js/mypage_detail.js' %}"></script>
 </body>
 </html>

@@ -1,48 +1,136 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>알림 설정</title>
-</head>
-<body>
-    <h1>알림 설정</h1>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
 
-    <form method="post">
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+  <link rel="stylesheet" href="{% static 'css/mypage_detail.css' %}">
+</head>
+
+<body>
+
+  <div class="app-container">
+    <header class="app-header">
+      <!-- 뒤로 가기 -->
+      <button type="button" class="icon-btn back-btn">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기"/>
+      </button>
+
+      <!-- 페이지 타이틀 -->
+      <h1 class="header-title">알림 설정</h1>
+    </header>
+
+    <main class="app-content">
+
+      <form method="post">
         {% csrf_token %}
 
-        <label>
-            <input type="checkbox" name="daily_notification"
-                   {% if user.daily_notification %}
-                   checked
-                   {% endif %}>
-            오늘 기록 알림
-        </label><br>
+        <div class="alarm-list">
 
-        <label>
-            <input type="checkbox" name="comment_notification"
-                   {% if user.comment_notification %}
-                   checked
-                   {% endif %}>
-            커뮤니티 댓글 알림
-        </label><br>
+          <!-- 오늘 기록 알림 -->
+          <div class="alarm-card">
+            <div class="alarm-text-wrapper">
+              <h3 class="alarm-card-title">오늘 기록 알림</h3>
+              <p class="alarm-card-desc">매일 저녁 기록을 잊지 않도록 알려드려요</p>
+            </div>
 
-        <label>
-            <input type="checkbox" name="like_notification"
-                   {% if user.like_notification %}
-                   checked {% endif %}>
-            커뮤니티 좋아요 알림
-        </label><br>
+            <!-- 알림 토글 (켜져있음) -->
+            <label class="alarm-toggle">
+              <input type="checkbox" name="daily_notification"
+                {% if user.daily_notification %}checked{% endif %}/>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
 
-        <label>
-            기록 리마인더 시간:
-            <input type="time" name="reminder_time"
-                   value="{{ user.reminder_time|time:'H:i' }}">
-        </label><br>
+          <!-- 커뮤니티 댓글 -->
+          <div class="alarm-card">
+            <div class="alarm-text-wrapper">
+              <h3 class="alarm-card-title">커뮤니티 댓글</h3>
+              <p class="alarm-card-desc">내 게시글에 댓글이 달리면 알려드려요</p>
+            </div>
 
-        <button type="submit">저장</button>
-    </form>
+            <!-- 알림 토글 (켜져있음) -->
+            <label class="alarm-toggle">
+              <input type="checkbox" name="comment_notification"
+                {% if user.comment_notification %}checked{% endif %}/>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
 
-    <br>
-    <a href="{% url 'accounts:mypage' %}">마이페이지로 돌아가기</a>
+          <!-- 커뮤니티 좋아요 -->
+          <div class="alarm-card">
+            <div class="alarm-text-wrapper">
+              <h3 class="alarm-card-title">커뮤니티 좋아요</h3>
+              <p class="alarm-card-desc">내 게시글에 좋아요가 달리면 알려드려요</p>
+            </div>
+
+            <!-- 알림 토글 (꺼져있음) -->
+            <label class="alarm-toggle">
+              <input type="checkbox" name="like_notification"
+                {% if user.like_notification %}checked{% endif %}/>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- 기록 리마인더 시간 -->
+          <div class="alarm-card is-time-card">
+            <h3 class="time-card-title">기록 리마인더 시간</h3>
+
+            <div class="time-setting-wrapper">
+              <div class="time-box">
+
+                <span class="time-text" id="time-text">오후 8:00</span>
+                <!-- 10분 단위로 설정된 네이티브 타임 피커 -->
+                <input type="time" id="time-input" name="reminder_time" value="{{ user.reminder_time|time:'H:i' }}" step="600">
+              </div>
+
+              <!-- 버튼 클릭 시 time-input을 실행 -->
+              <label class="btn-change" for="time-input">변경</label>
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+
+    </main>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+
+      <!-- 홈 -->
+      <a href="{% url 'home:home' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_home_inactive.svg' %}" alt="홈" class="tab-icon"/>
+        <span class="tab-text">홈</span>
+      </a>
+
+      <!-- 패턴 리포트 -->
+      <a href="{% url 'reports:weekly' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon"/>
+        <span class="tab-text">리포트</span>
+      </a>
+
+      <!-- 나의 정원 -->
+      <a href="{% url 'garden:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_garden_inactive.svg' %}" alt="나의 정원" class="tab-icon"/>
+        <span class="tab-text">나의 정원</span>
+      </a>
+
+      <!-- 허브 커뮤니티 -->
+      <a href="{% url 'community:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_community_inactive.svg' %}" alt="커뮤니티" class="tab-icon"/>
+        <span class="tab-text">커뮤니티</span>
+      </a>
+
+    </nav>
+
+  </div>
+
+  <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/mypage_detail.js' %}"></script>
 </body>
 </html>

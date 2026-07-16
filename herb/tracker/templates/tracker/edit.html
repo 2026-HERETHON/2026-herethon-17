@@ -41,7 +41,7 @@
 
           <div class="strength-card
           {% if symptom.saved_intensity %}is-selected{% endif %}" data-id="{{ symptom.id }}">
-            <input type="checkbox" class="symptom-select-checkbox" name="symptom_ids[]" value="{{ symptom.id }}"
+            <input type="checkbox" class="symptom-select-checkbox" name="symptom_ids" value="{{ symptom.id }}"
               {% if symptom.saved_intensity %}checked{% endif %} style="display: none;">
 
             <div class="strength-header" style="cursor: pointer;">

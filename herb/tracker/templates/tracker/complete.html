@@ -25,13 +25,11 @@
 
         {% if daily_record.no_symptom %}
         <div class="record-card">
+
           <div class="record-info">
             <img src="{% static 'assets/icons/symptom_none_inactive.svg' %}" alt="증상 없음" class="symptom-icon" style="width: 28px; height: 28px;">
             <span class="symptom-name">증상 없음</span>
           </div>
-          <span class="record-badge low">없음</span>
-
-
 
         {% elif entries_with_icon %}
           {% for entry in entries_with_icon %}
@@ -54,7 +52,6 @@
           <div class="record-info">
             <span class="symptom-name">저장된 기록이 없어요</span>
           </div>
-          <span class="record-badge low">-</span>
         </div>
 
         {% endif %}

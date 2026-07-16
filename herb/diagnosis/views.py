@@ -6,7 +6,6 @@ from .models import DiagnosisResult
 from .services import (
     DIAGNOSIS_QUESTIONS,
     STAGE_INFO,
-    GUIDE_TEXT,
     validate_answers,
     count_answers,
     calculate_stage,
@@ -31,7 +30,7 @@ def diagnosis_form(request):
             messages.error(request, "모든 문항에 답변해 주세요.")
             return render(
                 request,
-                "diagnosis/form.html",
+                "diagnosis/survey.html",
                 {
                     "questions": DIAGNOSIS_QUESTIONS,
                     "selected_answers": answers,
@@ -60,7 +59,7 @@ def diagnosis_form(request):
 
     return render(
         request,
-        "diagnosis/form.html",
+        "diagnosis/survey.html",
         {
             "questions": DIAGNOSIS_QUESTIONS,
         },
@@ -72,7 +71,7 @@ def diagnosis_loading(request):
     # POST 직후 보여주는 중간 화면.
     # loading.html 안에서 일정 시간 후 result로 자동 이동 처리 필요!
     # (예: <meta http-equiv="refresh" content="2;url=/diagnosis/result/">)
-    return render(request, "diagnosis/loading.html")
+    return render(request, "diagnosis/survey_loading.html")
 
 
 @login_required
@@ -101,12 +100,11 @@ def diagnosis_result(request):
 
     return render(
         request,
-        "diagnosis/result.html",
+        "diagnosis/survey_result.html",
         {
             "result": result,
             "stage_data": STAGE_INFO[result.stage],
             "all_stages": STAGE_INFO,
-            "guide_text": GUIDE_TEXT,
         },
     )
 

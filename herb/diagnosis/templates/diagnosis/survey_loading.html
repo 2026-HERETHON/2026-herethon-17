@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HERb</title>
+
+    <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/survey.css' %}">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <main class="app-content">
+
+            <div class="loading-container" id="loading-container">
+                <div class="loading-icons">
+                    <img src="{% static 'assets/icons/LoadingLogo1.png' %}" alt="" class="loading-icon1"
+                        id="loading-icon1">
+                </div>
+                <p class="loading-title">응답을 바탕으로 <br> 지금 나의 위치를 살펴보고 있어요</p>
+                <p class="loading-subtitle">잠시만 기다리면 결과를 볼 수 있어요</p>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="{% static 'js/common.js' %}"></script>
+
+    <script>
+        const hourglassImages = [
+            "{% static 'assets/icons/LoadingLogo1.png' %}",
+            "{% static 'assets/icons/LoadingLogo2.png' %}",
+            "{% static 'assets/icons/LoadingLogo3.png' %}",
+        ];
+        let hourglassIndex = 0;
+        const iconEl = document.getElementById("loading-icon1");
+
+        setInterval(() => {
+            hourglassIndex = (hourglassIndex + 1) % hourglassImages.length;
+            iconEl.src = hourglassImages[hourglassIndex];
+        }, 400);
+
+        setTimeout(() => {
+            window.location.href = "{% url 'diagnosis:result' %}";
+        }, 1500);
+    </script>
+</body>
+
+</html>

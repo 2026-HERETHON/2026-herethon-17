@@ -87,6 +87,18 @@
     font-size: 15px;
     font-weight: 400;
     margin-top: 7px;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; 
+    border-radius: 12px;
+}
+
+.mypage-menu-item:hover {
+    transform: scale(1.02);
+    z-index: 1; 
+}
+
+.mypage-menu-item:active {
+    transform: scale(0.98);
+    background-color: #F8F6F4; 
 }
 
 .mypage-menu-left {

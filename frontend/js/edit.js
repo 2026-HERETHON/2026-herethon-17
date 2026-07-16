@@ -70,28 +70,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // UI 렌더링 - 수정용 카드 리스트 생성
   // ==========================================
   function buildIntensityCard(cardData, intensityValue = "", withCheckbox = false, selected = false) {
-    const lowActive = intensityValue === "low" ? "active" : "";
-    const midActive = intensityValue === "mid" ? "active" : "";
-    const highActive = intensityValue === "high" ? "active" : "";
-    const checkboxMarkup = withCheckbox
-      ? `<input type="checkbox" class="symptom-select-checkbox" name="symptom_ids[]" value="${cardData.id}" ${selected ? "checked" : ""} style="accent-color: #6B9E7A;">`
-      : "";
+  const lowActive = intensityValue === "low" ? "active" : "";
+  const midActive = intensityValue === "mid" ? "active" : "";
+  const highActive = intensityValue === "high" ? "active" : "";
+  
+  // 체크박스를 HTML DOM에는 존재하게 하되, 눈에 보이지 않도록 display: none 처리
+  const checkboxMarkup = `<input type="checkbox" class="symptom-select-checkbox" name="symptom_ids[]" value="${cardData.id}" ${selected ? "checked" : ""} style="display: none;">`;
 
-    return `
-      <div class="strength-card ${selected ? "is-selected" : ""}" data-id="${cardData.id}">
-        ${checkboxMarkup}
-        <div class="strength-header" style="cursor: pointer;">
-          <img src="assets/icons/symptom_${cardData.icon}_inactive.svg" alt="${cardData.name} 아이콘" class="symptom-icon" style="width: 28px; height: 28px;">
-          <span class="symptom-name">${cardData.name}</span>
-        </div>
-        <input type="hidden" name="intensity_${cardData.id}" value="${intensityValue}">
-        <div class="strength-buttons">
-          <button type="button" class="btn-strength low ${lowActive}" data-value="low">약</button>
-          <button type="button" class="btn-strength mid ${midActive}" data-value="mid">중</button>
-          <button type="button" class="btn-strength high ${highActive}" data-value="high">강</button>
-        </div>
-      </div>`;
-  }
+  return `
+    <div class="strength-card ${selected ? "is-selected" : ""}" data-id="${cardData.id}">
+      ${checkboxMarkup}
+      <div class="strength-header" style="cursor: pointer;">
+        <img src="assets/icons/symptom_${cardData.icon}_inactive.svg" alt="${cardData.name} 아이콘" class="symptom-icon" style="width: 28px; height: 28px;">
+        <span class="symptom-name">${cardData.name}</span>
+      </div>
+      <input type="hidden" name="intensity_${cardData.id}" value="${intensityValue}">
+      <div class="strength-buttons">
+        <button type="button" class="btn-strength low ${lowActive}" data-value="low">약</button>
+        <button type="button" class="btn-strength mid ${midActive}" data-value="mid">중</button>
+        <button type="button" class="btn-strength high ${highActive}" data-value="high">강</button>
+      </div>
+    </div>`;
+}
 
   // 카탈로그에 있는 '모든' 증상을 렌더링하고, 기존에 선택됐던 증상만 체크/강도 표시 활성화
   function renderEditCards(container, record) {
@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       const hiddenInput = card.querySelector("input[type='hidden'][name^='intensity_']");
       const buttons = card.querySelectorAll(".btn-strength");
+      const hiddenCheckbox = card.querySelector("input[type='checkbox'][name='symptom_ids[]']");
       
       buttons.forEach((b) => b.classList.remove("active"));
       button.classList.add("active");
@@ -217,7 +218,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = header.closest(".strength-card");
       if (!card) return;
 
-      card.classList.toggle("is-selected");
+      const isNowSelected = card.classList.toggle("is-selected");
+      
+      // 숨겨진 체크박스 상태 동기화
+      const hiddenCheckbox = card.querySelector("input[type='checkbox'][name='symptom_ids[]']");
+      if (hiddenCheckbox) {
+        hiddenCheckbox.checked = isNowSelected;
+      }
+
+      // 선택 해제 시 강도 값도 초기화
+      if (!isNowSelected) {
+        const hiddenInput = card.querySelector("input[type='hidden'][name^='intensity_']");
+        const buttons = card.querySelectorAll(".btn-strength");
+        if (hiddenInput) hiddenInput.value = "";
+        buttons.forEach((b) => b.classList.remove("active"));
+      }
+
       refreshEditSubmitState();
     }
   });

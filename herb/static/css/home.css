@@ -6,6 +6,11 @@
     margin-bottom: 75px;
 }
 
+/* 스크롤바 숨기기 */
+.app-content::-webkit-scrollbar {
+  display: none;
+}
+
 .home-header {
     display: flex;
     align-items: center;

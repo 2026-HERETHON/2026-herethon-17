@@ -3,8 +3,9 @@
 # 🪴 HERb
 ***HE:RE**, **‘여기’** 에서 다시 시작하다.*
 <br>
-> HERb는 'RE'를 여성의 생애 전환점, 즉 완경 이후의 새로운 시작으로 정의했습니다.
-<img width="1920" height="1080" alt="표지 (미완)" src="https://github.com/user-attachments/assets/4ca1edf8-a042-46c9-aa1a-2918c94051ed" />
+> **HERb**는 'RE'를 여성의 생애 전환점, 즉 완경 이후의 새로운 시작으로 정의했습니다.
+<img width="1920" height="1080" alt="표지 (미완) (1)" src="https://github.com/user-attachments/assets/d188fa95-ab84-480d-a5c5-1e6e0988fc78" />
+
 <br>
 
 ---

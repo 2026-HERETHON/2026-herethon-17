@@ -217,24 +217,24 @@ document.addEventListener("DOMContentLoaded", function () {
   ========================================== */
   const postListContainer = document.getElementById("community-post-list");
   const emptyCommunityState = document.getElementById("empty-community-state");
-  const filterContainer = document.getElementById("community-filter-container"); // 🌟 필터 컨테이너 가져오기
+  const filterContainer = document.getElementById("community-filter-container");
   const checkboxFilterContainer = document.getElementById("community-checkbox-filter");
 
   if (postListContainer && emptyCommunityState) {
     const posts = postListContainer.querySelectorAll(".post-card");
 
     if (posts.length === 0) {
-      // 게시물이 없으면: 목록과 필터 숨김, 빈 화면 표시
+      // 게시물이 없을 때: '게시물 목록'만 숨기고 '필터'는 보이게 둡니다!
       postListContainer.style.display = "none";
-      if (filterContainer) filterContainer.style.display = "none";
-      if (checkboxFilterContainer) checkboxFilterContainer.style.display = "none";
+      if (filterContainer) filterContainer.style.display = "flex"; // style 유지
+      if (checkboxFilterContainer) checkboxFilterContainer.style.display = "flex"; // 👈 display: none 제거 및 flex 지정
       emptyCommunityState.style.display = "flex";
     } else {
-      // 게시물이 있으면: 목록과 필터 표시, 빈 화면 숨김
+      // 게시물이 있을 때: 목록 표시, 빈 화면 숨김
       postListContainer.style.display = "flex";
       if (filterContainer) filterContainer.style.display = "flex";
+      if (checkboxFilterContainer) checkboxFilterContainer.style.display = "flex";
       emptyCommunityState.style.display = "none";
     }
   }
-
 });

@@ -57,47 +57,46 @@
 
     <main class="app-content">
 
-      <div class="post-list" id="community-post-list">
-        {% for post in posts %}
-        <a href="{% url 'community:detail' post.id %}" class="post-card">
-          <div class="post-card-top">
-            <div class="post-tags-wrapper">
-              {% for tag in post.tags.all %}
-              <span class="symptom-tag">{{ tag.get_symptom_display }}</span>
-              {% endfor %}
-            </div>
-            <span class="post-time">{{ post.created_at|timesince }} 전</span>
+    <!-- 게시글 목록 (게시물이 있을 때만 노출) -->
+    <div class="post-list" id="community-post-list" {% if not posts %}style="display: none;"{% endif %}>
+      {% for post in posts %}
+      <a href="{% url 'community:detail' post.id %}" class="post-card">
+        <div class="post-card-top">
+          <div class="post-tags-wrapper">
+            {% for tag in post.tags.all %}
+            <span class="symptom-tag">{{ tag.get_symptom_display }}</span>
+            {% endfor %}
           </div>
-
-          <h3 class="post-card-title">{{ post.title }}</h3>
-          <p class="post-card-content">{{ post.content|truncatechars:60 }}</p>
-
-          <div class="post-card-bottom">
-            <div class="post-item">
-              <img src="{% static 'assets/icons/icon_like.svg' %}" alt="좋아요" />
-              <span class="count">{{ post.likes.count }}</span>
-            </div>
-            <div class="post-item">
-              <img src="{% static 'assets/icons/icon_chat.svg' %}" alt="댓글" />
-              <span class="count">{{ post.comments.count }}</span>
-            </div>
-          </div>
-        </a>
-        {% empty %}
-        <p class="post-empty">아직 게시글이 없어요. 첫 글을 남겨보세요!</p>
-        {% endfor %}
-      </div>
-
-      <!-- 게시물이 없을 때 띄워줄 빈 화면 (기본적으로 숨겨둠) -->
-      <div class="empty-community" id="empty-community-state" style="display: none;">
-        <img src="{% static 'assets/icons/pottedplant.svg' %}" alt="빈 화분" class="empty-community-icon">
-        <div class="empty-community-text-wrapper">
-          <h2 class="empty-community-title">아직 작성된 게시글이 없어요.</h2>
-          <p class="empty-community-desc">첫 게시글을 작성하여 다른 사람들과 이야기를 나눠요</p>
+          <span class="post-time">{{ post.created_at|timesince }} 전</span>
         </div>
-      </div>
 
-    </main>
+        <h3 class="post-card-title">{{ post.title }}</h3>
+        <p class="post-card-content">{{ post.content|truncatechars:60 }}</p>
+
+        <div class="post-card-bottom">
+          <div class="post-item">
+            <img src="{% static 'assets/icons/icon_like.svg' %}" alt="좋아요" />
+            <span class="count">{{ post.likes.count }}</span>
+          </div>
+          <div class="post-item">
+            <img src="{% static 'assets/icons/icon_chat.svg' %}" alt="댓글" />
+            <span class="count">{{ post.comments.count }}</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- 게시물이 없을 때 띄워줄 빈 화면 (Django 조건문으로 제어) -->
+    <div class="empty-community" id="empty-community-state" {% if posts %}style="display: none;"{% endif %}>
+      <img src="{% static 'assets/icons/pottedplant.svg' %}" alt="빈 화분" class="empty-community-icon">
+      <div class="empty-community-text-wrapper">
+        <h2 class="empty-community-title">아직 작성된 게시글이 없어요.</h2>
+        <p class="empty-community-desc">첫 게시글을 작성하여 다른 사람들과 이야기를 나눠요</p>
+      </div>
+    </div>
+
+  </main>
 
     <!-- GNB (garden 때와 같은 패턴) -->
     <nav class="app-bottom-tab">

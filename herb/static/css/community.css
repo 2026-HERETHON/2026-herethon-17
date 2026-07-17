@@ -95,14 +95,17 @@
 .post-card-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
     width: 100%;
+    gap: 8px;
 }
 .post-tags-wrapper {
     display: flex;
+    flex-wrap: wrap;
     gap: 6px;
     align-items: center;
+    flex: 1;
 }
 
 /* 작성 시간 */
@@ -110,6 +113,8 @@
     color: #9A9A9A;
     font-size: 12px;
     font-weight: 400;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 /* 게시글 제목 */

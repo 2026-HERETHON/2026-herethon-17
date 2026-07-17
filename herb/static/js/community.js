@@ -210,4 +210,31 @@ document.addEventListener("DOMContentLoaded", function () {
         toast.classList.remove("show");
       }, 2500);
     });
+
+
+  /* ==========================================
+     커뮤니티 빈 화면 체크 로직
+  ========================================== */
+  const postListContainer = document.getElementById("community-post-list");
+  const emptyCommunityState = document.getElementById("empty-community-state");
+  const filterContainer = document.getElementById("community-filter-container"); // 🌟 필터 컨테이너 가져오기
+  const checkboxFilterContainer = document.getElementById("community-checkbox-filter");
+
+  if (postListContainer && emptyCommunityState) {
+    const posts = postListContainer.querySelectorAll(".post-card");
+
+    if (posts.length === 0) {
+      // 게시물이 없으면: 목록과 필터 숨김, 빈 화면 표시
+      postListContainer.style.display = "none";
+      if (filterContainer) filterContainer.style.display = "none";
+      if (checkboxFilterContainer) checkboxFilterContainer.style.display = "none";
+      emptyCommunityState.style.display = "flex";
+    } else {
+      // 게시물이 있으면: 목록과 필터 표시, 빈 화면 숨김
+      postListContainer.style.display = "flex";
+      if (filterContainer) filterContainer.style.display = "flex";
+      emptyCommunityState.style.display = "none";
+    }
+  }
+
 });

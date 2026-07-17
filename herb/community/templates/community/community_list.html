@@ -25,7 +25,7 @@
     </header>
 
     <!-- 증상 필터 -->
-    <div class="filter-container">
+    <div class="filter-container" id="community-checkbox-filter">
     <label class="community-tag-item">
       <input
         type="checkbox"
@@ -56,7 +56,15 @@
     </div>
 
     <main class="app-content">
-      <div class="post-list">
+
+      <div class="tag-filter-bar" id="community-filter-container">
+        <button type="button" class="tag-filter-item active" data-tag="all">전체</button>
+        {% for value, label in symptom_tags %}
+        <button type="button" class="tag-filter-item" data-tag="{{ value }}">{{ label }}</button>
+        {% endfor %}
+      </div>
+
+      <div class="post-list" id="community-post-list">
         {% for post in posts %}
         <a href="{% url 'community:detail' post.id %}" class="post-card">
           <div class="post-card-top">
@@ -86,6 +94,16 @@
         <p class="post-empty">아직 게시글이 없어요. 첫 글을 남겨보세요!</p>
         {% endfor %}
       </div>
+
+      <!-- 게시물이 없을 때 띄워줄 빈 화면 (기본적으로 숨겨둠) -->
+      <div class="empty-community" id="empty-community-state" style="display: none;">
+        <img src="{% static 'assets/icons/pottedplant.svg' %}" alt="빈 화분" class="empty-community-icon">
+        <div class="empty-community-text-wrapper">
+          <h2 class="empty-community-title">아직 작성된 게시글이 없어요.</h2>
+          <p class="empty-community-desc">첫 게시글을 작성하여 다른 사람들과 이야기를 나눠요</p>
+        </div>
+      </div>
+
     </main>
 
     <!-- GNB (garden 때와 같은 패턴) -->

@@ -23,8 +23,8 @@
 ### 🦁 팀원 소개
 ![divider](https://capsule-render.vercel.app/api?type=rect&color=cccccc&height=1&section=header)
 | 박수현 | 김민주 | 황세연 | 박주현 | 신지민 | 조연우 |
-| ([@unhyns](https://github.com/unhyns)) | ([@llszos](https://github.com/llszos)) | ([@hiseyeon](https://github.com/hiseyeon)) | ([@wngus0328](https://github.com/wngus0328)) | ([@TuttoShin](https://github.com/TuttoShin)) | ([@chloecho615](https://github.com/chloecho615)) |
 |:---:|:---:|:---:|:---:|:---:|:---:|
+| ([@unhyns](https://github.com/unhyns)) | ([@llszos](https://github.com/llszos)) | ([@hiseyeon](https://github.com/hiseyeon)) | ([@wngus0328](https://github.com/wngus0328)) | ([@TuttoShin](https://github.com/TuttoShin)) | ([@chloecho615](https://github.com/chloecho615)) |
 | <img src="https://github.com/아이디1.png" width="150"> | <img src="https://github.com/아이디2.png" width="150"> | <img src="https://github.com/아이디3.png" width="150"> | <img src="https://github.com/아이디4.png" width="150"> | <img src="https://github.com/아이디5.png" width="150"> | <img src="https://github.com/아이디6.png" width="150"> |
 | `PM` | `BE` | `BE` | `FE` | `FE` | `FE` |
 | 🞄 기획·디자인<br>🞄 발표 | 역할2 | 역할3 | 🞄 나의 정원<br>🞄 허브 커뮤니티<br>🞄 마이페이지 | 🞄 증상 트래커<br>🞄 패턴 리포트 | 🞄 온보딩<br>🞄 홈 |

@@ -18,7 +18,13 @@
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 ### 🦁 팀원 소개
+## 🔗 Contributors
 
+| [팀원1이름](깃허브링크) | [팀원2이름](깃허브링크) | [팀원3이름](깃허브링크) | [팀원4이름](깃허브링크) |
+|:---:|:---:|:---:|:---:|
+| <img src="이미지URL1" width="150"> | <img src="이미지URL2" width="150"> | <img src="이미지URL3" width="150"> | <img src="이미지URL4" width="150"> |
+| PM | FE | FE | BE |
+| `구상 및 기획`<br>`UI/UX 디자인` | `온보딩`<br>`홈 화면` | `설문`<br>`로딩/결과 화면` | `백엔드 담당 파트` |
 ### 폴더 구조
 
 ### 개발환경에서의 실행 방법

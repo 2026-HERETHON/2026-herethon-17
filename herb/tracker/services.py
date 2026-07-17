@@ -62,10 +62,10 @@ def get_daily_score(user, date):
 
     # 기록 없거나, 증상 없음으로 기록: 0점
     if not found_daily_record or found_daily_record.no_symptom:
-        return {"score": 0, "level": "없음"}
+        return {"score": 0, "level": "none"}
 
-    # 강도별 점수표
-    intensity_score = {"약": 1, "중": 2, "강": 3}
+    # 강도별 점수표 (실제 저장되는 값: low/mid/high)
+    intensity_score = {"low": 1, "mid": 2, "high": 3}
 
     # 그날 기록된 모든 증상 점수 합산
     score = 0
@@ -74,10 +74,10 @@ def get_daily_score(user, date):
 
     # 합산 점수에 따라 3단계로 분류 (0점=없음, 1~5점=있음, 6점 이상=심함)
     if score == 0:
-        level = "없음"
+        level = "none"
     elif score <= 5:
-        level = "있음"
+        level = "mild"
     else:
-        level = "심함"
+        level = "severe"
 
     return {"score": score, "level": level}

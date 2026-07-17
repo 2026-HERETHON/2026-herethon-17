@@ -58,6 +58,17 @@
     </div>
 
     <main class="app-content">
+
+      <!-- 게시물이 없을 때 띄워줄 빈 화면 (기본적으로 숨겨둠) -->
+      <div class="empty-community" id="empty-community-state" style="display: none;">
+        <img src="assets/icons/pottedplant.svg" alt="빈 화분" class="empty-community-icon">
+        <div class="empty-community-text-wrapper">
+          <h2 class="empty-community-title">아직 작성된 게시글이 없어요.</h2>
+          <p class="empty-community-desc">첫 게시글을 작성하여 다른 사람들과 이야기를 나눠요</p>
+        </div>
+      </div>
+
+
       <div class="post-list">
         <!--반복되는 아이템 부분-->
         <a href="community_detail.html" class="post-card">

@@ -17,9 +17,6 @@
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 
 ### 🦁 팀원 소개
-## 🔗 Contributors
-## 🔗 Contributors
-
 | [박수현] | [김민주] | [황세연] |
 |:---:|:---:|:---:|
 | <img src="https://github.com/아이디1.png" width="150"> | <img src="https://github.com/아이디2.png" width="150"> | <img src="https://github.com/아이디3.png" width="150"> |

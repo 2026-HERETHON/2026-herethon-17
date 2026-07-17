@@ -22,7 +22,7 @@
 
 ### 🦁 팀원 소개
 ![divider](https://capsule-render.vercel.app/api?type=rect&color=cccccc&height=1&section=header)
-| [박수현] <br> (@unhyns(https://github.com/unhyns)) | [김민주](https://github.com/llszos) | [황세연](https://github.com/hiseyeon) | [박주현](https://github.com/wngus0328) | [신지민](https://github.com/TuttoShin) | [조연우](https://github.com/chloecho615) |
+| [박수현] (https://github.com/unhyns) | [김민주](https://github.com/llszos) | [황세연](https://github.com/hiseyeon) | [박주현](https://github.com/wngus0328) | [신지민](https://github.com/TuttoShin) | [조연우](https://github.com/chloecho615) |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | <img src="https://github.com/아이디1.png" width="150"> | <img src="https://github.com/아이디2.png" width="150"> | <img src="https://github.com/아이디3.png" width="150"> | <img src="https://github.com/아이디4.png" width="150"> | <img src="https://github.com/아이디5.png" width="150"> | <img src="https://github.com/아이디6.png" width="150"> |
 | `PM` | `BE` | `BE` | `FE` | `FE` | `FE` |

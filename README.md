@@ -5,6 +5,8 @@
 ---
 
 ### 💻 기술 스택
+![divider](https://capsule-render.vercel.app/api?type=rect&color=6B9E7A&height=3&section=header)
+
 ---
 📌 기획/디자인<br>
 ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)

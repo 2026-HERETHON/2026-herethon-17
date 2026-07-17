@@ -229,9 +229,8 @@
     gap: 10px;
 }
 .badge-new {
-    display: none;
+    display: inline-flex;
     padding: 4px 12px;
-    display: none;
     align-items: center;
     justify-content: center;
     border-radius: 20px;

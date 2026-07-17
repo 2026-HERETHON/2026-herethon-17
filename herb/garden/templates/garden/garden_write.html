@@ -1,0 +1,132 @@
+{% load static %}
+<!-- 5.3. 허브 심기 페이지-->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png" />
+  <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/tracker.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/garden.css' %}" />
+</head>
+
+<body>
+  <div class="app-container">
+
+    <header class="app-header">
+      <button type="button" class="icon-btn back-btn"
+        data-url="{% if is_edit %}{% url 'garden:detail' record.pk %}{% else %}{% url 'garden:list' %}{% endif %}">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기" />
+      </button>
+      <h1 class="header-title">
+        {% if is_edit %}
+        화분 수정
+        {% else %}
+        허브 심기
+        {% endif %}
+      </h1>
+    </header>
+
+    <main class="app-content">
+      <form class="write-content" method="post"
+        action="{% if is_edit %}{% url 'garden:edit' record.pk %}{% else %}{% url 'garden:create' %}{% endif %}"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label class="form-label">제목 *</label>
+          <div class="title-input-wrapper">
+            <div class="leaf-icon-box">
+              <img src="{% static 'assets/icons/tab_garden_inactive.svg' %}" alt="나뭇잎">
+            </div>
+            <input type="text" name="title" class="form-input" value="{{ title|default:'' }}" placeholder="제목을 입력해 주세요."
+              maxlength="50" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">사진 (선택)</label>
+          <label class="photo-upload-box" for="photo-input">
+            <img id="photo-preview" {% if is_edit and record.image %} src="{{ record.image.url }}" alt="현재 화분 이미지"
+              class="photo-preview is-visible" {% else %} src="" alt="선택한 사진 미리보기" class="photo-preview" {% endif %}>
+
+            <div class="photo-upload-placeholder
+    {% if is_edit and record.image %}is-hidden{% endif %}" id="photo-upload-placeholder">
+              <img src="{% static 'assets/icons/camera-icon.svg' %}" alt="" class="camera-icon">
+              <span class="upload-text">
+                {% if is_edit and record.image %}
+                사진 변경하기
+                {% else %}
+                사진 추가하기
+                {% endif %}
+              </span>
+            </div>
+
+            <input type="file" name="image" id="photo-input" accept="image/jpeg,image/png,image/webp" hidden>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">한 줄 소감 *</label>
+          <textarea name="memo" class="form-textarea" placeholder="오늘 어떠셨나요? 느낌을 적어보세요" maxlength="100"
+            required>{{ memo|default:'' }}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">오늘의 증상</label>
+          <div class="record-list">
+            {% for symptom in today_symptoms %}
+            <div class="record-card">
+              <div class="record-info">
+                <img src="{% static symptom.icon_path %}" alt="{{ symptom.name }}" class="symptom-icon">
+                <span class="symptom-name">{{ symptom.name }}</span>
+              </div>
+              <div class="record-badge {{ symptom.level_class }}">{{ symptom.level_label }}</div>
+            </div>
+            {% empty %}
+            <p class="record-empty">오늘 기록한 증상이 없어요.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          {% if is_edit %}
+          수정 완료
+          {% else %}
+          허브 심기 완료
+          {% endif %}
+        </button>
+      </form>
+    </main>
+
+    <!-- 하단 GNB바 (동일) -->
+    <nav class="app-bottom-tab">
+      <a href="{% url 'home:home' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_home_inactive.svg' %}" alt="홈" class="tab-icon" />
+        <span class="tab-text">홈</span>
+      </a>
+      <a href="{% url 'reports:report' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon" />
+        <span class="tab-text">리포트</span>
+      </a>
+      <a href="{% url 'garden:list' %}" class="tab-item active">
+        <img src="{% static 'assets/icons/tab_garden_active.svg' %}" alt="나의 정원" class="tab-icon" />
+        <span class="tab-text">나의 정원</span>
+      </a>
+      <a href="{% url 'community:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_community_inactive.svg' %}" alt="커뮤니티" class="tab-icon" />
+        <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/garden.js' %}"></script>
+</body>
+
+</html>

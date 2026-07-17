@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HERb</title>
+
+    <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/survey.css' %}">
+</head>
+
+<body>
+
+    <div class="app-container result-bg">
+
+        <main class="app-content">
+            <div class="result-header">
+                <span class="result-title">자가진단 결과</span>
+                <h1 class="result-subtitle">나의 여정 단계</h1>
+            </div>
+
+            <div class="result-container">
+                <div class="result-card">
+                    <div class="result-icon">
+                        {% if result.stage == "confusion" %}
+                        <img src="{% static 'assets/icons/HonlanIcon.png' %}" id="result-icon" alt="혼란기">
+                        {% elif result.stage == "adaptation" %}
+                        <img src="{% static 'assets/icons/JukeongIcon.png' %}" id="result-icon" alt="적응기">
+                        {% else %}
+                        <img src="{% static 'assets/icons/JaedoyakIcon.png' %}" id="result-icon" alt="재도약기">
+                        {% endif %}
+                    </div>
+
+                    <h2 class="result-name" id="result-name">{{ stage_data.name }}</h2>
+                    <p class="result-subname" id="result-subname">{{ stage_data.one_line }}</p>
+
+                    <ul class="result-info" id="result-info">
+                        {% for line in stage_data.description %}
+                        <li>• {{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="result-types">
+                    <div class="result-honlan {% if result.stage == 'confusion' %}active{% endif %}" id="result-honlan">
+                        <h3>혼란기</h3>
+                        <p>낯선 나를<br>마주하는 시기</p>
+                    </div>
+                    <div class="result-jukeong {% if result.stage == 'adaptation' %}active{% endif %}"
+                        id="result-jukeong">
+                        <h3>적응기</h3>
+                        <p>조금씩<br>익숙해지는 시기</p>
+                    </div>
+                    <div class="result-jaedoyak {% if result.stage == 'restart' %}active{% endif %}"
+                        id="result-jaedoyak">
+                        <h3>재도약기</h3>
+                        <p>다시 피어날<br>준비를 하는 시기</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="result-nav">
+                <button type="button" class="start-btn" data-url="{% url 'home:home' %}">HERb 시작하기</button>
+                <button type="button" class="retry-btn" data-url="{% url 'diagnosis:retry' %}">다시 진단하기</button>
+            </div>
+
+            <p class="result-notice">
+                이 결과는 의학적 진단이 아니라,<br>
+                지금의 나를 이해하기 위한 참고 지표입니다.<br>
+                언제든 다시 진단해 볼 수 있어요.
+            </p>
+
+        </main>
+
+    </div>
+
+    <script src="{% static 'js/common.js' %}"></script>
+    <script>
+        document.querySelectorAll("[data-url]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const targetUrl = button.dataset.url;
+                if (targetUrl) {
+                    window.location.href = targetUrl;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

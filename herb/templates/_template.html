@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <header class="app-header">
+      <button class="icon-btn back-btn">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기">
+      </button>
+      <h1 class="header-title">{% block header_title %}페이지 타이틀{% endblock %}</h1>
+    </header>
+
+    <main class="app-content">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+
+      <!-- 홈 (현재 페이지 - Active 아이콘) -->
+      <a href="{% url 'home:home' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_home_active.svg' %}" alt="홈" class="tab-icon">
+        <span class="tab-text">홈</span>
+      </a>
+
+      <!-- 패턴 리포트 (Inactive 아이콘) -->
+      <a href="{% url 'reports:report' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon">
+        <span class="tab-text">리포트</span>
+      </a>
+
+      <!-- 나의 정원 (Inactive 아이콘) -->
+      <a href="{% url 'garden:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_garden_inactive.svg' %}" alt="나의 정원" class="tab-icon">
+        <span class="tab-text">나의 정원</span>
+      </a>
+
+      <!-- 허브 커뮤니티 (Inactive 아이콘) -->
+      <a href="{% url 'community:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_community_inactive.svg' %}" alt="커뮤니티" class="tab-icon">
+        <span class="tab-text">커뮤니티</span>
+      </a>
+
+    </nav>
+
+  </div>
+
+  <script src="{% static 'js/common.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,801 @@
+/* =====================================
+   디자인 시스템 (변수, 폰트)
+===================================== */
+
+/* 웹 폰트 불러오기 (Noto Sans KR, Noto Serif KR) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+/* 공통 색상 변수 선언 (피그마 참고) */
+:root {
+  /* 배경 & 테두리 색상 */
+  --bg-ivory: #FAF7F4;
+  --border-ivory: #E8E0D8;
+  --box-light-green: #EDF5EF;
+
+  /* 메인 포인트 색상 */
+  --main-green: #6B9E7A;
+
+  /* 텍스트 색상 */
+  --text-light-gray: #9A9A9A;
+  --text-dark-gray: #6B6B6B;
+  --text-dark-green: #4A7A58;
+
+  /* 폰트 종류 변수 */
+  /* sans는 본문용, serif는 스플래시용입니다! */
+  --font-sans: 'Noto Sans KR', sans-serif;
+  --font-splash: 'Georgia', 'Noto Serif KR', serif;
+}
+
+/* =====================================
+   전역 초기화 및 기본 태그
+===================================== */
+
+/* 초기화할 스타일이 있다면 여기 적어주세요. */
+
+/* 기본 스타일 초기화 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 프로젝트 내 모든 버튼 스타일 초기화 */
+button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* PC에서 봤을 때 배경색 지정 & 가운데 정렬 */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #F2EDE8;
+}
+
+/* 화면 숨김 및 표시 제어 */
+.step-section {
+  display: none;
+}
+.step-section.active {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* 남은 공간을 모두 차지함 */
+  overflow-y: auto; /* 내용이 길어지면 안에서만 스크롤 됨 */
+  padding: 0 20px 20px 20px;
+  /* 스크롤바 숨기기 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =====================================
+   공통 레이아웃 (뼈대)
+===================================== */
+
+/* 모바일 화면 틀 */
+.app-container {
+  width: 100%;
+  max-width: 430px; /* 아이폰 14/15 Pro Max 너비 기준 */
+  height: 100dvh;   /* 화면 높이에 꽉 차게 - 스크롤 시 배경이 끊기지 않도록 고정 */
+  background-color: var(--bg-ivory);
+  position: relative;
+  overflow: hidden; /* 내부 요소가 넘치지 않도록 */
+
+  /* Flexbox로 상단헤더-본문-하단탭바 세로 배치 */
+  display: flex;
+  flex-direction: column;
+
+}
+
+
+
+
+/* 상단 헤더 */
+.app-header {
+  margin-top: 24px;
+  padding: 8px 22px 12px 22px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 뒤로가기 버튼과 '마이페이지' 글씨 사이의 간격 */
+
+  background-color: transparent;
+  flex-shrink: 0;
+}
+
+/* =====================================
+   공통 컴포넌트 (반복되는 UI 요소)
+===================================== */
+
+/* 헤더 안에 들어가는 페이지 타이틀 (글씨체, 크기, 왼쪽 정렬) */
+
+.header-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-style: normal;
+  color: #2D2D2D;
+  font-weight: 700;
+  line-height: 27px;
+
+  margin: 0;
+  margin-top: -6px;
+  text-align: left;
+}
+
+.header-date {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-style: normal;
+  color: var(--text-light-gray);
+  font-weight: 400;
+  line-height: 19.5px;
+  margin: 0;
+}
+
+/* 진행바 (Progress Bar) */
+/* 진행바를 감싸는 전체 박스 */
+.progress-wrapper {
+  display: flex;
+  width: 100%;
+  padding: 16px 24px 16px 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  box-sizing: border-box;
+  background-color: var(--bg-ivory);
+  flex-shrink: 0;
+}
+
+
+/* 회색 바 (전체 배경) */
+.progress-gray {
+  display: flex;
+  height: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+
+  border-radius: 99px;
+  background: #E8E0D8;
+
+  overflow: hidden;
+}
+
+/* 초록색 바 (현재 진행률) */
+.progress-green {
+  width: 0%;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 99px;
+  background: #6B9E7A;
+
+  /* 부드럽게 게이지가 차오르는 효과 */
+  transition: width 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+}
+
+.progress-green.is-animated {
+  width: var(--progress-target, 0%);
+}
+
+/* =====================================
+   스텝 제목 영역
+===================================== */
+.step-title-area {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 24px;
+  margin-bottom: 18px;
+}
+
+.step-title-area h2 {
+  color: #6B6B6B;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22.5px;
+  margin: 0;
+}
+
+.step-title-area p {
+  color: #9A9A9A;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19.5px;
+  margin: 0;
+}
+
+
+
+/* =====================================
+   증상 선택 카드 컴포넌트
+===================================== */
+
+/* 증상 선택 카드 리스트 컨테이너 */
+.symptom-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  width: 100%;
+}
+
+/* 카드 전체 레이아웃 및 스타일링 */
+.symptom-card {
+  display: flex;
+  width: 349px;
+  margin: 0 auto;
+  height: 70px;
+  padding: 17px 20px;
+  align-items: center;
+  gap: 16px; /* 아이콘, 텍스트박스, 체크박스 사이의 16px 간격 */
+
+  cursor: pointer;
+  border-radius: 16px;
+  border: 2px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+
+  /* 모바일 화면 */
+  max-width: 100%;
+  box-sizing: border-box;
+
+  /* 색상 변화 애니메이션 */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.symptom-card * {
+  pointer-events: none; /* 이벤트 버블링 방지 */
+}
+
+/* 글씨를 이루는 박스 레이아웃 */
+.symptom-text-box {
+  display: flex;
+  width: 215px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+/* 글씨 스타일링 */
+.symptom-name {
+  color: #2F2F2F;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+
+  transition: color 0.2s ease;
+}
+
+/* 체크박스 레이아웃 및 스타일링 */
+.check-box {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+  border-radius: 6px;
+  border: 2px solid var(--border-ivory, #E8E0D8);
+  background-color: #FFF;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* 평소에는 체크 아이콘 숨김 */
+.check-icon {
+  display: none;
+  width: 14px;
+}
+
+/* =====================================
+   증상 선택 카드: Active 상태
+===================================== */
+
+/* 카드 배경과 테두리가 초록색으로 변경 */
+.symptom-card.active {
+  background-color: var(--box-light-green, #F3F7F4);
+  border-color: var(--main-green, #7DA381);
+}
+
+/* 글씨가 굵어지고 진해짐 */
+.symptom-card.active .symptom-name {
+  color: var(--main-green, #4B6B50);
+  font-weight: 700;
+}
+
+/* 체크박스 배경이 초록색으로 채워짐 */
+.symptom-card.active .check-box {
+  background-color: var(--main-green, #7DA381);
+  border-color: var(--main-green, #7DA381);
+}
+
+/* 체크 아이콘 표시 */
+.symptom-card.active .check-icon {
+  display: block;
+}
+
+/* =====================================
+   증상 강도 컴포넌트 리스트
+===================================== */
+.strength-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+/* 증상 강도 카드 전체 레이아웃 */
+.strength-card {
+  display: flex;
+  padding: 22px 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 22px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  box-sizing: border-box;
+  gap: 18px;
+
+  margin: 0 auto;
+}
+
+/* 상단 헤더 (아이콘 + 증상 글씨) */
+.strength-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+/* 증상 글씨 스타일 */
+.strength-header .symptom-name {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 25.5px;
+}
+
+/* 하단 강도 버튼 묶음 */
+.strength-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* 개별 강도 버튼 (기본 상태) */
+.btn-strength {
+  display: flex;
+  width: 94.328px;
+  padding: 14px 8px;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 14px;
+  border: 2px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  cursor: pointer;
+
+  /* 글씨 기본 세팅 */
+  color: #6B6B6B;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+
+  transition: all 0.2s ease; /* 부드러운 색상 전환 */
+  box-sizing: border-box;
+}
+
+/* =====================================
+   강도 버튼 Active 상태
+===================================== */
+
+/* 선택된 버튼의 공통 글씨 레이아웃 */
+.btn-strength.active {
+  color: #FFF;
+  font-weight: 700;
+}
+
+/* [약] 버튼 선택 시 색상 */
+.btn-strength.low.active {
+  border-color: #57A35A;
+  background: #7CB87E;
+}
+
+/* [중] 버튼 선택 시 색상 */
+.btn-strength.mid.active {
+  border-color: #D1932B;
+  background: #E8A940;
+}
+
+/* [강] 버튼 선택 시 색상 */
+.btn-strength.high.active {
+  border-color: #C34A4A;
+  background: #E05C5C;
+}
+
+/* =====================================
+   3.3 저장 완료 화면 전용 스타일
+===================================== */
+.save-complete-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 80px;
+  margin-bottom: 24px;
+  gap: 12px;
+  width: 100%;
+}
+
+.save-icon {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.save-title {
+  color: #2D2D2D;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  margin: 0;
+}
+
+/* =====================================
+   3.3 하단 세로 버튼 그룹
+===================================== */
+/* 기존 .button-group 속성을 상속받고, 세로 배치로만 덮어씌움 */
+.button-group.col {
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* '홈으로' 버튼 글씨 스타일 */
+.btn-home {
+  color: #6B9E7A;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px;
+
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+}
+
+/* =====================================
+   저장 기록 카드 컴포넌트
+===================================== */
+
+/* 리스트 컨테이너 */
+.record-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* 카드 전체 레이아웃 */
+.record-card {
+  display: flex;
+  width: 100%;
+  padding: 22px 20px;
+  /* 양끝으로 배치 */
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 22px;
+  border: 1px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+  box-sizing: border-box;
+}
+
+/* 좌측 증상 정보 영역 (아이콘 + 글씨) */
+.record-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 증상 글씨 스타일링 */
+.record-info .symptom-name {
+  color: #2D2D2D;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 25.5px; /* 150% */
+}
+
+/* 우측 강도 뱃지 (약, 중, 강) */
+
+/* 강도 뱃지 공통 레이아웃 */
+.record-badge {
+  display: flex;
+  width: 36px;
+  padding: 4px 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  box-sizing: border-box;
+
+  /* 뱃지 안 글씨 스타일 */
+  color: #FFF;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+/* [강] 뱃지 색상 */
+.record-badge.high {
+  border: 2px solid #C34A4A;
+  background: #E05C5C;
+}
+
+/* [중] 뱃지 색상 */
+.record-badge.mid {
+  border: 2px solid #D1932B;
+  background: #E8A940;
+}
+
+/* [약] 뱃지 색상 */
+.record-badge.low {
+  border: 2px solid #57A35A;
+  background: #7CB87E;
+}
+
+/* =====================================
+   화면 전체 뼈대
+===================================== */
+.step-section {
+  display: flex;
+  flex-direction: column;
+
+  /* 헤더 높이를 제외한 화면 전체 길이를 최소 높이로 잡음 */
+  min-height: calc(100vh - 80px);
+  padding-bottom: 48px; /* 맨 아래쪽 바닥 여백 */
+}
+
+/* 버튼들을 나란히 배치하기 위한 묶음 */
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 12px;
+  align-items: center;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  /* 카드가 적을 땐 남는 공간을 밀어내서 맨 아래에 붙게 하고, 카드가 많아지면 자연스럽게 밑으로 밀려남 */
+  margin-top: auto;
+
+  /* 마지막 강도 카드와 버튼 사이 여백 */
+  padding-top: 40px;
+}
+
+/* =====================================
+   공통 버튼 뼈대 (.btn)
+===================================== */
+.btn {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+
+  font-family: var(--font-sans, "Noto Sans KR");
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  /* 마우스를 올렸을 때 크기 변화가 부드럽게 전환 */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* 마우스를 올렸을 때 3% 정도 살짝 커지는 효과 */
+.btn:hover {
+  transform: scale(1.03);
+}
+
+/* =====================================
+   하얀 버튼 (.btn-secondary)
+===================================== */
+.btn-secondary {
+  width: 125.15px;
+  border: 1.5px solid var(--border-ivory, #E8E0D8);
+  background: #FFF;
+
+  color: #6B6B6B;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 22.5px;
+}
+
+/* =====================================
+   초록 버튼 (.btn-primary)
+===================================== */
+.btn-primary {
+  width: 211.85px;
+  height: 57.5px;
+  border: none;
+  background: #6B9E7A;
+
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+/* =====================================
+   다음 버튼 (.btn-next)
+===================================== */
+.btn-next {
+  width: 349px;
+  height: 56px;
+  border: none;
+  background: #6B9E7A;
+  color: #FFF;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+/* =====================================
+   다음 버튼 - 비활성화 상태 (0개 선택됨)
+===================================== */
+.btn-next:disabled {
+  background: #9A9A9A;
+  color: #FFF;
+  cursor: default;
+
+  pointer-events: none;
+}
+
+/* =====================================
+   3.4 수정 모드 전용 레이아웃
+===================================== */
+#step-4 {
+  display: flex;
+  flex-direction: column;
+
+  min-height: calc(100vh - 80px);
+
+  padding-bottom: 24px;
+}
+
+/* =====================================
+   수정 모드 뱃지
+===================================== */
+.mode-badge {
+  display: flex;
+  padding: 8px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 20px;
+  background: #C8E0CE;
+
+  color: #4A7A58;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19.5px;
+
+  position: absolute;
+  right: 30px;
+}
+
+/* =====================================
+   토스트 메시지 컴포넌트
+===================================== */
+
+/* 토스트가 화면 최상단에 떠 있도록 위치 지정 */
+.toast-container {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999; /* 다른 모든 요소보다 위에 오도록 */
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 두 개가 동시에 뜰 경우를 대비한 간격 */
+  pointer-events: none; /* 토스트 메시지가 클릭을 방해하지 않도록 함 */
+}
+
+/* 토스트 메시지 공통 뼈대 */
+.toast-message {
+  display: inline-flex;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.35);
+
+  /* 글씨 스타일 */
+  color: #FFF;
+  text-align: center;
+  font-family: var(--font-sans, "Noto Sans KR");
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28.6px;
+
+  /* 애니메이션 기본 상태 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+/* 자바스크립트로 .show 클래스가 붙었을 때 나타나는 애니메이션 */
+.toast-message.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* =====================================
+   토스트 메시지 테마
+===================================== */
+
+/* 성공 (초록색) */
+.toast-success {
+  background: #4A7A58;
+}
+
+/* 에러 */
+.toast-error {
+  background: #C34A4A;
+}
+
+/* 아이콘 크기 고정 */
+.toast-icon {
+  flex-shrink: 0;
+}

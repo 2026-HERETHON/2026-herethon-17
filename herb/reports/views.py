@@ -56,7 +56,7 @@ def weekly_view(request):
         record__user=request.user,
         record__date__gte=monday,
         record__date__lte=sunday
-    )
+    ).order_by("symptom__id")
 
     # 조회 기록 안에서 증상 이름별로 몇 번 등장했는지 횟수 기록
     for entry in entries:

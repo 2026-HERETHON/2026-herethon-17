@@ -146,6 +146,54 @@
 }
 
 /* ==========================================
+   화분 목록 빈 화면
+========================================== */
+.empty-garden {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    gap: 10px;
+    flex: 1;
+    min-height: 60vh; 
+}
+
+.empty-garden-icon {
+    width: 120px;
+    height: 120px;
+}
+
+.empty-garden-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; 
+}
+
+.empty-garden-title {
+    color: #2D2D2D;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.333;
+    margin: 0;
+}
+
+.empty-garden-desc {
+    color: #6B6B6B;
+    text-align: center;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+}
+
+/* ==========================================
    5.2. 화분 상세 페이지
    ========================================== */
 /* 헤더 우측 버튼 그룹 정렬 */

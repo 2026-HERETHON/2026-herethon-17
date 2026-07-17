@@ -1,30 +1,130 @@
+{% load static %}
+<!-- 4.1 증상 선택 페이지-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>증상 선택</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/tracker.css' %}">
 </head>
+
 <body>
-    <h1>증상 선택</h1>
+  <main class="app-container">
 
-    <form method="post">
-        {% csrf_token %}
+    <!-- 공통 헤더 -->
+    <header class="app-header">
+      <button class="icon-btn back-btn" onclick="window.history.back()">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기">
+      </button>
+      <div class="header-text-group">
+        <h1 class="header-title">오늘 기록하기</h1>
+        <p class="header-date">{% now "Y년 n월 j일" %}</p>
+      </div>
+    </header>
 
-        {% for symptom in symptoms %}
-            <label>
-                <input type="checkbox" name="symptom_ids" value="{{ symptom.id }}"
-                   {% if symptom.id|stringformat:"s" in selected_symptom_ids %}
-                    checked{% endif %}>
-                {{ symptom.name }}
-            </label><br>
-        {% endfor %}
+    <section id="step-1" class="step-section active">
+      <div class="progress-wrapper">
+        <div class="progress-gray">
+          <div class="progress-green" data-progress-target="50"></div>
+        </div>
+      </div>
 
-        <label>
-            <input type="checkbox" name="no_symptom">
-            증상 없음
-        </label><br>
+      <div class="step-title-area">
+        <h2>오늘 경험한 증상을 선택해 주세요</h2>
+        <p>복수 선택 가능</p>
+      </div>
 
-        <button type="submit">다음</button>
-    </form>
+      <!-- form 태그를 추가하여 백엔드로 전송하기 쉽게 구성 -->
+      <form action="{% url 'tracker:intensity' %}" method="GET" id="symptom-select-form">
+        <div class="symptom-list">
+          <!-- 1. 안면홍조 -->
+          <div class="symptom-card" data-id="1">
+            <img src="{% static 'assets/icons/symptom_hot_inactive.svg' %}" alt="안면홍조" class="symptom-icon">
+            <div class="symptom-text-box">
+              <span class="symptom-name">안면홍조</span>
+            </div>
+            <input type="checkbox" name="symptom_ids" value="1" hidden
+              {% if "1" in selected_symptom_ids %}checked{% endif %}>
+            <div class="check-box" aria-label="안면홍조 선택">
+              <img src="{% static 'assets/icons/check.svg' %}" alt="체크" class="check-icon">
+            </div>
+          </div>
+
+          <!-- 2. 수면장애 -->
+          <div class="symptom-card" data-id="2">
+            <img src="{% static 'assets/icons/symptom_sleep_inactive.svg' %}" alt="수면장애" class="symptom-icon">
+            <div class="symptom-text-box">
+              <span class="symptom-name">수면장애</span>
+            </div>
+            <input type="checkbox" name="symptom_ids" value="2" hidden
+              {% if "2" in selected_symptom_ids %}checked{% endif %}>
+            <div class="check-box" aria-label="수면장애 선택">
+              <img src="{% static 'assets/icons/check.svg' %}" alt="체크" class="check-icon">
+            </div>
+          </div>
+
+          <!-- 3. 감정기복 -->
+          <div class="symptom-card" data-id="3">
+            <img src="{% static 'assets/icons/symptom_mood_inactive.svg' %}" alt="감정기복" class="symptom-icon">
+            <div class="symptom-text-box">
+              <span class="symptom-name">감정기복</span>
+            </div>
+            <input type="checkbox" name="symptom_ids" value="3" hidden
+              {% if "3" in selected_symptom_ids %}checked{% endif %}>
+            <div class="check-box" aria-label="감정기복 선택">
+              <img src="{% static 'assets/icons/check.svg' %}" alt="체크" class="check-icon">
+            </div>
+          </div>
+
+          <!-- 4. 피로감 -->
+          <div class="symptom-card" data-id="4">
+            <img src="{% static 'assets/icons/symptom_fatigue_inactive.svg' %}" alt="피로감" class="symptom-icon">
+            <div class="symptom-text-box">
+              <span class="symptom-name">피로감</span>
+            </div>
+            <input type="checkbox" name="symptom_ids" value="4" hidden
+              {% if "4" in selected_symptom_ids %}checked{% endif %}>
+            <div class="check-box" aria-label="피로감 선택">
+              <img src="{% static 'assets/icons/check.svg' %}" alt="체크" class="check-icon">
+            </div>
+          </div>
+
+          <!-- 5. 관절통 -->
+          <div class="symptom-card" data-id="5">
+            <img src="{% static 'assets/icons/symptom_joint_inactive.svg' %}" alt="관절통" class="symptom-icon">
+            <div class="symptom-text-box">
+              <span class="symptom-name">관절통</span>
+            </div>
+            <input type="checkbox" name="symptom_ids" value="5" hidden
+              {% if "5" in selected_symptom_ids %}checked{% endif %}>
+            <div class="check-box" aria-label="관절통 선택">
+              <img src="{% static 'assets/icons/check.svg' %}" alt="체크" class="check-icon">
+            </div>
+          </div>
+
+          <!-- 6. 증상 없음 -->
+          <div class="symptom-card" data-id="0">
+            <img src="{% static 'assets/icons/symptom_none_inactive.svg' %}" alt="증상 없음" class="symptom-icon">
+            <div class="symptom-text-box">
+              <span class="symptom-name">증상 없음</span>
+            </div>
+            <input type="checkbox" name="no_symptom" value="true" hidden>
+            <div class="check-box" aria-label="증상 없음 선택">
+              <img src="{% static 'assets/icons/check.svg' %}" alt="체크" class="check-icon">
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-fixed-area">
+          <!-- 버튼 클릭 시 form이 submit 되거나 JS에서 location.href로 넘기면 됩니다 -->
+          <button type="submit" id="btn-next-step1" class="btn btn-next" disabled>다음 (0개 선택됨)</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="{% static 'js/select.js' %}"></script>
 </body>
 </html>

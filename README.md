@@ -18,12 +18,19 @@
 
 ### 🦁 팀원 소개
 ## 🔗 Contributors
+## 🔗 Contributors
 
-| [팀원1이름](깃허브링크) | [팀원2이름](깃허브링크) | [팀원3이름](깃허브링크) | [팀원4이름](깃허브링크) |
-|:---:|:---:|:---:|:---:|
-| <img src="이미지URL1" width="150"> | <img src="이미지URL2" width="150"> | <img src="이미지URL3" width="150"> | <img src="이미지URL4" width="150"> |
-| PM | FE | FE | BE |
-| `구상 및 기획`<br>`UI/UX 디자인` | `온보딩`<br>`홈 화면` | `설문`<br>`로딩/결과 화면` | `백엔드 담당 파트` |
+| [박수현] | [김민주] | [황세연] |
+|:---:|:---:|:---:|
+| <img src="https://github.com/아이디1.png" width="150"> | <img src="https://github.com/아이디2.png" width="150"> | <img src="https://github.com/아이디3.png" width="150"> |
+| 역할1 | 역할2 | 역할3 |
+| `PM` | `BE` | `BE` |
+
+| [박주현] | [신지민] | [조연우] |
+|:---:|:---:|:---:|
+| <img src="https://github.com/아이디4.png" width="150"> | <img src="https://github.com/아이디5.png" width="150"> | <img src="https://github.com/아이디6.png" width="150"> |
+| 역할4 | 역할5 | 역할6 |
+| `FE` | `FE` | `FE` |
 ### 폴더 구조
 
 ### 개발환경에서의 실행 방법

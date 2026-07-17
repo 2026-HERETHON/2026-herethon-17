@@ -5,13 +5,14 @@
 <br>
 > HERb는 'RE'를 여성의 생애 전환점, 즉 완경 이후의 새로운 시작으로 정의했습니다.
 <img width="1920" height="1080" alt="표지 (미완)" src="https://github.com/user-attachments/assets/4ca1edf8-a042-46c9-aa1a-2918c94051ed" />
+<br>
 
 ---
 
 ### ⭐️ 서비스 소개
 > *완경이라는 전환점 앞에 선 여성들이 <br> 증상을 스스로 이해하고 다음 챕터를 다시 시작하도록 돕는 셀프케어 서비스*
 
-HERb는 완경기 여성들이 변화의 시기를 혼자 견디지 않고, 
+<br>HERb는 완경기 여성들이 변화의 시기를 혼자 견디지 않고, 
 <br>기록·연결·자기이해를 통해 다시 시작할 수 있도록 지원합니다.
 
 완경을 종료나 상실이 아닌, 
@@ -21,8 +22,8 @@ HERb는 완경기 여성들이 변화의 시기를 혼자 견디지 않고,
 <br>공감과 자기이해를 통해 완경기를 자연스럽게 받아들이며, 
 <br>**새로운 삶을 시작**할 수 있도록 돕습니다.
 
-<img width="1920" height="1080" alt="프로젝트 목표" src="https://github.com/user-attachments/assets/263e9c3d-5729-48ca-92f1-94fbe41facb8" />
-
+<br><img width="1920" height="1080" alt="프로젝트 목표" src="https://github.com/user-attachments/assets/263e9c3d-5729-48ca-92f1-94fbe41facb8" />
+<br>
 
 ---
 
@@ -55,6 +56,7 @@ HERb는 완경기 여성들이 변화의 시기를 혼자 견디지 않고,
     </td>
   </tr>
 </table>
+<br>
 
 ---
 
@@ -194,6 +196,9 @@ HERb는 완경기 여성들이 변화의 시기를 혼자 견디지 않고,
     </td>
   </tr>
 </table>
+<br>
+
+---
 
 ### 📋 폴더 구조
 
@@ -314,6 +319,7 @@ HERb는 완경기 여성들이 변화의 시기를 혼자 견디지 않고,
 ├─ requirements.txt
 └─ db.sqlite3
   ```
+<br>
 
 ---
 

@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+  <link rel="stylesheet" href="{% static 'css/community.css' %}">
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <button type="button" class="icon-btn back-btn"
+        data-url="{% if post %}{% url 'community:detail' post.id %}{% else %}{% url 'community:list' %} {% endif %}">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기" />
+      </button>
+      <h1 class="header-title">{% if post %}글 수정{% else %}글쓰기{% endif %}</h1>
+      <button type="submit" form="post-write-form" class="post-write-btn">게시</button>
+    </header>
+
+    <main class="app-content">
+      <div class="post-write-container">
+        <div class="post-write-banner">
+          <div class="post-write-banner-icon">
+            <img src="{% static 'assets/icons/write_banner_icon.svg' %}" alt="나뭇잎">
+          </div>
+          <div class="post-write-banner-text">
+            <div class="banner-title">작성한 글은 익명으로 게시됩니다</div>
+            <div class="banner-desc">작성자 정보는 공개되지 않아요</div>
+          </div>
+        </div>
+
+        {% if error %}<p class="form-error">{{ error }}</p>{% endif %}
+
+        <form class="post-write-form" id="post-write-form" method="post"
+          action="{% if post %}{% url 'community:edit' post.id %}{% else %}{% url 'community:create' %}{% endif %}">
+          {% csrf_token %}
+
+          <div class="post-write-group">
+            <label class="post-write-label">제목</label>
+            <input type="text" name="title" class="post-write-input" value="{{ post.title|default:'' }}"
+              placeholder="제목을 입력해 주세요." required>
+          </div>
+
+          <div class="post-write-group">
+            <label class="post-write-label">내용</label>
+            <textarea name="content" class="post-write-textarea" placeholder="내용을 입력해 주세요."
+              required>{{ post.content|default:'' }}</textarea>
+          </div>
+
+          <div class="post-write-group">
+            <label class="post-write-label">증상 태그 선택</label>
+            <div class="post-write-tag-container">
+            {% for value, label in symptom_filters %}
+            <label class="post-write-tag-item">
+              <input
+                type="checkbox"
+                name="symptom_tags"
+                value="{{ value }}"
+                class="post-write-tag-input"
+                {% if value in selected_tags %}checked{% endif %}
+              >
+              <span class="post-write-tag-btn">{{ label }}</span>
+            </label>
+            {% endfor %}
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- GNB 동일 -->
+    ...
+  </div>
+  <script src="{% static 'js/common.js' %}" defer></script>
+</body>
+
+</html>

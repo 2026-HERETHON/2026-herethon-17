@@ -116,7 +116,7 @@ def home_view(request):
         "show_welcome_banner": show_welcome_banner,
 
         # 연결 URL
-        "reports_url": "/reports/weekly/",
+        "reports_url": "/reports/report/",
         "garden_url": "/garden/",
         "community_url": "/community/",
         "mypage_url": "/accounts/mypage/",

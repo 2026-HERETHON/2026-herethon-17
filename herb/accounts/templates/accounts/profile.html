@@ -78,7 +78,7 @@
         <div class="input-group">
           <label class="input-label">비밀번호</label>
           <div class="input-box">
-            <input type="password" name="new_password" class="input-field" placeholder="비밀번호를 입력해주세요" />
+            <input type="password" name="new_password" class="input-field" placeholder="변경할 비밀번호를 입력해 주세요" />
             <button type="submit" class="btn-edit">변경하기</button>
           </div>
         </div>
@@ -108,7 +108,7 @@
       </a>
 
       <!-- 패턴 리포트 -->
-      <a href="{% url 'reports:weekly' %}" class="tab-item">
+      <a href="{% url 'reports:report' %}" class="tab-item">
       <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon"/>
       <span class="tab-text">리포트</span>
       </a>

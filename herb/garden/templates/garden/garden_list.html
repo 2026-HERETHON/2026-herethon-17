@@ -1,0 +1,114 @@
+{% load static %}
+<!-- 5.1. 화분 목록 페이지-->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png" />
+  <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/tracker.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/garden.css' %}" />
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <button type="button" class="icon-btn back-btn" id="garden-back-btn" data-url="{% url 'home:home' %}">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기" />
+      </button>
+      <h1 class="header-title">나의 정원</h1>
+      <!-- 화분 추가 버튼-->
+      <a href="{% url 'garden:create' %}" class="plus-btn">
+        <img src="{% static 'assets/icons/plus.svg' %}" alt="화분 추가" />
+      </a>
+    </header>
+
+    <main class="app-content">
+      <div class="timeline-container">
+
+        {% for record in records %}
+        <a href="{% url 'garden:detail' record.pk %}" class="timeline-item">
+          <div class="timeline-left">
+            <div class="timeline-icon">🌱</div>
+            <div class="timeline-line"></div>
+          </div>
+
+          <div class="timeline-card">
+            <div class="card-header">
+              <span class="card-date">{{ record.created_at|date:"n월 j일" }}</span>
+              <span class="card-badge">
+                {% if record.days_ago == 0 %}
+                오늘
+                {% else %}
+                {{ record.days_ago }}일 전
+                {% endif %}
+              </span>
+            </div>
+            <h3 class="card-title">{{ record.title }}</h3>
+            <p class="card-content">"{{ record.memo|truncatechars:30 }}"</p>
+          </div>
+        </a>
+        {% empty %}
+        <p class="timeline-empty">아직 심은 허브가 없어요. 첫 도전을 기록해 보세요!</p>
+        {% endfor %}
+
+      </div>
+    </main>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+      <a href="{% url 'home:home' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_home_inactive.svg' %}" alt="홈" class="tab-icon" />
+        <span class="tab-text">홈</span>
+      </a>
+      <a href="{% url 'reports:weekly' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon" />
+        <span class="tab-text">리포트</span>
+      </a>
+      <a href="{% url 'garden:list' %}" class="tab-item active">
+        <img src="{% static 'assets/icons/tab_garden_active.svg' %}" alt="나의 정원" class="tab-icon" />
+        <span class="tab-text">나의 정원</span>
+      </a>
+      <a href="{% url 'community:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_community_inactive.svg' %}" alt="커뮤니티" class="tab-icon" />
+        <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Django 메시지 전달 -->
+  {% if messages %}
+  <div id="django-messages" hidden>
+    {% for message in messages %}
+    <span data-message="{{ message }}" data-tags="{{ message.tags }}"></span>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- 토스트 메시지 컨테이너 -->
+  <div id="toast-container" class="toast-container">
+
+    <div id="toast-success" class="toast-message toast-success">
+      <img src="{% static 'assets/icons/check_circle.svg' %}" alt="성공" class="toast-icon">
+
+      <span class="toast-text"></span>
+    </div>
+
+    <div id="toast-error" class="toast-message toast-error">
+      <img src="{% static 'assets/icons/check_circle_error.svg' %}" alt="실패" class="toast-icon">
+
+      <span class="toast-text"></span>
+    </div>
+
+  </div>
+
+  <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/garden.js' %}"></script>
+</body>
+
+</html>

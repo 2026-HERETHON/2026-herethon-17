@@ -56,3 +56,10 @@ class GardenRecord(models.Model):
     @property
     def record_date(self):
         return timezone.localtime(self.created_at).date()
+    
+    @property
+    def days_ago(self):
+        return (
+            timezone.localdate()
+            - timezone.localtime(self.created_at).date()
+        ).days

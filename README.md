@@ -6,7 +6,7 @@
 ### 기술 스택
 
 ### 🦁 팀원 소개
-프론트엔드 : <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS&logoColor=white"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=JAVASCRIPT&logoColor=white"><br>
+프론트엔드 : <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS&logoColor=white"><br>
 ### 폴더 구조
 
 ### 개발환경에서의 실행 방법

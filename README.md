@@ -1,5 +1,5 @@
 # 🪴 HERb
-완경이라는 전환점 앞에 선 여성들이 증상을 스스로 이해하고 다음 챕터를 다시 시작하도록 돕는 셀프케어 서비스
+*완경이라는 전환점 앞에 선 여성들이 증상을 스스로 이해하고 다음 챕터를 다시 시작하도록 돕는 셀프케어 서비스*
 
 ### 서비스 소개
 ![divider](https://capsule-render.vercel.app/api?type=rect&color=cccccc&height=1&section=header)

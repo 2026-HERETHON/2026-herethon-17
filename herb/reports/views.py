@@ -16,7 +16,7 @@ def report_view(request):
 def weekly_view(request):
 
     # 기준 날짜 계산
-    date_str = request.GET.get("date")
+    date_str = request.GET.get("start_date")
 
     # date 파라미터 있으면 그 날짜를 기준으로 (이전 주, 다음 주)
     if date_str:

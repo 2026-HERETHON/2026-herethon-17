@@ -108,15 +108,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // [주간 리포트] 날짜 변경 및 동적 차트 렌더링
   // ==========================================
 
-  // 기준 날짜 설정 (현재 주의 일요일)
+  // 기준 날짜 설정 (현재 주의 월요일)
   let currentStartDate = new Date();
-  currentStartDate.setDate(currentStartDate.getDate() - currentStartDate.getDay()); // 이번 주 일요일
+  const todayDay = currentStartDate.getDay(); // 0=일, 1=월, ..., 6=토
+  const daysToMonday = todayDay === 0 ? 6 : todayDay - 1;
+  currentStartDate.setDate(currentStartDate.getDate() - daysToMonday); // 이번 주 월요일
 
   const btnPrevWeek = document.getElementById("btn-prev-week");
   const btnNextWeek = document.getElementById("btn-next-week");
   const weekDateText = document.getElementById("week-date-text");
 
-  const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
+  const dayLabels = ['월', '화', '수', '목', '금', '토', '일'];
 
   // 날짜 텍스트 업데이트 함수
   function updateWeekText() {
@@ -199,6 +201,9 @@ document.addEventListener("DOMContentLoaded", function () {
     chartArea.innerHTML = yAxisHTML + bgLinesHTML + barsHTML;
   }
 
+  // 최초 로드 여부 체크용 (빈 화면 판단은 처음 한 번만)
+  let isFirstLoad = true;
+
   // 주간 리포트 데이터 로드 및 렌더링
   async function loadAndRenderWeeklyReport() {
     const reportData = await fetchWeeklyReportData(currentStartDate);
@@ -207,10 +212,13 @@ document.addEventListener("DOMContentLoaded", function () {
       renderWeeklyChart(reportData.daily_scores);
       renderSymptomStatus(reportData.symptoms || []);
 
+      if (isFirstLoad) {
       // 데이터 유무 판단: daily_scores가 모두 0이고 symptoms가 비어있으면 데이터 없음
       const hasData = reportData.daily_scores.some(score => score > 0) ||
                      (reportData.symptoms && reportData.symptoms.length > 0);
       checkAndRenderView(hasData);
+      isFirstLoad = false;
+      }
     }
   }
 

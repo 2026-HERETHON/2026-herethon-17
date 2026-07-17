@@ -347,6 +347,13 @@ $ pip install -r requirements.txt
 $ python manage.py migrate
 $ python manage.py runserver
 ```
+
+<br>
+
+---
+### 📹 시연 영상
+https://github.com/user-attachments/assets/e01a59a1-cf63-414b-bdd4-3b640ba5af2f
+
 <hr/>
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&height=150&color=0:DEF7E5,50:BFEAD5,100:8FD3B6&section=footer)

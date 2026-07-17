@@ -310,6 +310,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // 이번 달의 총 일수
     const lastDate = new Date(year, month + 1, 0).getDate();
 
+    // 오늘 날짜 문자열 계산 (오늘 표시용)
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+
     // 1일이 시작하기 전까지 빈 칸 만들기
     for (let i = 0; i < firstDay; i++) {
       grid.innerHTML += `<div class="date-box" style="background: transparent;"></div>`;
@@ -323,6 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let cssClass = "date-box";
       if (status === "mild") cssClass += " symptom-mild";
       if (status === "severe") cssClass += " symptom-severe";
+      if (dateStr === todayStr) cssClass += " is-today";
 
       grid.innerHTML += `<div class="${cssClass}">${day}</div>`;
     }

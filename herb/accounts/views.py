@@ -55,6 +55,8 @@ def signup_view(request):
         password = request.POST.get("password")
         password_confirm = request.POST.get("password_confirm")
         birth_date = request.POST.get("birth_date") or None
+        if birth_date:
+            birth_date = birth_date.replace(".", "-")
         terms_agreed = request.POST.get("terms_agreed")
 
         errors = {}

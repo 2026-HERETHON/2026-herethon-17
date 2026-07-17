@@ -17,6 +17,7 @@
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 
 ### 🦁 팀원 소개
+<hr>
 | [박수현] | [김민주] | [황세연] | [박주현] | [신지민] | [조연우] |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | <img src="https://github.com/아이디1.png" width="150"> | <img src="https://github.com/아이디2.png" width="150"> | <img src="https://github.com/아이디3.png" width="150"> | <img src="https://github.com/아이디4.png" width="150"> | <img src="https://github.com/아이디5.png" width="150"> | <img src="https://github.com/아이디6.png" width="150"> |

@@ -51,13 +51,22 @@
         <div class="form-group">
           <label class="form-label">사진 (선택)</label>
           <label class="photo-upload-box" for="photo-input">
-            {% if is_edit and record.image %}
-            <img src="{{ record.image.url }}" alt="현재 화분 이미지" class="photo-preview" id="photo-preview">
-            {% else %}
-            <img src="{% static 'assets/icons/camera-icon.svg' %}" alt="카메라" class="camera-icon" id="photo-preview">
-            {% endif %}
-            <span class="upload-text">사진 추가하기</span>
-            <input type="file" name="image" id="photo-input" accept="image/*" style="display: none;">
+            <img id="photo-preview" {% if is_edit and record.image %} src="{{ record.image.url }}" alt="현재 화분 이미지"
+              class="photo-preview is-visible" {% else %} src="" alt="선택한 사진 미리보기" class="photo-preview" {% endif %}>
+
+            <div class="photo-upload-placeholder
+    {% if is_edit and record.image %}is-hidden{% endif %}" id="photo-upload-placeholder">
+              <img src="{% static 'assets/icons/camera-icon.svg' %}" alt="" class="camera-icon">
+              <span class="upload-text">
+                {% if is_edit and record.image %}
+                사진 변경하기
+                {% else %}
+                사진 추가하기
+                {% endif %}
+              </span>
+            </div>
+
+            <input type="file" name="image" id="photo-input" accept="image/jpeg,image/png,image/webp" hidden>
           </label>
         </div>
 

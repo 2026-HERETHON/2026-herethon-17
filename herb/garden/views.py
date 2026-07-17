@@ -169,6 +169,7 @@ def garden_edit(request, record_id):
                     "title": title,
                     "memo": memo,
                     "symptom_record": symptom_record,
+                    "today_symptoms": build_symptom_context(symptom_record),
                     "is_edit": True,
                 },
             )
@@ -199,6 +200,7 @@ def garden_edit(request, record_id):
             "title": record.title,
             "memo": record.memo,
             "symptom_record": symptom_record,
+            "today_symptoms": build_symptom_context(symptom_record),
             "is_edit": True,
         },
     )

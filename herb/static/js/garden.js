@@ -82,3 +82,49 @@ djangoMessages.forEach((messageElement) => {
     toast.classList.remove("show");
   }, 2500);
 });
+
+// ===== Garden 사진 미리보기 =====
+const photoInput = document.getElementById("photo-input");
+const photoPreview = document.getElementById("photo-preview");
+const photoPlaceholder = document.getElementById(
+  "photo-upload-placeholder"
+);
+
+if (photoInput && photoPreview) {
+  photoInput.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    // 이미지 파일인지 확인
+    if (!file.type.startsWith("image/")) {
+      alert("이미지 파일만 선택할 수 있습니다.");
+      photoInput.value = "";
+      return;
+    }
+
+    // 파일 크기 제한: 5MB
+    const maxFileSize = 5 * 1024 * 1024;
+
+    if (file.size > maxFileSize) {
+      alert("사진은 5MB 이하만 업로드할 수 있습니다.");
+      photoInput.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+      photoPreview.src = reader.result;
+      photoPreview.classList.add("is-visible");
+
+      if (photoPlaceholder) {
+        photoPlaceholder.classList.add("is-hidden");
+      }
+    });
+
+    reader.readAsDataURL(file);
+  });
+}

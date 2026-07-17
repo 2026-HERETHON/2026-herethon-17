@@ -10,7 +10,7 @@
 
   <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
   <link rel="stylesheet" href="{% static 'css/common.css' %}">
-  <link rel="stylesheet" href="{% static 'css/tracker.css' %}"> 
+  <link rel="stylesheet" href="{% static 'css/tracker.css' %}">
   <link rel="stylesheet" href="{% static 'css/garden.css' %}">
 </head>
 
@@ -44,7 +44,10 @@
           <span class="card-emoji">🌱</span>
           {% endif %}
         </div>
-        <span class="card-date-top">{{ record.created_at|date:"Y년 n월 j일" }}</span>
+
+        <span class="card-date-top">
+          {{ record.created_at|date:"Y년 n월 j일" }}
+        </span>
       </div>
 
       <div class="info-card" data-created-at="{{ record.created_at|date:'c' }}">

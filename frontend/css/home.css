@@ -280,6 +280,12 @@
     border: 2px solid #A5A5A5;
 
 }
+/* 오늘이면서 기록도 한 경우 - 초록색이 우선 표시되도록 */
+.summary-day-dot.today.checked {
+    background-color: #6B9E7A;
+    border: 2px solid #4A7A58;
+}
+
 .home-menutitle{
     color: #2D2D2D;
     font-family: 'Noto Sans KR', serif;

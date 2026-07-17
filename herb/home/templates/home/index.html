@@ -1,0 +1,203 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>HERb</title>
+
+    <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <main class="app-content">
+
+            <div class="home-header">
+                <div class="home-logo">
+                    <img src="{% static 'assets/icons/home_herb_icon.png' %}" alt="HERb 로고">
+
+                    <span class="home-logotext">HERb</span>
+                </div>
+            </div>
+
+            <div class="welcome-banner" id="welcome-banner" {% if not show_welcome_banner %}style="display: none;" {% endif %}>
+                <button type="button" class="welcome-close" id="welcome-close">
+                    x
+                </button>
+
+                <p class="welcome-text">
+                    🌿 오랜만이에요,
+                    <span id="welcome-username">{{ user_name }}</span>님!<br>
+
+                    <span class="welcome-days">
+                        <span id="welcome-days">
+                            {{ days_since_last_visit }}
+                        </span>일 만에 만났어요.
+                        그동안 잘 지내셨나요?<br>
+
+                        다시 함께 시작해봐요 🌱
+                    </span>
+                </p>
+            </div>
+
+            <div class="home-greeting">
+                <div class="home-greeting-top">
+                    <p class="home-date" id="home-date">
+                        {{ today|date:"Y년 n월 j일 D요일" }}
+                    </p>
+
+                    <div class="home-headericons">
+                        <button type="button" class="home-iconbtn" id="home-noti"
+                            data-url="{% url 'accounts:notifications' %}">
+                            <img src="{% static 'assets/icons/NotiIcon.png' %}" alt="알림">
+                        </button>
+
+                        <button type="button" class="home-iconbtn home-iconbtn-profile" id="home-profile"
+                            data-url="{% url 'accounts:mypage' %}">
+                            <img src="{% static 'assets/icons/ProfileIcon.png' %}" alt="프로필">
+                        </button>
+                    </div>
+                </div>
+
+                <h1 class="home-username">
+                    안녕하세요, <span id="username">{{ user_name }}</span>님 👋
+                </h1>
+            </div>
+
+            <div class="summary-card">
+                <p class="summary-label">오늘의 요약</p>
+
+                <h2 class="summary-stage">
+                    지금 나는
+                    <span class="summary-stage1" id="stage-name">
+                        {{ current_stage }}
+                    </span>
+                </h2>
+
+                <div class="summary-week">
+                    <p class="summary-weeklabel">이번 주 기록</p>
+
+                    <div class="summary-days" id="summary-days">
+                        {% for day in week_records %}
+                        <div class="summary-day">
+                            <span
+                                class="summary-day-label{% if day.recorded %} checked{% endif %}{% if day.is_today %} today{% endif %}">
+                                {{ day.label }}
+                            </span>
+
+                            <div
+                                class="summary-day-dot{% if day.recorded %} checked{% endif %}{% if day.is_today %} today{% endif %}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="button" class="summary-btn" id="record-btn" data-url="{{ tracker_url }}">
+                    {% if has_today_record %}
+                    오늘 기록 수정하기
+                    {% else %}
+                    오늘 증상 기록하기
+                    {% endif %}
+                </button>
+            </div>
+
+            <p class="home-menutitle">
+                오늘은 무엇을 할까요?
+            </p>
+
+            <div class="home-menugrid">
+
+                <a href="{{ tracker_url }}" class="menu-card">
+                    <div class="menu-iconwrap menu-icon-tracker">
+                        <img src="{% static 'assets/icons/TrackerIcon.png' %}" alt="">
+                    </div>
+
+                    <p class="menu-title">증상 트래커</p>
+
+                    <p class="menu-subtitle">
+                        {% if has_today_record %}
+                        오늘 기록 수정하기
+                        {% else %}
+                        오늘 기록하기
+                        {% endif %}
+                    </p>
+                </a>
+
+                <a href="{{ reports_url }}" class="menu-card">
+                    <div class="menu-iconwrap menu-icon-report">
+                        <img src="{% static 'assets/icons/PatternReportIcon.png' %}" alt="">
+                    </div>
+
+                    <p class="menu-title">패턴 리포트</p>
+                    <p class="menu-subtitle">주간/월간 분석</p>
+                </a>
+
+                <a href="{{ garden_url }}" class="menu-card">
+                    <div class="menu-iconwrap menu-icon-garden">
+                        <img src="{% static 'assets/icons/MyGardenIcon.png' %}" alt="">
+                    </div>
+
+                    <p class="menu-title">나의 정원</p>
+                    <p class="menu-subtitle">새 도전 기록하기</p>
+                </a>
+
+                <a href="{{ community_url }}" class="menu-card">
+                    <div class="menu-iconwrap menu-icon-community">
+                        <img src="{% static 'assets/icons/CommunityIcon.png' %}" alt="">
+                    </div>
+
+                    <p class="menu-title">허브 커뮤니티</p>
+                    <p class="menu-subtitle">경험 나누기</p>
+                </a>
+
+            </div>
+
+        </main>
+
+        <nav class="app-bottom-tab">
+
+            <a href="{% url 'home:home' %}" class="tab-item active">
+                <img src="{% static 'assets/icons/tab_home_active.svg' %}" alt="" class="tab-icon">
+
+                <span class="tab-text">홈</span>
+            </a>
+
+            <a href="{{ reports_url }}" class="tab-item">
+                <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="" class="tab-icon">
+
+                <span class="tab-text">리포트</span>
+            </a>
+
+            <a href="{{ garden_url }}" class="tab-item">
+                <img src="{% static 'assets/icons/tab_garden_inactive.svg' %}" alt="" class="tab-icon">
+
+                <span class="tab-text">나의 정원</span>
+            </a>
+
+            <a href="{{ community_url }}" class="tab-item">
+                <img src="{% static 'assets/icons/tab_community_inactive.svg' %}" alt="" class="tab-icon">
+
+                <span class="tab-text">커뮤니티</span>
+            </a>
+
+        </nav>
+
+    </div>
+
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+
+</html>

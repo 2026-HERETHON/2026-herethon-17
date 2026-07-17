@@ -1,25 +1,70 @@
+{% load static %}
+<!-- 4.2. 강도 선택 페이지 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>강도 선택</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/tracker.css' %}">
 </head>
 <body>
-    <h1>선택한 증상의 강도 선택</h1>
+  <main class="app-container">
 
-    <form method="post">
+    <header class="app-header">
+      <button class="icon-btn back-btn" onclick="window.history.back()">
+        <img src="{% static 'assets/icons/back.svg' %}" alt="뒤로가기">
+      </button>
+      <div class="header-text-group">
+        <h1 class="header-title">오늘 기록하기</h1>
+        <p class="header-date">{% now "Y년 n월 j일" %}</p>
+      </div>
+    </header>
+
+    <section id="step-2" class="step-section active">
+      <div class="progress-wrapper">
+        <div class="progress-gray">
+          <div class="progress-green" data-progress-target="100"></div>
+        </div>
+      </div>
+
+      <div class="step-title-area">
+        <h2>선택하신 증상의 강도를 알려 주세요</h2>
+      </div>
+
+      <form action="{% url 'tracker:intensity' %}" method="POST" id="intensity-form">
         {% csrf_token %}
 
-        {% for symptom in symptoms %}
-            <p>{{ symptom.name }}</p>
-            <label><input type="radio" name="intensity_{{ symptom.id }}" value="약"> 약</label>
-            <label><input type="radio" name="intensity_{{ symptom.id }}" value="중"> 중</label>
-            <label><input type="radio" name="intensity_{{ symptom.id }}" value="강"> 강</label>
-            <br><br>
-        {% endfor %}
+        <!-- 백엔드에서 렌더링할 강도 선택 리스트 영역 -->
+        <div class="strength-list" id="strength-list-step2">
+          {% for symptom in symptoms %}
+          <div class="strength-card" data-id="{{ symptom.id }}">
+            <div class="strength-header">
+              <img src="{% static 'assets/icons/symptom_' %}{{ symptom.icon_key }}_inactive.svg" alt="{{ symptom.name }} 아이콘" class="symptom-icon" style="width: 28px; height: 28px;">
+              <span class="symptom-name">{{ symptom.name }}</span>
+            </div>
+            <input type="hidden" name="symptom_ids" value="{{ symptom.id }}">
+            <input type="hidden" name="intensity_{{ symptom.id }}" value="">
+            <div class="strength-buttons">
+              <button type="button" class="btn-strength low" data-value="low">약</button>
+              <button type="button" class="btn-strength mid" data-value="mid">중</button>
+              <button type="button" class="btn-strength high" data-value="high">강</button>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
 
-        <a href="{% url 'tracker:select' %}">이전</a>
-        <button type="submit">기록 완료</button>
-    </form>
+        <div class="button-group">
+          <!-- 이전 버튼은 브라우저 백 또는 select.html로 이동 -->
+          <button type="button" id="btn-prev-step2" class="btn btn-secondary" onclick="window.location.href='{{ prev_url }}'">이전</button>
+          <button type="submit" id="btn-submit-record" class="btn btn-primary" disabled>기록 완료</button>
+        </div>
+      </form>
+
+    </section>
+  </main>
+
+  <script src="{% static 'js/intensity.js' %}"></script>
 </body>
 </html>

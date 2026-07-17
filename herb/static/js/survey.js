@@ -44,36 +44,8 @@ const questions = [
 
 let currentStep = 0;
 let answers = [];
-
-// 로딩 페이지 - 모래시계 아이콘 로테이트
-const hourglassImages = [
-  "assets/icons/LoadingLogo1.png",
-  "assets/icons/LoadingLogo2.png",
-  "assets/icons/LoadingLogo3.png",
-];
-
 let hourglassIndex = 0;
 let hourglassInterval;
-
-function startHourglassAnimation() {
-  const loadingIconEl =
-    document.getElementById("loading-icon1");
-
-  if (loadingIconEl) {
-    startHourglassAnimation();
-
-    setTimeout(() => {
-      stopHourglassAnimation();
-      window.location.href = window.surveyConfig.resultUrl;
-    }, 1500);
-  }
-}
-
-function stopHourglassAnimation() {
-  clearInterval(hourglassInterval);
-}
-
-
 const questitleEl = document.getElementById("survey-questitle");
 
 if (questitleEl) {
@@ -147,68 +119,4 @@ function finishSurvey() {
     document.getElementById(`q${qIndex + 1}-answer`).value = answerLetters[answerIndex];
   });
   document.getElementById("diagnosis-form").submit();
-}
-
-// 여정 단계별 DOM 요소 렌더링 함수
-function renderSurveyResult(stage) {
-  const resultIcon = document.getElementById("result-icon");
-  const resultName = document.getElementById("result-name");
-  const resultSubname = document.getElementById("result-subname");
-  const resultInfo = document.getElementById("result-info");
-
-  const typeHonlan = document.getElementById("result-honlan");
-  const typeJukeong = document.getElementById("result-jukeong");
-  const typeJaedoyak = document.getElementById("result-jaedoyak");
-
-  // 선택지 active 클래스 초기화
-  [typeHonlan, typeJukeong, typeJaedoyak].forEach(el => {
-    if (el) el.classList.remove("active");
-  });
-
-  if (stage === "혼란기") {
-    if (resultIcon) resultIcon.src = "assets/icons/HonlanIcon.png";
-    if (resultName) resultName.textContent = "혼란기";
-    if (resultSubname) resultSubname.textContent = "낯선 나를 마주하는 시기";
-    if (resultInfo) {
-      resultInfo.innerHTML = `
-        <div class="result-infogroup">
-          <li>• 예전과 다른 몸과 마음이 낯설게 느껴져요</li>
-          <li>• 에너지가 떨어지고 무기력함을 느끼기 쉬워요</li>
-          <li>• 이 변화를 아직 주변에 말하지 못했을 수 있어요</li>
-          <li>• 하루하루를 버티는 데 집중하게 돼요</li>
-        </div>
-      `;
-    }
-    if (typeHonlan) typeHonlan.classList.add("active");
-
-  } else if (stage === "적응기") {
-    if (resultIcon) resultIcon.src = "assets/icons/JukeongIcon.png";
-    if (resultName) resultName.textContent = "적응기";
-    if (resultSubname) resultSubname.textContent = "조금씩 익숙해지는 시기";
-    if (resultInfo) {
-      resultInfo.innerHTML = `
-        <div class="result-infogroup">
-          <li>• 변화를 인지하고 조금씩 나만의 페이스를 찾아가고 있어요</li>
-          <li>• 마음의 안정을 찾고 주변 사람들과 대화를 시작해요</li>
-          <li>• 나를 위한 루틴을 차근차근 만들어가기 시작하는 단계입니다</li>
-        </div>
-      `;
-    }
-    if (typeJukeong) typeJukeong.classList.add("active");
-
-  } else if (stage === "재도약기") {
-    if (resultIcon) resultIcon.src = "assets/icons/JaedoyakIcon.png";
-    if (resultName) resultName.textContent = "재도약기";
-    if (resultSubname) resultSubname.textContent = "다시 피어날 준비를 하는 시기";
-    if (resultInfo) {
-      resultInfo.innerHTML = `
-        <div class="result-infogroup">
-          <li>• 변화를 온전히 수용하고 긍정적인 에너지를 내뿜고 있어요</li>
-          <li>• 새로운 도전을 구체적으로 계획하고 시도할 준비가 되었습니다</li>
-          <li>• 나다운 라이프스타일을 멋지게 설계해 나갑니다</li>
-        </div>
-      `;
-    }
-    if (typeJaedoyak) typeJaedoyak.classList.add("active");
-  }
 }

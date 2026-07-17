@@ -42,7 +42,7 @@
 /* 프로젝트 내 모든 버튼 스타일 초기화 */
 button {
   background: transparent;
-  border: none; 
+  border: none;
   padding: 0;
   cursor: pointer;
   font-family: inherit;
@@ -84,7 +84,7 @@ body {
   background-color: var(--bg-ivory);
   position: relative;
   overflow: hidden; /* 내부 요소가 넘치지 않도록 */
-  
+
   /* Flexbox로 상단헤더-본문-하단탭바 세로 배치 */
   display: flex;
   flex-direction: column;
@@ -98,11 +98,11 @@ body {
 .app-header {
   margin-top: 24px;
   padding: 8px 22px 12px 22px;
-  
+
   display: flex;
   align-items: center;
   gap: 8px; /* 뒤로가기 버튼과 '마이페이지' 글씨 사이의 간격 */
-  
+
   background-color: transparent;
   flex-shrink: 0;
 }
@@ -115,7 +115,7 @@ body {
 
 .header-text-group {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .header-title {
@@ -150,7 +150,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   background-color: var(--bg-ivory);
   flex-shrink: 0;
 }
@@ -162,24 +162,29 @@ body {
   height: 6px;
   flex-direction: column;
   align-items: flex-start;
-  align-self: stretch; 
-  
+  align-self: stretch;
+
   border-radius: 99px;
   background: #E8E0D8;
-  
-  overflow: hidden; 
+
+  overflow: hidden;
 }
 
 /* 초록색 바 (현재 진행률) */
 .progress-green {
-  width: 50%;
+  width: 0%;
   height: 6px;
   flex-shrink: 0;
   border-radius: 99px;
   background: #6B9E7A;
-  
+
   /* 부드럽게 게이지가 차오르는 효과 */
-  transition: width 0.3s ease; 
+  transition: width 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: width;
+}
+
+.progress-green.is-animated {
+  width: var(--progress-target, 0%);
 }
 
 /* =====================================
@@ -189,7 +194,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 0 24px; 
+  padding: 0 24px;
   margin-bottom: 18px;
 }
 
@@ -199,8 +204,8 @@ body {
   font-size: 15px;
   font-style: normal;
   font-weight: 400;
-  line-height: 22.5px; 
-  margin: 0; 
+  line-height: 22.5px;
+  margin: 0;
 }
 
 .step-title-area p {
@@ -210,7 +215,7 @@ body {
   font-style: normal;
   font-weight: 400;
   line-height: 19.5px;
-  margin: 0; 
+  margin: 0;
 }
 
 
@@ -224,7 +229,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 11px;
-  width: 100%; 
+  width: 100%;
 }
 
 /* 카드 전체 레이아웃 및 스타일링 */
@@ -236,14 +241,14 @@ body {
   padding: 17px 20px;
   align-items: center;
   gap: 16px; /* 아이콘, 텍스트박스, 체크박스 사이의 16px 간격 */
-  
+
   cursor: pointer;
   border-radius: 16px;
   border: 2px solid var(--border-ivory, #E8E0D8);
   background: #FFF;
-  
+
   /* 모바일 화면 */
-  max-width: 100%; 
+  max-width: 100%;
   box-sizing: border-box;
 
   /* 색상 변화 애니메이션 */
@@ -289,14 +294,14 @@ body {
   justify-content: center;
   align-items: center;
   padding: 0;
-  
+
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 /* 평소에는 체크 아이콘 숨김 */
 .check-icon {
   display: none;
-  width: 14px; 
+  width: 14px;
 }
 
 /* =====================================
@@ -311,7 +316,7 @@ body {
 
 /* 글씨가 굵어지고 진해짐 */
 .symptom-card.active .symptom-name {
-  color: var(--main-green, #4B6B50); 
+  color: var(--main-green, #4B6B50);
   font-weight: 700;
 }
 
@@ -332,7 +337,7 @@ body {
 .strength-list {
   display: flex;
   flex-direction: column;
-  gap: 18px; 
+  gap: 18px;
   width: 100%;
 }
 
@@ -390,7 +395,7 @@ body {
   border: 2px solid var(--border-ivory, #E8E0D8);
   background: #FFF;
   cursor: pointer;
-  
+
   /* 글씨 기본 세팅 */
   color: #6B6B6B;
   text-align: center;
@@ -399,7 +404,7 @@ body {
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
-  
+
   transition: all 0.2s ease; /* 부드러운 색상 전환 */
   box-sizing: border-box;
 }
@@ -439,7 +444,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   margin-top: 80px;
   margin-bottom: 24px;
   gap: 12px;
@@ -447,7 +452,7 @@ body {
 }
 
 .save-icon {
-  width: 120px;  
+  width: 120px;
   height: 120px;
   object-fit: contain;
 }
@@ -459,7 +464,7 @@ body {
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  line-height: 32px; 
+  line-height: 32px;
   margin: 0;
 }
 
@@ -469,7 +474,7 @@ body {
 /* 기존 .button-group 속성을 상속받고, 세로 배치로만 덮어씌움 */
 .button-group.col {
   flex-direction: column;
-  gap: 16px; 
+  gap: 16px;
 }
 
 /* '홈으로' 버튼 글씨 스타일 */
@@ -481,14 +486,14 @@ body {
   font-style: normal;
   font-weight: 700;
   line-height: 21px;
-  
+
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-skip-ink: auto;
   text-decoration-thickness: auto;
   text-underline-offset: auto;
   text-underline-position: from-font;
-  
+
   background: none;
   border: none;
   cursor: pointer;
@@ -513,9 +518,9 @@ body {
   width: 100%;
   padding: 22px 20px;
   /* 양끝으로 배치 */
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  
+
   border-radius: 22px;
   border: 1px solid var(--border-ivory, #E8E0D8);
   background: #FFF;
@@ -586,9 +591,9 @@ body {
 .step-section {
   display: flex;
   flex-direction: column;
-  
+
   /* 헤더 높이를 제외한 화면 전체 길이를 최소 높이로 잡음 */
-  min-height: calc(100vh - 80px); 
+  min-height: calc(100vh - 80px);
   padding-bottom: 48px; /* 맨 아래쪽 바닥 여백 */
 }
 
@@ -597,17 +602,17 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 12px; 
+  gap: 12px;
   align-items: center;
 
   width: 100%;
   box-sizing: border-box;
 
   /* 카드가 적을 땐 남는 공간을 밀어내서 맨 아래에 붙게 하고, 카드가 많아지면 자연스럽게 밑으로 밀려남 */
-  margin-top: auto; 
-  
+  margin-top: auto;
+
   /* 마지막 강도 카드와 버튼 사이 여백 */
-  padding-top: 40px; 
+  padding-top: 40px;
 }
 
 /* =====================================
@@ -620,9 +625,9 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  
+
   font-family: var(--font-sans, "Noto Sans KR");
-  text-decoration: none; 
+  text-decoration: none;
   cursor: pointer;
   box-sizing: border-box;
 
@@ -632,7 +637,7 @@ body {
 
 /* 마우스를 올렸을 때 3% 정도 살짝 커지는 효과 */
 .btn:hover {
-  transform: scale(1.03); 
+  transform: scale(1.03);
 }
 
 /* =====================================
@@ -655,7 +660,7 @@ body {
 .btn-primary {
   width: 211.85px;
   height: 57.5px;
-  border: none; 
+  border: none;
   background: #6B9E7A;
 
   color: #FFF;
@@ -668,14 +673,14 @@ body {
    다음 버튼 (.btn-next)
 ===================================== */
 .btn-next {
-  width: 349px; 
+  width: 349px;
   height: 56px;
   border: none;
-  background: #6B9E7A; 
+  background: #6B9E7A;
   color: #FFF;
   font-size: 16px;
   font-weight: 700;
-  line-height: 24px; 
+  line-height: 24px;
   margin: 0 auto;
   margin-top: 30px;
 }
@@ -686,9 +691,9 @@ body {
 .btn-next:disabled {
   background: #9A9A9A;
   color: #FFF;
-  cursor: default; 
+  cursor: default;
 
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 /* =====================================
@@ -697,10 +702,10 @@ body {
 #step-4 {
   display: flex;
   flex-direction: column;
-  
-  min-height: calc(100vh - 80px); 
 
-  padding-bottom: 24px; 
+  min-height: calc(100vh - 80px);
+
+  padding-bottom: 24px;
 }
 
 /* =====================================
@@ -719,8 +724,8 @@ body {
   font-size: 13px;
   font-style: normal;
   font-weight: 600;
-  line-height: 19.5px; 
-  
+  line-height: 19.5px;
+
   position: absolute;
   right: 30px;
 }
@@ -734,9 +739,9 @@ body {
   position: fixed;
   top: 40px;
   left: 50%;
-  transform: translateX(-50%); 
+  transform: translateX(-50%);
   z-index: 9999; /* 다른 모든 요소보다 위에 오도록 */
-  
+
   display: flex;
   flex-direction: column;
   gap: 10px; /* 두 개가 동시에 뜰 경우를 대비한 간격 */
@@ -749,10 +754,10 @@ body {
   padding: 16px 32px;
   justify-content: center;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
   border-radius: 16px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.35);
-  
+
   /* 글씨 스타일 */
   color: #FFF;
   text-align: center;
@@ -760,7 +765,7 @@ body {
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 28.6px; 
+  line-height: 28.6px;
 
   /* 애니메이션 기본 상태 */
   opacity: 0;
@@ -773,7 +778,7 @@ body {
 .toast-message.show {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0); 
+  transform: translateY(0);
 }
 
 /* =====================================
@@ -787,7 +792,7 @@ body {
 
 /* 에러 */
 .toast-error {
-  background: #C34A4A; 
+  background: #C34A4A;
 }
 
 /* 아이콘 크기 고정 */

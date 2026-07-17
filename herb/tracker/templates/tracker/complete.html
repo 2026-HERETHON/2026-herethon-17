@@ -1,23 +1,70 @@
+{% load static %}
+<!-- 4.3 저장 완료 페이지-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>저장 완료</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+  <link rel="icon" href="{% static 'assets/images/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/tracker.css' %}">
 </head>
+
 <body>
-    <h1>저장 완료</h1>
-    <p>{{ date }}</p>
+  <main class="app-container">
 
-    {% if daily_record.no_symptom %}
-        <p>증상 없음</p>
+    <section id="step-3" class="step-section active">
 
-    {% else %}
-        {% for entry in daily_record.entries.all %}
-            <p>{{ entry.symptom.name }}: {{ entry.intensity }}</p>
-        {% endfor %}
-    {% endif %}
+      <div class="save-complete-header">
+        <img src="{% static 'assets/icons/report_save.svg' %}" alt="저장 완료 화분 아이콘" class="save-icon">
+        <h2 class="save-title">오늘의 기록을 저장했어요</h2>
+      </div>
 
-    <a href="#">패턴 리포트 보기</a><br>
-    <a href="#">홈으로</a>
+      <!-- 백엔드에서 렌더링할 최종 기록 결과 영역 -->
+      <div class="record-list" id="record-list-step3">
+
+        {% if daily_record.no_symptom %}
+        <div class="record-card">
+
+          <div class="record-info">
+            <img src="{% static 'assets/icons/symptom_none_inactive.svg' %}" alt="증상 없음" class="symptom-icon" style="width: 28px; height: 28px;">
+            <span class="symptom-name">증상 없음</span>
+          </div>
+
+        {% elif entries_with_icon %}
+          {% for entry in entries_with_icon %}
+          <div class="record-card">
+            <div class="record-info">
+              <img src="{% static 'assets/icons/symptom_' %}{{ entry.symptom.icon_key }}_inactive.svg" alt="{{ entry.symptom.name }}" class="symptom-icon" style="width: 28px; height: 28px;">
+              <span class="symptom-name">{{ entry.symptom.name }}</span>
+            </div>
+            <span class="record-badge {{ entry.intensity }}">
+              {% if entry.intensity == "low" %}약
+              {% elif entry.intensity == "mid" %}중
+              {% elif entry.intensity == "high" %}강
+              {% endif %}
+            </span>
+          </div>
+          {% endfor %}
+
+        {% else %}
+        <div class="record-card">
+          <div class="record-info">
+            <span class="symptom-name">저장된 기록이 없어요</span>
+          </div>
+        </div>
+
+        {% endif %}
+      </div>
+
+      <div class="button-group col">
+        <button type="button" id="btn-view-report" class="btn btn-primary" style="width: 100%;" onclick="window.location.href='{% url 'reports:weekly' %}'">패턴 리포트 보기</button>
+        <a href="{% url 'home:home' %}" class="btn-home">홈으로</a>
+      </div>
+
+    </section>
+
+  </main>
+
 </body>
 </html>

@@ -64,10 +64,8 @@
             </div>
 
             <div class="result-nav">
-                <button type="button" class="start-btn" onclick="location.href='{% url 'home:home' %}'">HERb
-                    시작하기</button>
-                <button type="button" class="retry-btn" onclick="location.href='{% url 'diagnosis:retry' %}'">다시
-                    진단하기</button>
+                <button type="button" class="start-btn" data-url="{% url 'home:home' %}">HERb 시작하기</button>
+                <button type="button" class="retry-btn" data-url="{% url 'diagnosis:retry' %}">다시 진단하기</button>
             </div>
 
             <p class="result-notice">
@@ -81,6 +79,16 @@
     </div>
 
     <script src="{% static 'js/common.js' %}"></script>
+    <script>
+        document.querySelectorAll("[data-url]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const targetUrl = button.dataset.url;
+                if (targetUrl) {
+                    window.location.href = targetUrl;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

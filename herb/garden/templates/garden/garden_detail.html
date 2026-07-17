@@ -45,7 +45,7 @@
           {% endif %}
         </div>
 
-        <span class="card-date-top">
+        <span class="card-date-top {% if record.image %}hidden-date{% endif %}">
           {{ record.created_at|date:"Y년 n월 j일" }}
         </span>
       </div>

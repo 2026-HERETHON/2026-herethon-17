@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/onboarding.css">
+</head>
+<body>
+  
+  <div class="app-container">
+
+    <!-- ==========================================
+         상단 헤더
+    ========================================== -->
+    <header class="signup-header">
+      <!-- 뒤로 가기 -->
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+
+      <!-- 페이지 타이틀 -->
+      <h1 class="header-title">이메일로 가입하기</h1>
+    
+    </header>
+    
+    <main class="app-content">
+
+            
+                <form class="signup-form" id="signup-form">
+                    <div class="signup-inputgroup">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" placeholder="이름을 입력하세요" required>
+                    </div>
+
+                    <div class="signup-inputgroup">
+                        <label for="email">이메일</label>
+                        <input type="email" id="email" placeholder="이메일을 입력하세요" required>
+                        <p class="signup-pw-error" id="email-error">이미 가입된 이메일입니다. 다른 이메일을 입력해 주세요.</p>
+
+                    </div>
+
+                    <div class="signup-inputgroup" id="pw-group">
+                        <label for="password">비밀번호</label>
+                        <input type="password" id="password" placeholder="8자 이상 입력하세요" required>
+                        <p class="signup-pw-error" id="pw-length-error">비밀번호가 너무 짧습니다. 비밀번호를 8자 이상 입력해 주세요.</p>
+                    </div>
+
+                    <div class="signup-inputgroup" id="pw-again-group">
+                        <label for="password-again">비밀번호 확인</label>
+                        <input type="password" id="password-again" placeholder="비밀번호를 다시 입력하세요" required>
+                        <p class="signup-pw-error" id="pw-match-error">비밀번호가 틀립니다. 비밀번호를 다시 확인해 주세요.</p>
+                    </div>
+
+                    <div class="signup-inputgroup">
+                        <label for="birthdate">생년월일 (선택)</label>
+                        <input type="text" id="birthdate" placeholder="YYYY.MM.DD">
+                    </div>
+
+                    
+                    <div class="signup-policycontainer">
+                        <label class="signup-policy">
+                            <div class="signup-policyitem">
+                                <input type="checkbox" id="policy-essential" required>
+                                <span class="signup-checkbox">
+                                    <img src="assets/icons/Checkedicon.png" alt="" class="signup-checkedicon">
+                                </span>
+                                <span class="signup-policytext">서비스 이용약관 동의 (필수)</span>
+                            </div>
+                        </label>
+                        
+                        <span class="signup-policyerror">서비스 이용약관에 동의해 주세요.</span>
+                        
+                        <label class="signup-policy">
+                            <div class="signup-policyitem">
+                                <input type="checkbox" id="policy-selective" >
+                                <span class="signup-checkbox">
+                                    <img src="assets/icons/Checkedicon.png" alt="" class="signup-checkedicon">
+                                </span>
+                                <span class="signup-policytext">개인정보 수집 및 이용 동의 (선택)</span>
+                            </div>
+                        </label>
+                        
+                        
+                    </div>
+                    
+                    <button type="submit" class="signup-btn">가입하기</button>
+                    
+                </form>
+
+            
+
+
+        </div>
+      </main>
+
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

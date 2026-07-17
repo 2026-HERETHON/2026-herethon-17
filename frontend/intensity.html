@@ -1,0 +1,53 @@
+<!-- 4.2. 강도 선택 페이지 -->
+ <!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/tracker.css">
+</head>
+<body>
+  <main class="app-container">
+    
+    <header class="app-header">
+      <button class="icon-btn back-btn" onclick="window.history.back()">
+        <img src="assets/icons/back.svg" alt="뒤로가기">
+      </button>
+      <div class="header-text-group">
+        <h1 class="header-title">오늘 기록하기</h1>
+        <p class="header-date">2026년 7월 14일</p>
+      </div>
+    </header>
+
+    <section id="step-2" class="step-section active">
+      <div class="progress-wrapper">
+        <div class="progress-gray">
+          <div class="progress-green" data-progress-target="100"></div>
+        </div>
+      </div>
+      
+      <div class="step-title-area">
+        <h2>선택하신 증상의 강도를 알려 주세요</h2>
+      </div>
+
+      <form action="complete.html" method="POST" id="intensity-form">
+        <!-- 백엔드에서 렌더링할 강도 선택 리스트 영역 -->
+        <div class="strength-list" id="strength-list-step2">
+          <!-- (예: 백엔드 템플릿 엔진으로 선택된 증상 카드가 이 위치에 렌더링됩니다) -->
+        </div>
+
+        <div class="button-group">
+          <!-- 이전 버튼은 브라우저 백 또는 select.html로 이동 -->
+          <button type="button" id="btn-prev-step2" class="btn btn-secondary" onclick="window.location.href='select.html'">이전</button>
+          <button type="submit" id="btn-submit-record" class="btn btn-primary" disabled>기록 완료</button>
+        </div>
+      </form>
+
+    </section>
+  </main>
+
+  <script src="js/intensity.js"></script>
+</body>
+</html>

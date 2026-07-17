@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/onboarding.css">
+
+  </head>
+<body>
+  
+  <div class="app-container">
+    
+    <main class="app-content">
+
+      <div class="login-container">
+
+        <div class="login-logogroup">
+          <div class="login-logo">
+            <img src="assets/icons/SplashLogo.png" alt="">
+          </div>
+          <span class="login-logotext">HERb</span>
+        </div>
+        <h2 class="login-title">안녕하세요,<br>만나서 반가워요</h2>
+        <p class="login-subtitle">로그인하여 나의 정원을 가꿔보세요</p>
+
+        <form class="login-form" id="loginForm">
+
+        <div class="login-inputgroup" id="emailGroup" >
+          <label for="email">이메일</label>
+          <input type="email" id="email" placeholder="이메일을 입력하세요" required>
+          <span class="error-message">존재하지 않는 이메일입니다.</span>
+          <span class="error-message">이미 가입된 이메일입니다. 다른 이메일을 입력해 주세요.</span>
+          
+        </div>
+          
+        <div class="login-inputgroup" id="pwGroup">
+          <label for="password">비밀번호</label>
+          <input type="password" id="password" placeholder="8자 이상 입력하세요" required>
+          <span class="error-message" data-error="wrong">비밀번호가 틀립니다. 비밀번호를 다시 확인해 주세요.</span>
+        </div>
+
+        <p class="login-forgotpw">
+          <a href="#">비밀번호를 잊으셨나요?</a>
+        </p>
+
+        <button type="submit" class="btn-login">로그인</button>
+
+
+        </form>
+
+        <p class="login-noaccount">
+          계정이 없으신가요? <a href="signup.html" id="login-signup">회원가입</a>
+        </p>
+
+      </div>
+
+
+      </main>
+
+
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/login.js"></script>
+
+</body>
+</html>

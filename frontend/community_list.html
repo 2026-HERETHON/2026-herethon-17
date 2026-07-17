@@ -1,0 +1,145 @@
+<!-- 타임라인 페이지 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="assets/images/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/tracker.css"/>
+  <link rel="stylesheet" href="css/community.css"/>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+      <h1 class="header-title">허브 커뮤니티</h1>
+      <!-- 글쓰기 버튼-->
+      <a href="community_write.html" class="write-btn">
+        <img src="assets/icons/white_pencil.svg" alt="글쓰기"/>
+      </a>
+    </header>
+
+    <!-- 필터 요소 -->
+    <div class="filter-container">
+      <label class="community-tag-item">
+        <input type="checkbox" id="tag-all" name="filter_tags" value="all" class="community-tag-input" checked>
+        <span class="filter-btn">전체</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="안면홍조" class="community-tag-input">
+        <span class="filter-btn">안면홍조</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="수면장애" class="community-tag-input">
+        <span class="filter-btn">수면장애</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="감정기복" class="community-tag-input">
+        <span class="filter-btn">감정기복</span>
+      </label>
+    
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="피로감" class="community-tag-input">
+        <span class="filter-btn">피로감</span>
+      </label>
+      
+      <label class="community-tag-item">
+        <input type="checkbox" name="filter_tags" value="관절통" class="community-tag-input">
+        <span class="filter-btn">관절통</span>
+      </label>
+    </div>
+
+    <main class="app-content">
+
+      <!-- 게시물이 없을 때 띄워줄 빈 화면 (기본적으로 숨겨둠) -->
+      <div class="empty-community" id="empty-community-state" style="display: none;">
+        <img src="assets/icons/pottedplant.svg" alt="빈 화분" class="empty-community-icon">
+        <div class="empty-community-text-wrapper">
+          <h2 class="empty-community-title">아직 작성된 게시글이 없어요.</h2>
+          <p class="empty-community-desc">첫 게시글을 작성하여 다른 사람들과 이야기를 나눠요</p>
+        </div>
+      </div>
+
+
+      <div class="post-list">
+        <!--반복되는 아이템 부분-->
+        <a href="community_detail.html" class="post-card">
+          <!--태그, 작성 시간 -->
+          <div class="post-card-top">
+            <div class="post-tags-wrapper">
+              <span class="symptom-tag">안면홍조</span>
+              <span class="symptom-tag">피로감</span>
+            </div>
+            <span class="post-time">방금 전</span>
+          </div>
+        
+          <!-- 제목, 본문 -->
+          <h3 class="post-card-title">안면홍조가 갑자기 심해졌어요</h3>
+          <p class="post-card-content">
+            요즘 날씨가 더워서 그런지 더 힘드네요. 여러분은 어떻게 대처하시나요?
+          </p>
+        
+          <!-- 좋아요, 댓글 -->
+          <div class="post-card-bottom">
+            <div class="post-item">
+              <img src="assets/icons/icon_like.svg" alt="좋아요"/>
+              <span class="count">12</span>
+            </div>
+            <div class="post-item">
+              <img src="assets/icons/icon_chat.svg" alt="댓글"/>
+              <span class="count">3</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </main>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+    
+      <!-- 홈 -->
+      <a href="index.html" class="tab-item">
+      <img src="assets/icons/tab_home_inactive.svg" alt="홈" class="tab-icon"/>
+      <span class="tab-text">홈</span>
+      </a>
+    
+      <!-- 패턴 리포트 -->
+      <a href="report.html" class="tab-item">
+      <img src="assets/icons/tab_report_inactive.svg" alt="리포트" class="tab-icon"/>
+      <span class="tab-text">리포트</span>
+      </a>
+    
+      <!-- 나의 정원 -->
+      <a href="garden_list.html" class="tab-item">
+      <img src="assets/icons/tab_garden_inactive.svg" alt="나의 정원" class="tab-icon"/>
+      <span class="tab-text">나의 정원</span>
+      </a>
+    
+      <!-- 허브 커뮤니티 (현재 페이지 - Active 아이콘) -->
+      <a href="community_list.html" class="tab-item active">
+      <img src="assets/icons/tab_community_active.svg" alt="커뮤니티" class="tab-icon"/>
+      <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+
+  </div>
+  <!-- 토스트 메시지 컨테이너 -->
+  <div id="toast-container" class="toast-container">
+    <!-- 성공 토스트 메시지 (초록색) -->
+    <div id="toast-success" class="toast-message toast-success">
+      <img src="assets/icons/check_circle.svg" alt="성공" class="toast-icon">
+      <span class="toast-text">게시가 정상적으로 완료되었어요.</span>
+    </div>
+  </div>
+
+  <script src="js/community.js" defer></script>
+</body>
+</html>

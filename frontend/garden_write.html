@@ -1,0 +1,110 @@
+<!-- 5.3. 허브 심기 페이지-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HERb</title>
+
+  <link rel="icon" href="assets/images/favicon.png" type="image/png"/>
+  <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/tracker.css"/>
+  <link rel="stylesheet" href="css/garden.css"/>
+</head>
+<body>
+  <div class="app-container">
+
+    <header class="app-header">
+      <button class="icon-btn back-btn">
+        <img src="assets/icons/back.svg" alt="뒤로가기"/>
+      </button>
+      <h1 class="header-title">허브 심기</h1>
+    </header>
+
+    <main class="app-content">
+      <form class="write-content">
+      
+        <div class="form-group">
+          <label class="form-label">제목 *</label>
+          <div class="title-input-wrapper">
+            <div class="leaf-icon-box">
+              <img src="assets/icons/tab_garden_inactive.svg" alt="나뭇잎">
+            </div>
+            <input type="text" class="form-input" placeholder="제목을 입력해 주세요.">
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <label class="form-label">사진 (선택)</label>
+          <div class="photo-upload-box">
+            <img src="assets/icons/camera-icon.svg" alt="카메라" class="camera-icon">
+            <span class="upload-text">사진 추가하기</span>
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <label class="form-label">한 줄 소감 *</label>
+          <textarea class="form-textarea" placeholder="오늘 어떠셨나요? 느낌을 적어보세요"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">오늘의 증상</label>
+          <div class="record-list">
+            <!-- 안면홍조 (강, 추후수정) -->
+            <div class="record-card">
+              <!-- 증상 정보 -->
+              <div class="record-info">
+                <img src="assets/icons/symptom_hot_inactive.svg" alt="안면홍조" class="symptom-icon">
+                <span class="symptom-name">안면홍조</span>
+              </div>
+              <!-- 강도 뱃지 -->
+              <div class="record-badge high">강</div>
+            </div>
+
+            <!-- 수면장애 (중, 추후수정) -->
+            <div class="record-card">
+              <div class="record-info">
+                <img src="assets/icons/symptom_sleep_inactive.svg" alt="수면장애" class="symptom-icon">
+                <span class="symptom-name">수면장애</span>
+              </div>
+              <div class="record-badge mid">중</div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">허브 심기 완료</button>
+      </form>
+    </main>
+
+    <!-- 하단 GNB바 -->
+    <nav class="app-bottom-tab">
+
+      <!-- 홈 -->
+      <a href="index.html" class="tab-item">
+      <img src="assets/icons/tab_home_inactive.svg" alt="홈" class="tab-icon"/>
+      <span class="tab-text">홈</span>
+      </a>
+
+      <!-- 패턴 리포트 -->
+      <a href="report.html" class="tab-item">
+      <img src="assets/icons/tab_report_inactive.svg" alt="리포트" class="tab-icon"/>
+      <span class="tab-text">리포트</span>
+      </a>
+
+      <!-- 나의 정원 (현재 페이지 - Active 아이콘) -->
+      <a href="garden_list.html" class="tab-item active">
+      <img src="assets/icons/tab_garden_active.svg" alt="나의 정원" class="tab-icon"/>
+      <span class="tab-text">나의 정원</span>
+      </a>
+
+      <!-- 허브 커뮤니티 -->
+      <a href="community_list.html" class="tab-item">
+      <img src="assets/icons/tab_community_inactive.svg" alt="커뮤니티" class="tab-icon"/>
+      <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <script src="js/common.js"></script>
+</body>
+</html>

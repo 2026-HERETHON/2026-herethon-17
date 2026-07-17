@@ -25,6 +25,7 @@ def home_view(request):
         return redirect("diagnosis:form")
 
     # 2. 오늘 날짜
+    # 2. 오늘 날짜
     today = timezone.localdate()
 
     # 3. 오늘 증상 기록 여부 확인
@@ -116,7 +117,7 @@ def home_view(request):
         "show_welcome_banner": show_welcome_banner,
 
         # 연결 URL
-        "reports_url": "/reports/weekly/",
+        "reports_url": "/reports/",
         "garden_url": "/garden/",
         "community_url": "/community/",
         "mypage_url": "/accounts/mypage/",

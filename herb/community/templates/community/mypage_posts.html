@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>내가 쓴 글 | HERb</title>
+
+  <link
+    rel="icon"
+    href="{% static 'assets/images/favicon.png' %}"
+    type="image/png"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{% static 'css/common.css' %}"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{% static 'css/mypage_detail.css' %}"
+  >
+</head>
+
+<body>
+  <div class="app-container">
+
+    <header class="app-header">
+      <!-- 뒤로 가기 -->
+      <button
+        type="button"
+        class="icon-btn back-btn"
+        aria-label="뒤로가기"
+      >
+        <img
+          src="{% static 'assets/icons/back.svg' %}"
+          alt=""
+        >
+      </button>
+
+      <!-- 페이지 타이틀 -->
+      <h1 class="header-title">내가 쓴 글</h1>
+    </header>
+
+    <main class="app-content">
+      <div class="post-list">
+
+        {% for post in posts %}
+          <!-- 게시글 카드 -->
+          <article
+            class="post-card"
+            data-id="{{ post.id }}"
+            data-url="{% url 'community:detail' post.id %}"
+            tabindex="0"
+            role="link"
+          >
+            <!-- 태그, 작성 시간 -->
+            <div class="post-card-top">
+              <div class="post-tags-wrapper">
+                {% for tag in post.tags.all %}
+                  <span class="symptom-tag">
+                    {{ tag.get_symptom_display }}
+                  </span>
+                {% empty %}
+                  <span class="symptom-tag">일반</span>
+                {% endfor %}
+              </div>
+
+              <span class="post-time">
+                {{ post.created_at|timesince }} 전
+              </span>
+            </div>
+
+            <!-- 제목, 본문 -->
+            <h3 class="post-card-title">
+              {{ post.title }}
+            </h3>
+
+            <p class="post-card-content">
+              {{ post.content|striptags|truncatechars:70 }}
+            </p>
+
+            <!-- 좋아요, 댓글 -->
+            <div class="post-card-bottom">
+              <div class="post-item">
+                <img
+                  src="{% static 'assets/icons/icon_like.svg' %}"
+                  alt="좋아요"
+                >
+
+                <span class="count">
+                  {{ post.likes.count }}
+                </span>
+              </div>
+
+              <div class="post-item">
+                <img
+                  src="{% static 'assets/icons/icon_chat.svg' %}"
+                  alt="댓글"
+                >
+
+                <span class="count">
+                  {{ post.comments.count }}
+                </span>
+              </div>
+            </div>
+          </article>
+
+        {% empty %}
+          <!-- 작성한 게시글이 없는 경우 -->
+          <div class="empty-state">
+            <p class="empty-state-title">
+              아직 작성한 글이 없어요.
+            </p>
+
+            <p class="empty-state-description">
+              커뮤니티에서 고민과 이야기를 나눠보세요.
+            </p>
+
+            <a
+              href="{% url 'community:create' %}"
+              class="empty-state-button"
+            >
+              글 작성하기
+            </a>
+          </div>
+        {% endfor %}
+
+      </div>
+    </main>
+
+    <!-- 하단 GNB -->
+    <nav class="app-bottom-tab">
+
+      <!-- 홈 -->
+      <a href="/home/" class="tab-item">
+        <img
+          src="{% static 'assets/icons/tab_home_inactive.svg' %}"
+          alt="홈"
+          class="tab-icon"
+        >
+
+        <span class="tab-text">홈</span>
+      </a>
+
+      <!-- 패턴 리포트 -->
+      <a
+        href="{% url 'reports:report' %}"
+        class="tab-item"
+      >
+        <img
+          src="{% static 'assets/icons/tab_report_inactive.svg' %}"
+          alt="리포트"
+          class="tab-icon"
+        >
+
+        <span class="tab-text">리포트</span>
+      </a>
+
+      <!-- 나의 정원 -->
+      <a href="/garden/" class="tab-item">
+        <img
+          src="{% static 'assets/icons/tab_garden_inactive.svg' %}"
+          alt="나의 정원"
+          class="tab-icon"
+        >
+
+        <span class="tab-text">나의 정원</span>
+      </a>
+
+      <!-- 허브 커뮤니티 -->
+      <a href="/community/" class="tab-item">
+        <img
+          src="{% static 'assets/icons/tab_community_inactive.svg' %}"
+          alt="커뮤니티"
+          class="tab-icon"
+        >
+
+        <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <script src="{% static 'js/common.js' %}"></script>
+  <script src="{% static 'js/mypage_detail.js' %}"></script>
+</body>
+</html>

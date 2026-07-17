@@ -74,7 +74,25 @@
     </main>
 
     <!-- GNB 동일 -->
-    ...
+    <nav class="app-bottom-tab">
+      <a href="{% url 'home:home' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_home_inactive.svg' %}" alt="홈" class="tab-icon" />
+        <span class="tab-text">홈</span>
+      </a>
+      <a href="{% url 'reports:report' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_report_inactive.svg' %}" alt="리포트" class="tab-icon" />
+        <span class="tab-text">리포트</span>
+      </a>
+      <a href="{% url 'garden:list' %}" class="tab-item">
+        <img src="{% static 'assets/icons/tab_garden_inactive.svg' %}" alt="나의 정원" class="tab-icon" />
+        <span class="tab-text">나의 정원</span>
+      </a>
+      <a href="{% url 'community:list' %}" class="tab-item active">
+        <img src="{% static 'assets/icons/tab_community_active.svg' %}" alt="커뮤니티" class="tab-icon" />
+        <span class="tab-text">커뮤니티</span>
+      </a>
+    </nav>
+  </div>
   </div>
   <script src="{% static 'js/common.js' %}" defer></script>
 </body>

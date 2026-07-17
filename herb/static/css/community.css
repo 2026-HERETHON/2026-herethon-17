@@ -533,7 +533,6 @@
     resize: none;
     outline: none;
     font-family: inherit;
-    margin-bottom: 200px;
 }
 .post-write-textarea:focus{
     border: 1.5px solid #6B9E7A;

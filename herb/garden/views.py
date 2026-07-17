@@ -66,6 +66,8 @@ def garden_create(request):
         request.user,
         today,
     )
+    print(type(symptom_record))
+    print(symptom_record)
 
     if request.method == "POST":
         title = request.POST.get("title", "").strip()
@@ -213,26 +215,36 @@ SYMPTOM_ICON_MAP = {
     "관절통": "assets/icons/symptom_joint_active.svg",
 }
 
-INTENSITY_CLASS_MAP = {1: "low", 2: "mid", 3: "high"}
+INTENSITY_LABEL_MAP = {
+    "low": "약",
+    "mid": "중",
+    "high": "강",
+}
 
 
 def build_symptom_context(symptom_record):
-    if not symptom_record or symptom_record.no_symptom:
+    if not symptom_record:
+        return []
+
+    if symptom_record.get("no_symptom", False):
         return []
 
     symptoms = []
 
-    for entry in symptom_record.entries.select_related("symptom").all():
-        intensity_label = entry.get_intensity_display()
+    for entry in symptom_record.get("entries", []):
+        symptom_name = entry["symptom"]
+        intensity = entry["intensity"]
 
-        symptoms.append({
-            "name": entry.symptom.name,
-            "level_label": intensity_label,
-            "level_class": INTENSITY_CLASS_MAP.get(entry.intensity, ""),
-            "icon_path": SYMPTOM_ICON_MAP.get(
-                entry.symptom.name,
-                "assets/icons/symptom_none_active.svg",
-            ),
-        })
+        symptoms.append(
+            {
+                "name": symptom_name,
+                "level_label": INTENSITY_LABEL_MAP.get(intensity, intensity),
+                "level_class": intensity,
+                "icon_path": SYMPTOM_ICON_MAP.get(
+                    symptom_name,
+                    "assets/icons/symptom_none_active.svg",
+                ),
+            }
+        )
 
     return symptoms

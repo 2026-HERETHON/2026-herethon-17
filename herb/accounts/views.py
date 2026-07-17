@@ -16,17 +16,19 @@ def login_view(request):
         # 이메일 존재하는지 확인
         if not User.objects.filter(email=email).exists():
             return render(request, "accounts/login.html", {
-                "error": "존재하지 않는 이메일입니다."
+                "error": "존재하지 않는 이메일입니다.",
+                "error_field": "email",
             })
 
         # 비밀번호 유효성 검사
         user = authenticate(request, email=email, password=password)
-
         if user is None:
             return render(request, "accounts/login.html", {
-                "error": "비밀번호가 틀립니다. 비밀번호를 다시 확인해 주세요."
+                "error": "비밀번호가 틀립니다. 비밀번호를 다시 확인해 주세요.",
+                "error_field": "password",
             })
 
+        # Home 재방문 배너에서 사용할 이전 로그인 시간 저장
         previous_login = user.last_login
 
         if previous_login:
@@ -55,28 +57,27 @@ def signup_view(request):
         birth_date = request.POST.get("birth_date") or None
         terms_agreed = request.POST.get("terms_agreed")
 
+        errors = {}
+
         # 이메일 중복 확인
         if User.objects.filter(email=email).exists():
-            return render(request, "accounts/signup.html", {
-                "error": "이미 가입된 이메일입니다. 다른 이메일을 입력해 주세요."
-            })
+            errors["email"] = "이미 가입된 이메일입니다. 다른 이메일을 입력해 주세요."
 
         # 비밀번호 길이 확인
         if len(password) < 8:
-            return render(request, "accounts/signup.html", {
-                "error": "비밀번호가 너무 짧습니다. 비밀번호를 8자 이상 입력해 주세요."
-            })
+            errors["password"] = "비밀번호가 너무 짧습니다. 비밀번호를 8자 이상 입력해 주세요."
 
         # 비밀번호 확인 일치 여부
         if password != password_confirm:
-            return render(request, "accounts/signup.html", {
-                "error": "비밀번호가 일치하지 않습니다."
-            })
+            errors["password_confirm"] = "비밀번호가 일치하지 않습니다."
 
         # 서비스 이용약관 동의 확인
         if not terms_agreed:
+            errors["terms"] = "서비스 이용약관에 동의해 주세요."
+
+        if errors:
             return render(request, "accounts/signup.html", {
-                "error": "서비스 이용약관에 동의해 주세요."
+                "errors": errors,
             })
 
 
@@ -105,12 +106,15 @@ def mypage_view(request):
     # 자가진단 결과 있으면 그 단계로, 없으면 None
     if latest_diagnosis:
         current_stage = latest_diagnosis.stage
+        current_stage_display = latest_diagnosis.get_stage_display()  # 화면 한글 표시용
     else:
         current_stage = None
+        current_stage_display = None
 
     return render(request, "accounts/mypage.html", {
         "user": request.user,
         "current_stage": current_stage,
+        "current_stage_display": current_stage_display
     })
 
 
@@ -122,7 +126,7 @@ def profile_view(request):
 
     if request.method == "POST":
 
-        action = request.POST.get("action")
+        action = request.POST.get("form_action")
 
         if action == "update_name":
             name = request.POST.get("name")
@@ -154,12 +158,15 @@ def profile_view(request):
         # 자가진단 결과 있으면 그 단계로, 없으면 None
         if latest_diagnosis:
             current_stage = latest_diagnosis.stage
+            current_stage_display = latest_diagnosis.get_stage_display()
         else:
             current_stage = None
+            current_stage_display = None
 
         return render(request, "accounts/profile.html", {
             "user": user,
             "current_stage": current_stage,
+            "current_stage_display": current_stage_display
         })
 
 
@@ -189,3 +196,8 @@ def logout_view(request):
     if request.method == "POST":
         logout(request)
     return redirect("accounts:login")
+
+
+# 스플래시
+def splash_view(request):
+    return render(request, "accounts/splash.html")

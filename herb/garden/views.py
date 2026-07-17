@@ -36,16 +36,7 @@ def garden_detail(request, record_id):
         record.record_date,
     )
 
-    day_symptoms = []
-
-    if symptom_record:
-        for entry in symptom_record.entries.select_related("symptom"):
-            day_symptoms.append(
-                {
-                    "name": entry.symptom.name,
-                    "intensity": entry.get_intensity_display(),
-                }
-            )
+    day_symptoms = build_symptom_context(symptom_record)
 
     return render(
         request,
@@ -66,8 +57,6 @@ def garden_create(request):
         request.user,
         today,
     )
-    print(type(symptom_record))
-    print(symptom_record)
 
     if request.method == "POST":
         title = request.POST.get("title", "").strip()

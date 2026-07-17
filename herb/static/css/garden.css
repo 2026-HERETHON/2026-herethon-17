@@ -325,7 +325,12 @@
     background: #FFF;
     outline: none;
     font-size: 14px;
-    color: #A5A5A5;
+
+    color: #2D2D2D;   /* 입력한 글자 */
+}
+
+.form-input::placeholder {
+    color: #A5A5A5;   /* placeholder */
 }
 
 /* 사진 업로드 점선 박스 */
@@ -362,11 +367,17 @@
     border: 1.5px solid #E8E0D8;
     background: #FFF;
     font-family: inherit;
-    color: #9A9A9A;
+
+    color: #2D2D2D;   /* 입력한 글자 */
+
     font-size: 13px;
     font-weight: 500;
     outline: none;
-    resize: none; /* 크기 조절 비활성화 */
+    resize: none;
+}
+
+.form-textarea::placeholder {
+    color: #9A9A9A;   /* placeholder */
 }
 /* 포커스 되었을 때 테두리 색상 처리 */
 .form-textarea:focus {

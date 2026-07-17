@@ -51,8 +51,17 @@ class GardenRecord(models.Model):
 
     @property
     def is_new_challenge(self):
-        return self.created_at >= timezone.now() - timedelta(hours=24)
+        elapsed_time = timezone.now() - self.created_at
+
+        return elapsed_time < timedelta(hours=24)
 
     @property
     def record_date(self):
         return timezone.localtime(self.created_at).date()
+    
+    @property
+    def days_ago(self):
+        return (
+            timezone.localdate()
+            - timezone.localtime(self.created_at).date()
+        ).days

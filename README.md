@@ -35,3 +35,6 @@
 
 ### 개발환경에서의 실행 방법
 ![divider](https://capsule-render.vercel.app/api?type=rect&color=cccccc&height=1&section=header)
+
+### 배포 (없으면 삭제)
+![divider](https://capsule-render.vercel.app/api?type=rect&color=cccccc&height=1&section=header)

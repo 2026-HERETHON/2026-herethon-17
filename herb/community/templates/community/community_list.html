@@ -57,13 +57,6 @@
 
     <main class="app-content">
 
-      <div class="tag-filter-bar" id="community-filter-container">
-        <button type="button" class="tag-filter-item active" data-tag="all">전체</button>
-        {% for value, label in symptom_tags %}
-        <button type="button" class="tag-filter-item" data-tag="{{ value }}">{{ label }}</button>
-        {% endfor %}
-      </div>
-
       <div class="post-list" id="community-post-list">
         {% for post in posts %}
         <a href="{% url 'community:detail' post.id %}" class="post-card">

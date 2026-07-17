@@ -22,12 +22,19 @@ def login_view(request):
 
         # 비밀번호 유효성 검사
         user = authenticate(request, email=email, password=password)
-
         if user is None:
             return render(request, "accounts/login.html", {
                 "error": "비밀번호가 틀립니다. 비밀번호를 다시 확인해 주세요.",
                 "error_field": "password",
             })
+
+        # Home 재방문 배너에서 사용할 이전 로그인 시간 저장
+        previous_login = user.last_login
+
+        if previous_login:
+            request.session["previous_login_at"] = previous_login.isoformat()
+        else:
+            request.session.pop("previous_login_at", None)
 
         login(request, user)
 

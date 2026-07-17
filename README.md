@@ -1,5 +1,4 @@
 
-<img width="325" height="83" alt="상단바" src="https://github.com/user-attachments/assets/8df37116-8bb6-4836-8726-3a9ffd9be61c" />
 # 🪴 HERb
 *완경이라는 전환점 앞에 선 여성들이 증상을 스스로 이해하고 다음 챕터를 다시 시작하도록 돕는 셀프케어 서비스*
 

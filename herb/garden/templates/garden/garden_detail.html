@@ -74,7 +74,7 @@
           {% for symptom in day_symptoms %}
           <span class="symptom-tag">
             {{ symptom.name }}
-            {{ symptom.intensity }}
+            {{ symptom.level_label }}
           </span>
           {% empty %}
           <span class="symptom-tag">

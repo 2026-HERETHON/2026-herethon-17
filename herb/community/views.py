@@ -202,4 +202,4 @@ def comment_delete(request, comment_id):
 @login_required
 def my_posts(request):
     posts = Post.objects.filter(author=request.user).prefetch_related("tags", "comments", "likes")
-    return render(request, "community/my_posts.html", {"posts": posts})
+    return render(request, "community/mypage_posts.html", {"posts": posts})
